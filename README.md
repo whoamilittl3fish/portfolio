@@ -26,11 +26,8 @@ docker compose -f docker-compose.prod.yml up -d
 #### Check my website at: 
 
 http://localhost:8080
-<<<<<<< HEAD
-=======
 
 #### It lives on Vercel:
->>>>>>> 803efe1 (feature: dark, light mode with button)
 https://zoskisk.vercel.app
 
 #### Stop

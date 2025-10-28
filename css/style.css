@@ -15,17 +15,25 @@
   --border: #333;
 }
 
+#theme-toggle {
+  margin-left: auto;
+  margin-right: 0;
+}
+
 /* base style */
 body {
   background-color: var(--bg);
   color: var(--text);
   font-family: 'JetBrains Mono', monospace;
-  text-align: center;
-  margin-top: 200px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   transition: background 0.4s ease, color 0.4s ease;
+}
+
+.main-text {
+   text-align: center;
+  margin-top: 200px;
 }
 
 h1 {
