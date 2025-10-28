@@ -1,18 +1,18 @@
 /* theme */
 :root {
-  --bg: #000000;
-  --text: #fff;
-  --accent: #d4d4a4;
-  --accent-hover: #a78bfa;
-  --border: #333;
-}
-
-.dark-mode {
   --bg: #dddda5;
   --text: #111;
   --accent: #000000;
   --accent-hover: #a78bfa;
   --border: #e5e5e5;
+}
+
+.dark-mode {
+  --bg: #000000;
+  --text: #fff;
+  --accent: #d4d4a4;
+  --accent-hover: #a78bfa;
+  --border: #333;
 }
 
 /* base style */
