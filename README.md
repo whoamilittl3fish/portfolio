@@ -20,8 +20,7 @@ cd khoa-portfolio
 #### Docker running command
 
 ```bash
-docker build -t khoa-portfolio:v0.0.1 .
-docker run -d -p 8080:80 --name khoa-portfolio-container khoa-portfolio:v0.0.1
+docker compose -f docker-compose.prod.yml up -d
 ```
 
 #### Check my website at: http://localhost:8080
