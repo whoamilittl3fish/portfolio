@@ -23,7 +23,10 @@ cd khoa-portfolio
 docker compose -f docker-compose.prod.yml up -d
 ```
 
-#### Check my website at: http://localhost:8080
+#### Check my website at: 
+
+http://localhost:8080
+https://zoskisk.vercel.app
 
 #### Stop
 
