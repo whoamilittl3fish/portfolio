@@ -1,6 +1,7 @@
 # docker
 Dockerfile
-docker-compose.yml
+docker-compose.prod.yml
+docker-compose.dev.yml
 
 # git
 .git
@@ -8,3 +9,7 @@ docker-compose.yml
 
 # vscode
 .vscode
+README.md
+
+#jetbrains
+.idea
