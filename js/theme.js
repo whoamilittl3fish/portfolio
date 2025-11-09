@@ -1,27 +1,23 @@
 const toggleBtn = document.getElementById("theme-toggle");
 const body = document.body;
 
-const savedTheme = localStorage.getItem("theme");
+const applyTheme = (theme) => {
+  const normalizedTheme = theme === "dark" ? "dark" : "light";
 
-if (savedTheme === "dark"){
-    body.classList.add("dark-mode");
-    toggleBtn.textContent = "🌙 Dark Mode";
-} else {
-    toggleBtn.textContent = "☀️ Light Mode";
-}
+  body.classList.remove("light-mode", "dark-mode");
+  body.classList.add(`${normalizedTheme}-mode`);
+
+  const label = normalizedTheme === "dark" ? "🌙 Dark Mode" : "☀️ Light Mode";
+  toggleBtn.textContent = label;
+  localStorage.setItem("theme", normalizedTheme);
+};
+
+const savedTheme = localStorage.getItem("theme");
+applyTheme(savedTheme);
 
 toggleBtn.addEventListener("click", () => {
-  body.classList.toggle("dark-mode");
-
-  if (body.classList.contains("dark-mode")) {
-    toggleBtn.textContent = "🌙 Dark Mode";
-    localStorage.setItem("theme", "dark");
-  } else {
-    toggleBtn.textContent = "☀️ Light Mode";
-    localStorage.setItem("theme", "light");
-  }
-
-  console.log(`Theme is ${localStorage.getItem("theme")}`);
+  const nextTheme = body.classList.contains("dark-mode") ? "light" : "dark";
+  applyTheme(nextTheme);
 });
 
 console.log("Theme on load:", localStorage.getItem("theme"));

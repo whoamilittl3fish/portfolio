@@ -8,18 +8,28 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/loading.css" />
     <script src="js/theme.js" defer></script>
+    <script src="js/projects.js" defer></script>
+    <script src="js/script.js" defer></script>
 </head>
 
-<body>
+<body class="light-mode">
     <header>
         <button id="theme-toggle" class="btn">☀️ Light Mode</button>
     </header>
 
     <div class="main-text">
         <main>
-            <h1>Hello world from Khoa's Portfolio</h1>
-            <p>Coming soon: black cat, music, animations, projects, blogs and so on...</p>
-            <script src="js/script.js"></script>
+            <section class="intro">
+                <h1>Hello world from Khoa's Portfolio</h1>
+                <p>Coming soon: black cat, music, animations, projects, blogs and so on...</p>
+            </section>
+            <section id="projects" class="section">
+                <div class="section-heading">
+                    <h2>Projects</h2>
+                    <p>A few highlights that kept me up late (in the best way).</p>
+                </div>
+                <div id="projects-list" class="project-grid" aria-live="polite"></div>
+            </section>
             <div class="loading-dots">
                 <span></span>
                 <span></span>
