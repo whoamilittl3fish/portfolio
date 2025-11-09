@@ -48,6 +48,67 @@ body {
   flex-direction: column;
   min-height: 100vh;
   transition: background var(--transition) ease, color var(--transition) ease;
+  cursor: none;
+}
+
+/* cursor */
+.rounded,
+.pointed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate3d(-50%, -50%, 0);
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: transform 0.08s ease-out, opacity 0.2s ease,
+    background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rounded {
+  width: 36px;
+  height: 36px;
+  background-image: url("../assets/cursor/free.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.15));
+}
+
+.rounded--active {
+  background-image: url("../assets/cursor/click.png");
+}
+
+.pointed {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 2px var(--bg);
+}
+
+.pointed--active {
+  transform: translate3d(-50%, -50%, 0) scale(0.85);
+}
+
+.rounded:not(.is-hidden),
+.pointed:not(.is-hidden) {
+  opacity: 1;
+}
+
+.is-hidden {
+  opacity: 0;
+}
+
+@media (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+
+  .rounded,
+  .pointed {
+    display: none;
+  }
 }
 
 .main-text {
