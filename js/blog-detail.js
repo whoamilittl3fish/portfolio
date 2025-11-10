@@ -1,4 +1,5 @@
 let markdownRenderer;
+let headerScrollInitialized = false;
 
 function parseFrontmatter(markdown) {
   const match = markdown.match(/^---\s*([\s\S]*?)\s*---/);
@@ -177,6 +178,78 @@ async function renderBlogContent(slug, lang) {
   window.history.replaceState({}, "", url);
 }
 
+function setupHeaderScrollBehavior() {
+  if (headerScrollInitialized) {
+    return;
+  }
+
+  const header = document.querySelector(".blog-article__header");
+  const switcher = header?.querySelector(".lang-switcher");
+  if (!header) {
+    return;
+  }
+
+  headerScrollInitialized = true;
+
+  let lastScrollY = window.scrollY;
+  let collapseState = false;
+  let upwardTick = 0;
+  const collapseThreshold = 140;
+  const deltaTolerance = 4;
+  const requiredUpTicks = 5;
+
+  const collapse = () => {
+    if (collapseState) {
+      return;
+    }
+    if (!switcher || switcher.hasAttribute("hidden")) {
+      return;
+    }
+    header.classList.add("is-collapsed");
+    collapseState = true;
+    upwardTick = 0;
+  };
+
+  const expand = () => {
+    if (!collapseState) {
+      return;
+    }
+    header.classList.remove("is-collapsed");
+    collapseState = false;
+    upwardTick = 0;
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      const currentY = window.scrollY;
+
+      if (currentY <= 0) {
+        expand();
+        lastScrollY = currentY;
+        return;
+      }
+
+      if (currentY > lastScrollY + deltaTolerance) {
+        upwardTick = 0;
+        if (currentY > collapseThreshold) {
+          collapse();
+        }
+      } else if (currentY < lastScrollY - deltaTolerance) {
+        if (collapseState) {
+          upwardTick += 1;
+          if (upwardTick >= requiredUpTicks) {
+            expand();
+          }
+        }
+      }
+
+      lastScrollY = currentY;
+    },
+    { passive: true }
+  );
+}
+
 function setupLanguageSwitcher(slug, languages, defaultLang) {
   const switcher = document.querySelector("[data-lang-switcher]");
   if (!switcher) {
@@ -248,6 +321,8 @@ async function initBlogDetailPage() {
 
   const queryLang = new URLSearchParams(window.location.search).get("lang");
   const fallbackLang = body.dataset.defaultLang || "en";
+
+  setupHeaderScrollBehavior();
 
   try {
     const metadataRaw = await loadMarkdown(`/blogs/${slug}/index.md`);
