@@ -4,6 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Little World Inside...</title>
+    <script>
+        (function () {
+            try {
+                var storedTheme = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = storedTheme === 'dark' || storedTheme === 'light'
+                    ? storedTheme
+                    : (prefersDark ? 'dark' : 'light');
+                document.documentElement.dataset.theme = theme;
+            } catch (error) {
+                document.documentElement.dataset.theme = 'light';
+            }
+        })();
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/loading.css" />
@@ -14,7 +28,7 @@
     <script src="js/script.js" defer></script>
 </head>
 
-<body class="light-mode">
+<body>
     <header>
         <a class="header-name" href="/">khoan</a>
         <nav class="header-actions" aria-label="Primary navigation">
