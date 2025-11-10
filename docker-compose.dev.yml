@@ -3,7 +3,7 @@ services:
     container_name: khoa-portfolio
     image: nginx:alpine
     ports:
-    - "8080:80"
+      - "8080:80"
     volumes:
-      - .:/usr/share/nginx/html:ro
+      - ./dist:/usr/share/nginx/html:ro
     restart: unless-stopped
