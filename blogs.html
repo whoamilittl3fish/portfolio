@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Projects • Little World Inside...</title>
+    <title>Blogs • Little World Inside...</title>
     <script>
         (function () {
             try {
@@ -21,11 +21,12 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/loading.css" />
-    <link rel="stylesheet" href="css/projects.css" />
     <link rel="stylesheet" href="css/btn.css" />
+    <link rel="stylesheet" href="css/projects.css" />
+    <link rel="stylesheet" href="css/blogs-index.css" />
     <script src="js/theme.js" defer></script>
-    <script src="js/projects.js" defer></script>
     <script src="js/script.js" defer></script>
+    <script src="js/blogs-index.js" defer></script>
 </head>
 
 <body>
@@ -33,29 +34,31 @@
         <a class="header-name" href="/">khoan</a>
         <nav class="header-actions" aria-label="Primary navigation">
             <a class="btn" href="/">Home</a>
-            <a class="btn" href="projects.html" id="projects-toggle" aria-current="page">Projects</a>
+            <a class="btn" href="projects.html" id="projects-toggle">Projects</a>
             <button id="theme-toggle" class="btn" type="button">☀️ Light Mode</button>
-            <a class="btn" href="blogs.html" id="blogs-toggle">Blogs</a>
+            <a class="btn" href="blogs.html" id="blogs-toggle" aria-current="page">Blogs</a>
             <a class="btn" href="/#contact" id="contact-toggle">Contact</a>
         </nav>
     </header>
 
-    <div class="main-text">
-        <main>
-            <section id="projects" class="section">
-                <div class="section-heading">
-                    <h1>Projects</h1>
-                    <p>A few projects that I've worked on.</p>
-                </div>
-                <div id="projects-list" class="project-grid" aria-live="polite"></div>
+    <main class="page">
+        <div class="page__container">
+            <section class="page__heading">
+                <h1>Blogs</h1>
+                <p>Sharing space for my learning.</p>
             </section>
-            <div class="loading-dots">
+
+            <div class="loading-dots" aria-hidden="true">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
-        </main>
-    </div>
+
+            <section aria-live="polite">
+                <div id="blog-posts" class="blog-list"></div>
+            </section>
+        </div>
+    </main>
 </body>
 
 </html>
