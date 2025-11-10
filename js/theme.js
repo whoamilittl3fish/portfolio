@@ -1,3 +1,4 @@
+// toggle theme
 const toggleBtn = document.getElementById("theme-toggle");
 const body = document.body;
 
@@ -12,7 +13,8 @@ const applyTheme = (theme) => {
   localStorage.setItem("theme", normalizedTheme);
 };
 
-const savedTheme = localStorage.getItem("theme");
+// if theme is not set, default to light mode
+const savedTheme = localStorage.getItem("theme") || "light";
 applyTheme(savedTheme);
 
 toggleBtn.addEventListener("click", () => {

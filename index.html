@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/loading.css" />
+    <link rel="stylesheet" href="css/projects.css" />
+    <link rel="stylesheet" href="css/btn.css" />
     <script src="js/theme.js" defer></script>
     <script src="js/projects.js" defer></script>
     <script src="js/script.js" defer></script>
@@ -14,19 +16,32 @@
 
 <body class="light-mode">
     <header>
-        <button id="theme-toggle" class="btn">☀️ Light Mode</button>
+        <a class="header-name" href="/">khoan</a>
+        <nav class="header-actions" aria-label="Primary navigation">
+            <button id="projects-toggle" class="btn">Projects</button>
+            <button id="blogs-toggle" class="btn">Blogs</button>
+            <button id="theme-toggle" class="btn">☀️ Light Mode</button>
+            <button id="contact-toggle" class="btn">Contact</button>
+        </nav>
     </header>
 
     <div class="main-text">
         <main>
             <section class="intro">
-                <h1>Hello world from Khoa's Portfolio</h1>
-                <p>Coming soon: black cat, music, animations, projects, blogs and so on...</p>
+                <h1>Hi there, I'm Khoa.</h1>
+                <p>I am learning by doing.</p>
+                <ul class="skill-list" aria-label="Core skills">
+                    <li class="skill-pill">JS/TS</li>
+                    <li class="skill-pill">Docker</li>
+                    <li class="skill-pill">Git</li>
+                    <li class="skill-pill">Node.js</li>
+                    <li class="skill-pill">C#/.NET-Windows Forms</li>
+                </ul>
             </section>
             <section id="projects" class="section">
                 <div class="section-heading">
                     <h2>Projects</h2>
-                    <p>A few highlights that kept me up late (in the best way).</p>
+                    <p>A few projects that I've worked on.</p>
                 </div>
                 <div id="projects-list" class="project-grid" aria-live="polite"></div>
             </section>

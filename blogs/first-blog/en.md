@@ -1,4 +1,4 @@
-### API & Microservice - Quick Overview
+### API & Microservice
 
 An API can be a command, function, or object, but at its core, it **receives a request and returns a response** to perform a task, without us needing to know how it works internally. We just need to know the **input, output, and how to use it**.
 

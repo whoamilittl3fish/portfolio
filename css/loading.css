@@ -10,7 +10,7 @@
   display: block;
   width: 10px;
   height: 10px;
-  background-color: var(--accent);
+  background-color: var(--accent-color);
   border-radius: 50%;
   animation: bounce 1s infinite;
 }

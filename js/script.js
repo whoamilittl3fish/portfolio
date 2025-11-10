@@ -1,5 +1,6 @@
 // create project card
 function createProjectCard(project) {
+  //basic information
   const card = document.createElement("article");
   card.className = "project-card";
 
@@ -89,6 +90,7 @@ function renderProjects() {
   });
 }
 
+// load projects
 document.addEventListener("DOMContentLoaded", () => {
   console.log("🐾 Portfolio loaded successfully!");
   renderProjects();
