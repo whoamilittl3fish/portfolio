@@ -6,5 +6,7 @@ APIs usually return **pure data**, not user-facing interfaces. How that data is 
 
 In large applications, multiple small servers communicate via APIs. These servers handle small, independent tasks and are called **microservices** — they take input, process it, and return output, like a standalone module.
 
-In short:  
+In short:
 **Every small function can be seen as a mini-app. If it provides actions like adding, deleting, or updating data, that’s essentially its API.**
+
+![Cat camera](./1.png)

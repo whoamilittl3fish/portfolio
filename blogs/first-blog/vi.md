@@ -8,3 +8,5 @@ Trong ứng dụng lớn, nhiều server nhỏ giao tiếp qua API. Những serv
 
 Tóm lại:  
 **Mỗi chức năng nhỏ có thể coi như một mini-app, cung cấp các thao tác như thêm, xoá, sửa dữ liệu — đó chính là API.**
+
+![Cat camera](./1.png)
