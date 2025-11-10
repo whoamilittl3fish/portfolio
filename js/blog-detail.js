@@ -185,18 +185,45 @@ function setupHeaderScrollBehavior() {
 
   const header = document.querySelector(".blog-article__header");
   const switcher = header?.querySelector(".lang-switcher");
+  const backLink = header?.querySelector(".blog-back-link");
+  const meta = header?.querySelector(".blog-article__meta");
+  const summary = header?.querySelector("[data-blog-summary]");
+  const title = header?.querySelector("[data-blog-title]");
+
   if (!header) {
     return;
   }
 
   headerScrollInitialized = true;
 
+  // check scroll to collapse or expand the header
   let lastScrollY = window.scrollY;
   let collapseState = false;
   let upwardTick = 0;
-  const collapseThreshold = 140;
+  let downwardTick = 0;
   const deltaTolerance = 4;
-  const requiredUpTicks = 5;
+  const requiredTicks = 5;
+
+  const getMetaChildrenToHide = () =>
+    Array.from(meta?.children ?? []).filter(
+      (child) => !child.classList.contains("lang-switcher")
+    );
+
+  const hideElement = (el) => {
+    if (!el) {
+      return;
+    }
+    el.dataset.previousDisplay = el.style.display || "";
+    el.style.display = "none";
+  };
+
+  const restoreElement = (el) => {
+    if (!el) {
+      return;
+    }
+    el.style.display = el.dataset.previousDisplay ?? "";
+    delete el.dataset.previousDisplay;
+  };
 
   const collapse = () => {
     if (collapseState) {
@@ -206,8 +233,16 @@ function setupHeaderScrollBehavior() {
       return;
     }
     header.classList.add("is-collapsed");
+    [title, summary].forEach(hideElement);
+    getMetaChildrenToHide().forEach(hideElement);
+
+    if (backLink) {
+      backLink.style.display = "";
+    }
+
     collapseState = true;
     upwardTick = 0;
+    downwardTick = 0;
   };
 
   const expand = () => {
@@ -215,8 +250,11 @@ function setupHeaderScrollBehavior() {
       return;
     }
     header.classList.remove("is-collapsed");
+    [title, summary].forEach(restoreElement);
+    getMetaChildrenToHide().forEach(restoreElement);
     collapseState = false;
     upwardTick = 0;
+    downwardTick = 0;
   };
 
   window.addEventListener(
@@ -224,21 +262,24 @@ function setupHeaderScrollBehavior() {
     () => {
       const currentY = window.scrollY;
 
-      if (currentY <= 0) {
-        expand();
-        lastScrollY = currentY;
-        return;
-      }
-
       if (currentY > lastScrollY + deltaTolerance) {
         upwardTick = 0;
-        if (currentY > collapseThreshold) {
-          collapse();
+        if (!collapseState) {
+          downwardTick += 1;
+          if (downwardTick >= requiredTicks) {
+            collapse();
+          }
         }
       } else if (currentY < lastScrollY - deltaTolerance) {
+        downwardTick = 0;
+        if (currentY <= 0) {
+          expand();
+          lastScrollY = currentY;
+          return;
+        }
         if (collapseState) {
           upwardTick += 1;
-          if (upwardTick >= requiredUpTicks) {
+          if (upwardTick >= requiredTicks) {
             expand();
           }
         }
