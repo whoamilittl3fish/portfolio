@@ -1,3 +1,5 @@
+import { normalizeModuleId } from "vite/module-runner";
+
 // toggle theme with CSS color-scheme support
 document.addEventListener("DOMContentLoaded", () => {
   const root = document.documentElement;
@@ -39,6 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return root.dataset.theme;
     }
 
+    console.log("Applied theme: "+ normalizedTheme);
+    
     return window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"

@@ -2,6 +2,13 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
+  server: {
+    host: true,
+    watch: {
+      usePolling: true,
+      interval: 100
+    }
+  },
   build: {
     rollupOptions: {
       input: {
@@ -13,4 +20,3 @@ export default defineConfig({
     },
   },
 });
-

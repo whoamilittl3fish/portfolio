@@ -10,3 +10,5 @@ import './js/projects.js';
 import './js/script.js';
 import './js/blogs-index.js';
 import './js/blog-detail.js';
+
+console.log('Testing hot reload 123');

@@ -1,9 +1,11 @@
 services:
-  web:
-    container_name: khoa-portfolio
-    image: nginx:alpine
+  builder:
+    container_name: khoa-portfolio-builder
+    image: node:20-alpine
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
     ports:
-      - "8080:80"
+      - "8080:5173"
     volumes:
-      - ./dist:/usr/share/nginx/html:ro
-    restart: unless-stopped
+      - ./:/app
+      - /app/node_modules
