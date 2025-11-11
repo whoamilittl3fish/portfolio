@@ -2,12 +2,6 @@
 
 Check the node first:
 
-`node -v` -> 20.19 >
-
-`npm run dev` -> vite create /dist
-
-`docker compose -f docker-compose.dev.yml up` -> get file ./dist to nginx
-
-`localhost:8080`
+`docker compose -f docker-compose.dev.yml up builder` -> hot reload by 100ms (vite.config.js)
 
 # I will continue to build compose again with builder in side container later.
