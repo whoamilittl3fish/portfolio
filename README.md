@@ -1,7 +1,6 @@
 # Portfolio
 
 This is my source portfolio.
-(Viet Khoa, also name as zoskisk).
 
 #### Some information
 This portfolio runs on Nginx (port 80 inside the container) and exposes port 8080 to your local machine.
