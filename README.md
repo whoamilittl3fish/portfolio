@@ -4,6 +4,7 @@ This is my source portfolio.
 
 #### Some information
 This portfolio runs on Nginx (port 80 inside the container) and exposes port 8080 to your local machine.
+Update: Right now it run by vite and expose port 8080 on local machine.
 
 ## How to running this
 
