@@ -31,9 +31,8 @@
   text-decoration: none;
 }
 
-.blog-back-link:hover {
-  text-decoration: underline;
-}
+.blog-back-link:hover { text-decoration: underline; }
+.blog-back-link::after { content: 'Back to blogs'; left: 0; transform: none; }
 
 .blog-article__summary,
 .blog-article__meta > span,
@@ -73,6 +72,10 @@
   background: var(--accent);
   color: var(--bg);
 }
+
+/* lang tooltip */
+.lang-switcher__button[href*="en.html"]::after { content: 'Read in English'; }
+.lang-switcher__button[href*="vi.html"]::after { content: 'Đọc bằng tiếng Việt'; }
 
 /* content */
 .blog-content {

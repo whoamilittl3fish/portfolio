@@ -23,6 +23,7 @@ main.page {
 }
 
 .blog-card:hover { border-color: var(--accent); }
+.blog-card::after { content: 'Click to see details'; }
 
 .blog-card__link {
   text-decoration: none;
