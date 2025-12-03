@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    {{> head title="API & Microservice • Blog" description="Hiểu cách API và microservices giao tiếp qua request và response." icon="/assets/icon/blog.png"}}
+</head>
+
+<body>
+    <div data-header></div>
+
+    <main class="blog-page">
+        <article class="blog-article">
+            <header class="blog-article__header">
+                <a class="blog-back-link" href="/blogs.html">Quay lại</a>
+                <p class="blog-article__summary">Hiểu cách API và microservices giao tiếp qua request và response.</p>
+                <div class="blog-article__meta">
+                    <span>10 tháng 11, 2025</span>
+                    <div class="blog-article__tags">
+                        <span class="blog-tag">API</span>
+                    </div>
+                    <div class="lang-switcher">
+                        <a href="./en.html" class="lang-switcher__button">EN</a>
+                        <a href="./vi.html" class="lang-switcher__button is-active">VI</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="blog-content">
+                <h1>API & Microservice</h1>
+
+                <p>API có thể là command, function, object… nhưng chung quy là <strong>nhận request – trả response</strong> để thực hiện một việc, mà chúng ta không cần biết bên trong nó làm gì. Chỉ cần biết <strong>input, output và cách dùng</strong>.</p>
+
+                <p>API thường trả về <strong>dữ liệu thuần (pure data)</strong>, không phải giao diện. Việc hiển thị hay xử lý tiếp do ứng dụng xử lý.</p>
+
+                <p>Trong ứng dụng lớn, nhiều server nhỏ giao tiếp qua API. Những server này làm các tác vụ nhỏ, độc lập gọi là <strong>microservice</strong> — nhận input, xử lý, trả output, giống một module riêng.</p>
+
+                <p>Tóm lại:<br>
+                <strong>Mỗi chức năng nhỏ có thể coi như một mini-app, cung cấp các thao tác như thêm, xoá, sửa dữ liệu — đó chính là API.</strong></p>
+
+                <img src="./1.png" alt="API Overview Diagram" width="800" height="450">
+            </section>
+        </article>
+    </main>
+
+    <div data-footer></div>
+</body>
+
+</html>

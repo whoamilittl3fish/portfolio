@@ -1,0 +1,113 @@
+main.page {
+  padding: 2rem;
+  display: block;
+}
+
+.page__container {
+  width: min(960px, 100%);
+  margin: 0 auto;
+}
+
+/* blog list */
+.blog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.blog-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  transition: border-color var(--transition) ease;
+}
+
+.blog-card:hover { border-color: var(--accent); }
+
+.blog-card__link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  padding: 1.25rem 1.5rem;
+}
+
+.blog-card__title {
+  font-size: 1.25rem;
+  color: var(--text);
+  margin: 0 0 0.5rem 0;
+}
+
+.blog-card__summary {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0 0 0.75rem 0;
+}
+
+.blog-card__meta {
+  display: flex;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.blog-card__tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.blog-tag {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: var(--card-badge);
+  color: var(--accent);
+  font-size: 0.78rem;
+}
+
+/* pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.pagination__btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color var(--transition) ease, background var(--transition) ease;
+}
+
+.pagination__btn:hover { border-color: var(--accent); }
+
+.pagination__btn.is-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+  main.page { padding: 2rem 2.5rem; }
+}
+
+@media (max-width: 640px) {
+  main.page { padding: 1.5rem 1.25rem; }
+  .page__container { width: 100%; }
+  .blog-card__link { padding: 1rem 1.25rem; }
+  .blog-card__title { font-size: 1.1rem; }
+  .blog-card__summary { font-size: 0.85rem; }
+  .blog-card__meta { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+}

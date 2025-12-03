@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> head title="API & Microservice • Blog" description="Understanding how APIs and microservices communicate by exchanging requests and responses." icon="/assets/icon/blog.png"}}
+</head>
+
+<body>
+    <div data-header></div>
+
+    <main class="blog-page">
+        <article class="blog-article">
+            <header class="blog-article__header">
+                <a class="blog-back-link" href="/blogs.html">Back</a>
+                <p class="blog-article__summary">Understanding how APIs and microservices communicate by exchanging requests and responses.</p>
+                <div class="blog-article__meta">
+                    <span>November 10, 2025</span>
+                    <div class="blog-article__tags">
+                        <span class="blog-tag">API</span>
+                    </div>
+                    <div class="lang-switcher">
+                        <a href="./en.html" class="lang-switcher__button is-active">EN</a>
+                        <a href="./vi.html" class="lang-switcher__button">VI</a>
+                    </div>
+                </div>
+            </header>
+            <section class="blog-content">
+                <h1>API & Microservice</h1>
+
+                <p>An API can be a command, function, or object, but at its core, it <strong>receives a request and returns a response</strong> to perform a task, without us needing to know how it works internally. We just need to know the <strong>input, output, and how to use it</strong>.</p>
+
+                <p>APIs usually return <strong>pure data</strong>, not user-facing interfaces. How that data is displayed or processed is up to the application.</p>
+
+                <p>In large applications, multiple small servers communicate via APIs. These servers handle small, independent tasks and are called <strong>microservices</strong> — they take input, process it, and return output, like a standalone module.</p>
+
+                <p>In short:<br>
+                <strong>Every small function can be seen as a mini-app. If it provides actions like adding, deleting, or updating data, that's essentially its API.</strong></p>
+
+                <img src="./1.png" alt="API Overview Diagram" width="800" height="450">
+            </section>
+        </article>
+    </main>
+
+    <div data-footer></div>
+</body>
+
+</html>
