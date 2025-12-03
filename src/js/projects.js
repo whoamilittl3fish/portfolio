@@ -1,7 +1,7 @@
 // projects data
 const descriptions = {
-  portfolio: 'Personal homepage,blogs,projects for sharing experience, also my first project as real website build by me to play and learn more about web development, website, vercal, deploy. So welcome you to my little world inside...',
-  pawnshop: 'A simple, modern, and user-friendly pawnshop management software in Vietnamese language. This is my first project as a developer, build by me to learn more about C#/.NET-Windows Forms, database, UI/UX design, database management. Listen feedback from my client and improve the app to be more user-friendly and efficient.',
+  portfolio: 'Personal homepage, blogs, projects for sharing experience, also my first website I built to learn more about web development, deployment, and more. So welcome you to my little world inside...',
+  pawnshop: 'A simple, modern, and user-friendly pawnshop management software in Vietnamese language. This is my first project as a student, when my uncle asked me to help him manage his pawnshop, I decided to build this app to learn more about C#/.NET-Windows Forms, database, UI/UX design, database management with SQLite for simple and can use locally without internet. I also have many clients currently using this app. Listen feedback from my client and improve the app to be more user-friendly and efficient.',
 };
 
 window.portfolioProjects = [
