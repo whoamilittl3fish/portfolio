@@ -36,6 +36,14 @@
 }
 
 /* responsive */
+@media (max-width: 1024px) {
+  .btn {
+    padding: 0.65rem 1.25rem;
+    min-width: 7rem;
+    font-size: var(--font-small);
+  }
+}
+
 @media (max-width: 768px) {
   .btn {
     padding: 0.6rem 1.2rem;

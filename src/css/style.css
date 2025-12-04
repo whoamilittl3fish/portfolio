@@ -67,7 +67,7 @@ h1.intro {
 
 /* layout - header */
 [data-header] {
-  min-height: 57px; /* space for header not shift when loading*/
+  min-height: 74px; /* Reserve space for header (actual: 73px) to prevent CLS */
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -81,6 +81,8 @@ header {
   padding: 1rem 2rem;
   border-bottom: 1px solid var(--border);
   background: var(--bg);
+  min-height: 73px; /* Match container to prevent shift when content loads */
+  box-sizing: border-box;
 }
 
 .header-name {
@@ -104,6 +106,10 @@ header {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  justify-content: flex-end;
+  flex-wrap: wrap; /* Allow buttons to wrap to next line */
+  /* Reserve space on desktop to prevent shift, but allow responsive on mobile */
+  min-width: 400px;
 }
 
 /* layout - main */
@@ -125,7 +131,7 @@ main.projects-page {
 
 /* layout - footer */
 [data-footer] {
-  min-height: 72px; /* Reserve space to prevent CLS when footer loads */
+  min-height: 74px; /* Reserve space for footer (actual: 73px) to prevent CLS */
 }
 
 footer {
@@ -284,17 +290,44 @@ footer {
 }
 
 /* responsive */
+@media (max-width: 1024px) {
+  header {
+    flex-direction: column; /* column layout  when width < 1024px, khoan and buttons vertically */
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+  }
+  .header-name { /* center khoan */
+    width: 100%;
+    justify-content: center;
+  }
+  .header-actions {
+    min-width: auto; /* remove fixed min-width on medium screens */
+    gap: 0.5rem; /* reduce gap between buttons */
+    flex-wrap: wrap; /* ensure buttons can wrap to next line */
+    width: 100%; /* full width */
+    justify-content: center; /* center buttons */
+  }
+}
+
 @media (max-width: 768px) {
   header {
     flex-direction: column;
     align-items: center;
     gap: 0.75rem;
     padding: 1rem 1.25rem;
+    justify-content: center; /* override space-between */
+  }
+  .header-name {
+    width: 100%;
+    justify-content: center;
   }
   .header-actions {
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.5rem;
+    min-width: auto; /* remove min-width on mobile for responsive */
+    width: 100%;
   }
 }
 
@@ -317,12 +350,18 @@ footer {
   header {
     padding: 0.75rem 1rem;
     gap: 0.5rem;
+    justify-content: center; /* Ensure centered layout */
   }
   .header-name {
     font-size: var(--font-body-size);
+    width: 100%;
+    justify-content: center;
   }
   .header-actions {
     gap: 0.4rem;
+    min-width: auto; /* Remove min-width on small mobile */
+    width: 100%;
+    justify-content: center;
   }
   main.projects-page {
     padding: 0.75rem;

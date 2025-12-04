@@ -49,23 +49,18 @@ function init() {
     toggleBtn.addEventListener("click", () => {
       const root = document.documentElement;
       const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
+      
+      // enable transition only when user clicks (no auto-enable transitions decrease CLS performance)
+      document.body.classList.add("theme-transition");
       applyTheme(nextTheme, toggleBtn);
+      
+      // remove transition class after animation completes (matches --transition: 0.3s)
+      setTimeout(() => {
+        document.body.classList.remove("theme-transition");
+      }, 300); // matches --transition: 0.3s
     });
   }
 }
 
-// enable transitions only after layout is fully loaded
-function enableTransitions() {
-  // wait for next frame after layout-ready to ensure DOM is stable
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      document.body.classList.add("theme-transition");
-    });
-  });
-}
-
-// just run init when layout is ready
-window.addEventListener("layout-ready", () => {
-  init();
-  enableTransitions();
-});
+// run init when layout is ready (no auto-enable transitions)
+window.addEventListener("layout-ready", init);

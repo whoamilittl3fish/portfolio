@@ -10,3 +10,6 @@ import './js/projects-data.js';
 import './js/script.js';
 import './js/blogs-data.js';
 import './js/blogs-index.js';
+
+// Debug CLS - uncomment to enable
+//import './js/debug-cls.js';
