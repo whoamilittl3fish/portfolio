@@ -1,7 +1,16 @@
-/* theme color default for dark and light mode */
+/* variables */
 :root {
   color-scheme: light;
-  --font-body: 'JetBrains Mono', monospace;
+  --font-body: 'JetBrains Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-title: 1.25rem;
+  --font-heading: 1.15rem;
+  --font-subheading: 1.05rem;
+  --font-body-size: 1rem;
+  --font-small: 0.9rem;
+  --font-xs: 0.85rem;
+  --font-xxs: 0.8rem;
+  --font-tooltip: 0.75rem;
   --transition: 0.3s;
   --border-radius: 12px;
   --bg: light-dark(#ffffff, #0d1117);
@@ -18,9 +27,11 @@
   --card-badge: light-dark(rgba(31, 136, 61, 0.1), rgba(35, 134, 54, 0.2));
 }
 
-:root[data-theme='dark'] { color-scheme: dark; }
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
 
-/* base */
+/* base styles */
 body {
   background-color: var(--bg);
   color: var(--text);
@@ -34,12 +45,27 @@ body.theme-transition {
   transition: background var(--transition) ease, color var(--transition) ease;
 }
 
-/* intro of the page by h1 and p*/
-h1 { font-size: 32px; }
-p { color: var(--muted); font-size: 18px; }
-h1.intro { color: var(--muted); margin: 0 0 1.5rem; font-size: 1rem; font-weight: 400; text-align: left; }
+h1 {
+  font-family: var(--font-body);
+}
 
-/* header */
+p {
+  color: var(--muted);
+}
+
+h1.intro {
+  color: var(--muted);
+  margin: 0 0 1.5rem;
+  font-weight: 400;
+  text-align: left;
+}
+
+.projects-page h1.intro,
+.page h1.intro {
+  font-size: var(--font-title);
+}
+
+/* layout - header */
 header {
   display: flex;
   justify-content: space-between;
@@ -53,7 +79,7 @@ header {
 }
 
 .header-name {
-  font-size: 1.2rem;
+  font-size: var(--font-title);
   font-weight: 600;
   color: var(--text);
   text-decoration: none;
@@ -75,8 +101,11 @@ header {
   gap: 0.75rem;
 }
 
-/* main */
-main { flex: 1; padding: 2rem; }
+/* layout - main */
+main {
+  flex: 1;
+  padding: 2rem;
+}
 
 main.home {
   text-align: center;
@@ -89,7 +118,32 @@ main.projects-page {
   margin: 0 auto;
 }
 
-/* home intro */
+/* layout - footer */
+footer {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.footer__link {
+  color: var(--muted);
+  transition: color var(--transition) ease;
+}
+
+.footer__link:hover {
+  color: var(--accent);
+}
+
+.footer__link svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+}
+
+/* components - home intro */
 .home-intro {
   display: flex;
   flex-direction: column;
@@ -98,6 +152,7 @@ main.projects-page {
   margin: 0 auto;
 }
 
+/* components - skill list */
 .skill-list {
   display: flex;
   flex-wrap: wrap;
@@ -114,7 +169,6 @@ main.projects-page {
   gap: 0.5rem;
   padding: 0.5rem 1rem;
   background-color: var(--card-bg);
-  font-size: 0.9rem;
   border-radius: var(--border-radius);
 }
 
@@ -124,10 +178,16 @@ main.projects-page {
   transform: translateY(-2px);
 }
 
-.skill-pill a { color: inherit; text-decoration: none; }
-.skill-pill a:visited { color: inherit; }
+.skill-pill a {
+  color: inherit;
+  text-decoration: none;
+}
 
-/* tooltip base - shared styles */
+.skill-pill a:visited {
+  color: inherit;
+}
+
+/* components - tooltips */
 .skill-pill,
 .footer__link,
 .blog-back-link,
@@ -143,7 +203,7 @@ main.projects-page {
   padding: 0.4rem 0.75rem;
   background: var(--text);
   color: var(--bg);
-  font-size: 0.75rem;
+  font-size: var(--font-tooltip);
   border-radius: 6px;
   white-space: nowrap;
   opacity: 0;
@@ -158,7 +218,6 @@ main.projects-page {
   opacity: 1;
 }
 
-/* tooltip position: top center */
 .skill-pill::after,
 .footer__link::after {
   bottom: 100%;
@@ -167,7 +226,7 @@ main.projects-page {
   margin-bottom: 0.5rem;
 }
 
-/* tooltip position: bottom center */
+/* components - lang switcher */
 .lang-switcher__button::after {
   top: 100%;
   left: 50%;
@@ -175,7 +234,6 @@ main.projects-page {
   margin-top: 0.5rem;
 }
 
-/* tooltip position: bottom left */
 .blog-back-link::after {
   top: 100%;
   left: 0;
@@ -183,28 +241,23 @@ main.projects-page {
 }
 
 /* tooltip content */
-.skill-pill::after { content: 'Click me!'; }
-
-/* footer */
-footer {
-  padding: 1.5rem 2rem;
-  border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1.5rem;
+.skill-pill::after {
+  content: 'Click me!';
 }
 
-.footer__link { color: var(--muted); transition: color var(--transition) ease; }
-.footer__link:hover { color: var(--accent); }
-.footer__link svg { width: 1.5rem; height: 1.5rem; display: block; }
+.footer__link[href*="github"]::after {
+  content: 'Visit my GitHub';
+}
 
-/* footer tooltip */
-.footer__link[href*="github"]::after { content: 'Visit my GitHub'; }
-.footer__link[href^="mailto"]::after { content: 'Send me an email'; }
-.footer__link[href^="tel"]::after { content: 'Call me'; }
+.footer__link[href^="mailto"]::after {
+  content: 'Send me an email';
+}
 
-/* text fade - gradient overlay for truncated text */
+.footer__link[href^="tel"]::after {
+  content: 'Call me';
+}
+
+/* utilities */
 .text-fade {
   position: relative;
   overflow: hidden;
@@ -229,22 +282,43 @@ footer {
     gap: 0.75rem;
     padding: 1rem 1.25rem;
   }
-  .header-actions { flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+  .header-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
 }
 
 @media (max-width: 640px) {
-  main.home { padding: 3rem 1rem; }
-  main.home h1 { font-size: 1.75rem; }
-  main.home p { font-size: 1rem; }
-  main.projects-page { padding: 1rem; }
-  main.page { padding: 1rem; }
-  .skill-pill { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+  main.home {
+    padding: 3rem 1rem;
+  }
+  main.projects-page {
+    padding: 1rem;
+  }
+  main.page:not(.blog-page) {
+    padding: 1rem;
+  }
+  .skill-pill {
+    padding: 0.4rem 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
-  header { padding: 0.75rem 1rem; gap: 0.5rem; }
-  .header-name { font-size: 1rem; }
-  .header-actions { gap: 0.4rem; }
-  main.projects-page { padding: 0.75rem; }
-  main.page { padding: 0.75rem; }
+  header {
+    padding: 0.75rem 1rem;
+    gap: 0.5rem;
+  }
+  .header-name {
+    font-size: var(--font-body-size);
+  }
+  .header-actions {
+    gap: 0.4rem;
+  }
+  main.projects-page {
+    padding: 0.75rem;
+  }
+  main.page:not(.blog-page) {
+    padding: 0.75rem;
+  }
 }

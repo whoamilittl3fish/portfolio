@@ -1,3 +1,4 @@
+/* button */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -7,6 +8,7 @@
   border-radius: 999px;
   background: var(--accent);
   color: #ffffff;
+  font-family: var(--font-mono);
   font-weight: 600;
   border: none;
   cursor: pointer;
@@ -33,10 +35,19 @@
   box-shadow: 0 0 4px var(--accent);
 }
 
+/* responsive */
 @media (max-width: 768px) {
-  .btn { padding: 0.6rem 1.2rem; min-width: 6rem; font-size: 0.9rem; }
+  .btn {
+    padding: 0.6rem 1.2rem;
+    min-width: 6rem;
+    font-size: var(--font-small);
+  }
 }
 
 @media (max-width: 480px) {
-  .btn { padding: 0.5rem 0.9rem; min-width: auto; font-size: 0.8rem; }
+  .btn {
+    padding: 0.5rem 0.9rem;
+    min-width: auto;
+    font-size: var(--font-xs);
+  }
 }
