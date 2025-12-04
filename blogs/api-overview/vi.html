@@ -10,21 +10,6 @@
 
     <main class="blog-page">
         <article class="blog-article">
-            <header class="blog-article__header">
-                <a class="blog-back-link" href="/blogs.html">Quay lại</a>
-                <p class="blog-article__summary">Hiểu cách API và microservices giao tiếp qua request và response.</p>
-                <div class="blog-article__meta">
-                    <span>10 tháng 11, 2025</span>
-                    <div class="blog-article__tags">
-                        <span class="blog-tag">API</span>
-                    </div>
-                    <div class="lang-switcher">
-                        <a href="./en.html" class="lang-switcher__button">EN</a>
-                        <a href="./vi.html" class="lang-switcher__button is-active">VI</a>
-                    </div>
-                </div>
-            </header>
-
             <section class="blog-content">
                 <h1>API & Microservice</h1>
 
@@ -40,6 +25,17 @@
                 <img src="./1.png" alt="API Overview Diagram" width="800" height="450">
             </section>
         </article>
+        
+        <!-- bottom bar with language switcher and back button -->
+        <div class="blog-bottom-bar">
+            <div class="blog-bottom-bar__container">
+                <div class="btn-group">
+                    <a href="./en.html" class="btn btn--small btn--ghost" data-tooltip="English">EN</a>
+                    <a href="./vi.html" class="btn btn--small btn--ghost is-active" data-tooltip="Tiếng Việt">VI</a>
+                </div>
+                <a class="btn btn--small btn--ghost" href="/blogs.html" data-tooltip="Quay lại blogs">Quay lại</a>
+            </div>
+        </div>
     </main>
 
     <div data-footer></div>

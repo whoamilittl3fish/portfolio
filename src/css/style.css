@@ -222,16 +222,12 @@ footer {
 
 /* components - tooltips */
 .skill-pill,
-.footer__link,
-.blog-back-link,
-.lang-switcher__button {
+.footer__link {
   position: relative;
 }
 
 .skill-pill::after,
-.footer__link::after,
-.blog-back-link::after,
-.lang-switcher__button::after {
+.footer__link::after {
   position: absolute;
   padding: 0.4rem 0.75rem;
   background: var(--text);
@@ -242,35 +238,15 @@ footer {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
-}
-
-.skill-pill:hover::after,
-.footer__link:hover::after,
-.blog-back-link:hover::after,
-.lang-switcher__button:hover::after {
-  opacity: 1;
-}
-
-.skill-pill::after,
-.footer__link::after {
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
   margin-bottom: 0.5rem;
 }
 
-/* components - lang switcher */
-.lang-switcher__button::after {
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 0.5rem;
-}
-
-.blog-back-link::after {
-  top: 100%;
-  left: 0;
-  margin-top: 0.25rem;
+.skill-pill:hover::after,
+.footer__link:hover::after {
+  opacity: 1;
 }
 
 /* tooltip content */

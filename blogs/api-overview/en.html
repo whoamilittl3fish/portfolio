@@ -10,20 +10,6 @@
 
     <main class="blog-page">
         <article class="blog-article">
-            <header class="blog-article__header">
-                <a class="blog-back-link" href="/blogs.html">Back</a>
-                <p class="blog-article__summary">Understanding how APIs and microservices communicate by exchanging requests and responses.</p>
-                <div class="blog-article__meta">
-                    <span>November 10, 2025</span>
-                    <div class="blog-article__tags">
-                        <span class="blog-tag">API</span>
-                    </div>
-                    <div class="lang-switcher">
-                        <a href="./en.html" class="lang-switcher__button is-active">EN</a>
-                        <a href="./vi.html" class="lang-switcher__button">VI</a>
-                    </div>
-                </div>
-            </header>
             <section class="blog-content">
                 <h1>API & Microservice</h1>
 
@@ -39,6 +25,17 @@
                 <img src="./1.png" alt="API Overview Diagram" width="800" height="450">
             </section>
         </article>
+        
+        <!-- bottom bar with language switcher and back button -->
+        <div class="blog-bottom-bar">
+            <div class="blog-bottom-bar__container">
+                <div class="btn-group">
+                    <a href="./en.html" class="btn btn--small btn--ghost is-active" data-tooltip="English">EN</a>
+                    <a href="./vi.html" class="btn btn--small btn--ghost" data-tooltip="Tiếng Việt">VI</a>
+                </div>
+                <a class="btn btn--small btn--ghost" href="/blogs.html" data-tooltip="Back to blogs">Back</a>
+            </div>
+        </div>
     </main>
 
     <div data-footer></div>
