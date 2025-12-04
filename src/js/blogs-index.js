@@ -65,7 +65,6 @@ function updatePagination() {
 
 function renderBlogs() {
   const container = document.querySelector("#blog-posts");
-  const loading = document.querySelector(".loading-dots");
   if (!container) return;
 
   const perPage = getPostsPerPage();
@@ -77,7 +76,6 @@ function renderBlogs() {
     : '<p class="blog-card__summary">No blog posts yet.</p>';
 
   updatePagination();
-  if (loading) loading.style.display = "none";
 }
 
 // event handlers

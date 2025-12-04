@@ -1,5 +1,4 @@
 import './css/style.css';
-import './css/loading.css';
 import './css/projects.css';
 import './css/btn.css';
 import './css/blogs-index.css';
