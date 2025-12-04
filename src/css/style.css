@@ -90,7 +90,7 @@ main.projects-page {
 }
 
 /* home intro */
-.intro {
+.home-intro {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -130,7 +130,6 @@ main.projects-page {
 /* tooltip base - shared styles */
 .skill-pill,
 .footer__link,
-.blog-card,
 .blog-back-link,
 .lang-switcher__button {
   position: relative;
@@ -138,7 +137,6 @@ main.projects-page {
 
 .skill-pill::after,
 .footer__link::after,
-.blog-card::after,
 .blog-back-link::after,
 .lang-switcher__button::after {
   position: absolute;
@@ -155,7 +153,6 @@ main.projects-page {
 
 .skill-pill:hover::after,
 .footer__link:hover::after,
-.blog-card:hover::after,
 .blog-back-link:hover::after,
 .lang-switcher__button:hover::after {
   opacity: 1;
@@ -183,12 +180,6 @@ main.projects-page {
   top: 100%;
   left: 0;
   margin-top: 0.25rem;
-}
-
-/* tooltip position: top right corner */
-.blog-card::after {
-  top: 1rem;
-  right: 1rem;
 }
 
 /* tooltip content */

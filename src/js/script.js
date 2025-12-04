@@ -74,40 +74,21 @@ function createProjectCard(project) {
   const linkGroup = document.createElement("div");
   linkGroup.className = "project-card__links";
 
-  if (Array.isArray(project.links)) {
-    project.links.forEach((link) => {
-      if (!link.url) return;
-      const a = document.createElement("a");
-      a.href = link.url;
-      a.target = "_blank";
-      a.rel = "noreferrer noopener";
+  (project.links || []).forEach((link) => {
+    if (!link.url) return;
+    const a = document.createElement("a");
+    a.href = link.url;
+    a.target = "_blank";
+    a.rel = "noreferrer noopener";
 
-      if (link.icon) {
-        a.innerHTML = link.icon + " " + (link.label || "");
-      } else {
-        a.textContent = link.label || "Link";
-      }
+    if (link.icon) {
+      a.innerHTML = link.icon + " " + (link.label || "");
+    } else {
+      a.textContent = link.label || "Link";
+    }
 
-      linkGroup.appendChild(a);
-    });
-  } else if (project.links) {
-    if (project.links.live) {
-      const liveLink = document.createElement("a");
-      liveLink.href = project.links.live;
-      liveLink.target = "_blank";
-      liveLink.rel = "noreferrer noopener";
-      liveLink.textContent = "Live demo";
-      linkGroup.appendChild(liveLink);
-    }
-    if (project.links.source) {
-      const sourceLink = document.createElement("a");
-      sourceLink.href = project.links.source;
-      sourceLink.target = "_blank";
-      sourceLink.rel = "noreferrer noopener";
-      sourceLink.textContent = "Source";
-      linkGroup.appendChild(sourceLink);
-    }
-  }
+    linkGroup.appendChild(a);
+  });
 
   content.append(description, techList, linkGroup);
 
