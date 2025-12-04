@@ -6,7 +6,8 @@ async function loadPartial(url, targetSelector) {
   try {
     const response = await fetch(url);
     if (!response.ok) return;
-    target.outerHTML = await response.text();
+    // use innerHTML to avoid layout shift
+    target.innerHTML = await response.text();
   } catch (error) {
     console.warn(`Failed to load ${url}`, error);
   }

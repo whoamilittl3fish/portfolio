@@ -66,16 +66,21 @@ h1.intro {
 }
 
 /* layout - header */
+[data-header] {
+  min-height: 57px; /* space for header not shift when loading*/
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--bg);
+}
+
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
   border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
   background: var(--bg);
-  z-index: 1000;
 }
 
 .header-name {
@@ -119,6 +124,10 @@ main.projects-page {
 }
 
 /* layout - footer */
+[data-footer] {
+  min-height: 72px; /* Reserve space to prevent CLS when footer loads */
+}
+
 footer {
   padding: 1.5rem 2rem;
   border-top: 1px solid var(--border);

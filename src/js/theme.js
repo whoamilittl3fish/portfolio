@@ -43,12 +43,6 @@ function applyTheme(theme, toggleBtn) {
 
 function init() {
   const toggleBtn = document.getElementById("theme-toggle");
-
-  // enable transitions after page load
-  requestAnimationFrame(() => {
-    document.body.classList.add("theme-transition");
-  });
-
   applyTheme(getInitialTheme(), toggleBtn);
 
   if (toggleBtn) {
@@ -60,5 +54,18 @@ function init() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", init);
-window.addEventListener("layout-ready", init);
+// enable transitions only after layout is fully loaded
+function enableTransitions() {
+  // wait for next frame after layout-ready to ensure DOM is stable
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.body.classList.add("theme-transition");
+    });
+  });
+}
+
+// just run init when layout is ready
+window.addEventListener("layout-ready", () => {
+  init();
+  enableTransitions();
+});
