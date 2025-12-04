@@ -1,9 +1,10 @@
 # Portfolio
 
 This is my source portfolio.
+(Viet Khoa, also name as zoskisk).
 
 #### Some information
-It runs via vite and expose port 8080 on local machine.
+This portfolio runs on Nginx (port 80 inside the container) and exposes port 8080 to your local machine.
 
 ## How to running this
 
@@ -35,3 +36,9 @@ https://zoskisk.vercel.app
 ```bash
 docker compose down
 ```
+
+Vite:
+- Blogs is static so fetch and it
+
+# More information:
+- Add new blog and project [README](./src/js/README.md).
