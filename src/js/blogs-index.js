@@ -36,11 +36,11 @@ function createBlogCard(post) {
       <a href="/blogs/${post.slug}/en.html" class="blog-card__link">
         <h2 class="blog-card__title">${post.title || post.slug}</h2>
         <p class="blog-card__summary">${post.summary || ""}</p>
+        <ul class="blog-card__tags">
+          ${(post.tags || []).map((t) => `<li class="blog-tag">${t}</li>`).join("")}
+        </ul>
         <div class="blog-card__meta">
           <span>${formatDate(post.date)}</span>
-          <ul class="blog-card__tags">
-            ${(post.tags || []).map((t) => `<li class="blog-tag">${t}</li>`).join("")}
-          </ul>
         </div>
       </a>
     </article>

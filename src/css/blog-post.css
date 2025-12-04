@@ -36,8 +36,7 @@
 
 .blog-article__summary,
 .blog-article__meta > span,
-.blog-article__tags,
-.blog-tag {
+.blog-article__tags {
   display: none;
 }
 
