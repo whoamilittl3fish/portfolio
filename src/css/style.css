@@ -1,7 +1,24 @@
+/* fonts */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/JetBrainsMono-SemiBold.woff2') format('woff2');
+}
+
 /* variables */
 :root {
   color-scheme: light;
-  --font-body: 'JetBrains Sans', sans-serif;
+  --font-body: Arial, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-title: 1.25rem;
   --font-heading: 1.15rem;
