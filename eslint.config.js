@@ -14,7 +14,6 @@ export default defineConfig([
     },
     rules: {
       "no-unused-vars": "warn",
-      marked: "readonly",
     }
   },
 ]

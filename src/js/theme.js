@@ -8,7 +8,9 @@ function getInitialTheme() {
     if (storedTheme === "dark" || storedTheme === "light") {
       return storedTheme;
     }
-  } catch {}
+  } catch {
+    // ignore error with line check :D
+  }
 
   if (root.dataset.theme === "dark" || root.dataset.theme === "light") {
     return root.dataset.theme;
