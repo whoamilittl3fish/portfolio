@@ -31,7 +31,7 @@ function createProjectCard(project) {
 
   // preview
   const preview = document.createElement("p");
-  preview.className = "project-card__preview";
+  preview.className = "project-card__preview text-fade";
   preview.textContent = project.description;
 
   // content

@@ -213,6 +213,23 @@ footer {
 .footer__link[href^="mailto"]::after { content: 'Send me an email'; }
 .footer__link[href^="tel"]::after { content: 'Call me'; }
 
+/* text fade - gradient overlay for truncated text */
+.text-fade {
+  position: relative;
+  overflow: hidden;
+}
+
+.text-fade::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3em;
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+  pointer-events: none;
+}
+
 /* responsive */
 @media (max-width: 768px) {
   header {
