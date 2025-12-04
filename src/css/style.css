@@ -34,8 +34,10 @@ body.theme-transition {
   transition: background var(--transition) ease, color var(--transition) ease;
 }
 
+/* intro of the page by h1 and p*/
 h1 { font-size: 32px; }
 p { color: var(--muted); font-size: 18px; }
+h1.intro { color: var(--muted); margin: 0 0 1.5rem; font-size: 1rem; font-weight: 400; text-align: left; }
 
 /* header */
 header {
@@ -60,7 +62,7 @@ header {
   gap: 0.5rem;
 }
 
-.header-name[data-page]::before {
+.header-name[data-page]::after {
   content: attr(data-page);
   text-transform: uppercase;
   color: var(--accent);

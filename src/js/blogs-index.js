@@ -82,10 +82,10 @@ function renderBlogs() {
 function handlePaginationClick(e) {
   const btn = e.target.closest("[data-page]");
   if (!btn) return;
-
+  
   const page = parseInt(btn.dataset.page, 10);
   if (page === currentPage) return;
-
+  
   currentPage = page;
   renderBlogs();
 }
