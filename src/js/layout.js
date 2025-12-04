@@ -19,6 +19,13 @@ async function init() {
     loadPartial("/partials/footer.html", "[data-footer]"),
   ]);
 
+  // set page title on header
+  const pageName = document.body.dataset.page;
+  if (pageName) {
+    const headerName = document.querySelector(".header-name");
+    if (headerName) headerName.dataset.page = pageName;
+  }
+
   window.dispatchEvent(new Event("layout-ready"));
 }
 

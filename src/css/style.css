@@ -55,6 +55,16 @@ header {
   font-weight: 600;
   color: var(--text);
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-name[data-page]::before {
+  content: attr(data-page);
+  text-transform: uppercase;
+  color: var(--accent);
+  letter-spacing: 0.05em;
 }
 
 .header-actions {
