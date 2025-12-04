@@ -129,8 +129,8 @@
 
 /* responsive */
 @media (max-width: 640px) {
-  .project-card__header { padding: 1rem 1.25rem; }
+  .project-card__header { padding: 0.5rem 0.75rem; }
   .project-card__header h3 { font-size: 1rem; }
-  .project-card__preview { padding: 0.75rem 1.25rem; font-size: 0.85rem; height: calc(1.5em * 2); -webkit-line-clamp: 2; }
-  .project-card__content { padding: 0 1.25rem 1.25rem; }
+  .project-card__preview { padding: 0.25rem 0.75rem 0.5rem; font-size: 0.85rem; height: calc(1.5em * 2); -webkit-line-clamp: 2; }
+  .project-card__content { padding: 0 0.75rem 0.75rem; }
 }
