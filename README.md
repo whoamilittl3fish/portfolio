@@ -55,7 +55,7 @@ portfolio/
 - **Styling:** Vanilla CSS with CSS Variables
 - **JavaScript:** Vanilla JS (no framework)
 - **Deployment:** Vercel
-- **Development:** Docker (optional)
+- **Development:** Docker
 
 ## How to Run
 
@@ -78,7 +78,7 @@ Hot reload enabled (100ms delay in vite.config.js)
 
 ### Production (Docker) 
 
-#### It is removed, before I using nginx to build static website and now it is deploy with vite.
+#### It is removed, before I used to use nginx to build static website and now it is deploy with vite.
 
 ```bash
 docker compose -f docker-compose.prod.yml up -d
@@ -90,7 +90,7 @@ docker compose -f docker-compose.prod.yml up -d
 docker compose down
 ```
 
-## URLs
+## Link
 
 - **Local:** http://localhost:8080
 - **Live:** https://zoskisk.vercel.app
@@ -102,6 +102,6 @@ docker compose down
 
 ## Notes
 
-- Blog content is static HTML (good for SEO)
-- JS only handles interactions (expand, filter, pagination)
-- Theme preference saved in localStorage
+- Blog content is static HTML.
+- JS only handles interactions (expand, filter, pagination) right now. Maybe I will update it with Astro framework.
+- Theme preference saved in localStorage.
