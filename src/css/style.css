@@ -138,7 +138,7 @@ main {
 
 main.home {
   text-align: center;
-  padding: 6rem 2rem;
+  padding: 0 2rem;
 }
 
 main.projects-page {
@@ -178,11 +178,91 @@ footer {
 
 /* components - home intro */
 .home-intro {
+  position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
   gap: 0.75rem;
   max-width: 720px;
   margin: 0 auto;
+  min-height: calc(100vh - 74px);
+  padding-top: calc((100vh - 74px) * 0.25);
+}
+
+/* scroll down button - extends .btn */
+.scroll-btn {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* components - section header reuses .btn :D easy to maintain*/
+.section-header {
+  max-width: 720px;
+  margin: 2rem auto 1rem;
+  display: block;
+  width: calc(100% - 4rem);
+  box-sizing: border-box;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* components - home about timeline */
+.home-about {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.timeline-year {
+  min-width: 2.75rem;
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  color: var(--muted);
+  text-align: left;
+  flex-shrink: 0;
+  line-height: 1.5;
+  padding-top: 0.15rem;
+}
+
+.timeline-text {
+  flex: 1;
+  color: var(--text);
+  line-height: 1.7;
+  max-width: 55ch;
+}
+
+.timeline-text a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.timeline-text a:hover {
+  text-decoration: underline;
 }
 
 /* components - skill list */
@@ -324,7 +404,7 @@ footer {
 
 @media (max-width: 640px) {
   main.home {
-    padding: 3rem 1rem;
+    padding: 0 1rem;
   }
   main.projects-page {
     padding: 1rem;
@@ -334,6 +414,13 @@ footer {
   }
   .skill-pill {
     padding: 0.4rem 0.8rem;
+  }
+  .section-header {
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    width: 100vw;
+    max-width: none;
+    border-radius: 0;
   }
 }
 
