@@ -253,7 +253,12 @@ footer {
   flex: 1;
   color: var(--text);
   line-height: 1.7;
-  max-width: 55ch;
+  max-width: 65ch;
+}
+
+/* timeline texe */
+.home-about > .timeline-text {
+  margin: 0 auto 1rem;
 }
 
 .timeline-text a {
