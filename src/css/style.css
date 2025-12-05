@@ -142,7 +142,7 @@ main.home {
 }
 
 main.projects-page {
-  padding: 2rem;
+  padding: 3rem 2rem;
   max-width: 960px;
   margin: 0 auto;
 }
@@ -256,11 +256,6 @@ footer {
   max-width: 65ch;
 }
 
-/* timeline texe */
-.home-about > .timeline-text {
-  margin: 0 auto 1rem;
-}
-
 .timeline-text a {
   color: var(--accent);
   text-decoration: none;
@@ -268,6 +263,11 @@ footer {
 
 .timeline-text a:hover {
   text-decoration: underline;
+}
+
+/* standalone text in home-about (not in timeline) */
+.home-about > .timeline-text {
+  margin: 0 auto 1rem;
 }
 
 /* components - skill list */
@@ -412,7 +412,7 @@ footer {
     padding: 0 1rem;
   }
   main.projects-page {
-    padding: 1rem;
+    padding: 2rem 1rem;
   }
   main.page:not(.blog-page) {
     padding: 1rem;
@@ -447,7 +447,7 @@ footer {
     justify-content: center;
   }
   main.projects-page {
-    padding: 0.75rem;
+    padding: 1.5rem 0.75rem;
   }
   main.page:not(.blog-page) {
     padding: 0.75rem;
