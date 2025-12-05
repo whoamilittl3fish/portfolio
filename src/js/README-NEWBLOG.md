@@ -1,20 +1,41 @@
 # How to add new blog
 
-### Step 1: slug -> blog folder && add new blog to show in blogs
-It will be list in the [blog-data.js](./blogs-data.js). So first adding new blog with slug -> slug will point to the folder thathave content.
+## Steps
 
+1. Create new folder in `/blogs/` (e.g., `/blogs/your-topic/`) with `en.html`, `vi.html` (optional), images
+3. Add blog card to [blogs.html](../../blogs.html) inside `#blog-posts`
 
-### Step 2: create a new blog content with two different language.
-Copy full html that need to have except body part has new content blog will be changed.
+## Blog Card Template
 
+Add this to `blogs.html`:
 
-```js
- {
-    slug: "api-overview", // <- path to folder contain blog
-    title: "API & Microservice",
-    date: "2025-11-10",
-    tags: ["API","short-post"], // <- tag
-    summary: "Understanding how APIs and microservices communicate by exchanging requests and responses.",
-    languages: ["en", "vi"] // <- language switcher
-  }
+```html
+<!-- blog - YOUR BLOG TITLE -->
+<article class="blog-card">
+    <a href="/blogs/your-topic/en.html" class="blog-card__link">
+        <h2 class="blog-card__title">Blog Title</h2>
+        <p class="blog-card__summary">Short summary of your blog post...</p>
+    </a>
+    <ul class="blog-card__tags">
+        <li><a href="?tag=TagName" class="blog-tag" data-tag="TagName">TagName</a></li>
+    </ul>
+    <div class="blog-card__meta">
+        <span>Month DD, YYYY</span>
+    </div>
+</article>
 ```
+
+## Folder Structure
+
+```
+blogs/
+└── your-topic/
+    ├── en.html     # english version
+    ├── vi.html     # vietnamese version
+    └── 1.png      
+```
+
+## Notes
+
+- Tags must have matching `href="?tag=X"` and `data-tag="X"`
+- Date format: `Month DD, YYYY` (e.g., Nov 10, 2025)
