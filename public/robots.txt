@@ -1,0 +1,6 @@
+# robots.txt for zoskisk.vercel.app
+User-agent: * # for any searc engin
+Allow: / # allow to crawn all pages
+
+# Sitemap
+Sitemap: https://zoskisk.vercel.app/sitemap.xml
