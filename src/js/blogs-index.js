@@ -5,8 +5,8 @@ const postPerPage = {
 };
 
 // state
-let allPosts = [];
-let filteredPosts = [];
+let allCards = [];
+let filteredCards = [];
 let currentPage = 1;
 let currentTag = null;
 let resizeTimeout;
@@ -17,7 +17,7 @@ function getPostsPerPage() {
 }
 
 function getTotalPages() {
-  return Math.ceil(filteredPosts.length / getPostsPerPage());
+  return Math.ceil(filteredCards.length / getPostsPerPage());
 }
 
 function getTagFromURL() {
@@ -25,50 +25,22 @@ function getTagFromURL() {
   return params.get("tag");
 }
 
-function filterPosts() {
+function getCardTags(card) {
+  const tagElements = card.querySelectorAll(".blog-tag");
+  return Array.from(tagElements).map((el) => el.dataset.tag?.toLowerCase() || "");
+}
+
+function filterCards() {
   if (!currentTag) {
-    filteredPosts = allPosts;
+    filteredCards = allCards;
   } else {
-    filteredPosts = allPosts.filter((post) =>
-      (post.tags || []).some((t) => t.toLowerCase() === currentTag.toLowerCase())
+    filteredCards = allCards.filter((card) =>
+      getCardTags(card).some((t) => t === currentTag.toLowerCase())
     );
   }
 }
 
-function formatDate(dateString) {
-  if (!dateString) return "";
-  const date = new Date(dateString);
-  if (Number.isNaN(date.getTime())) return dateString;
-  return date.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
-
 // ui
-function createBlogCard(post) {
-  const tagsHtml = (post.tags || [])
-    .map((t) => {
-      const isActive = currentTag && t.toLowerCase() === currentTag.toLowerCase();
-      return `<li><a href="?tag=${encodeURIComponent(t)}" class="blog-tag ${isActive ? "is-active" : ""}" data-tag="${t}">${t}</a></li>`;
-    })
-    .join("");
-
-  return `
-    <article class="blog-card">
-      <a href="/blogs/${post.slug}/en.html" class="blog-card__link">
-        <h2 class="blog-card__title">${post.title || post.slug}</h2>
-        <p class="blog-card__summary">${post.summary || ""}</p>
-      </a>
-      <ul class="blog-card__tags">${tagsHtml}</ul>
-      <div class="blog-card__meta">
-        <span>${formatDate(post.date)}</span>
-      </div>
-    </article>
-  `;
-}
-
 function renderFilterStatus() {
   const container = document.querySelector("#filter-status");
   if (!container) return;
@@ -99,20 +71,56 @@ function updatePagination() {
   }).join("");
 }
 
+function updateActiveTagStyles() {
+  // update active state for tag links
+  document.querySelectorAll(".blog-tag").forEach((tag) => {
+    const tagName = tag.dataset.tag?.toLowerCase() || "";
+    if (currentTag && tagName === currentTag.toLowerCase()) {
+      tag.classList.add("is-active"); // check if the tag is the current tag to highlight it
+    } else {
+      tag.classList.remove("is-active"); // remove the active state if the tag is not the current tag
+    }
+  });
+}
+
 function renderBlogs() {
   const container = document.querySelector("#blog-posts");
   if (!container) return;
 
   const perPage = getPostsPerPage();
   const start = (currentPage - 1) * perPage;
-  const pagePosts = filteredPosts.slice(start, start + perPage);
+  const end = start + perPage;
 
-  container.innerHTML = pagePosts.length
-    ? pagePosts.map(createBlogCard).join("")
-    : `<p class="blog-empty">${currentTag ? `No posts with tag "${currentTag}".` : "No blog posts yet."}</p>`;
+  // set none if there is wrong with url, so can use this to say that no blog with tag (defensive coding)
+  allCards.forEach((card) => {
+    card.style.display = "none";
+  });
+
+  // show only cards for current page from filtered set
+  const pageCards = filteredCards.slice(start, end);
+  pageCards.forEach((card) => {
+    card.style.display = "";
+  });
+
+  // empty state with no card (defensive coding) but every blog will have tag :D
+  let emptyMsg = container.querySelector(".blog-empty");
+  if (filteredCards.length === 0) {
+    if (!emptyMsg) {
+      emptyMsg = document.createElement("p");
+      emptyMsg.className = "blog-empty";
+      container.appendChild(emptyMsg);
+    }
+    emptyMsg.textContent = currentTag 
+      ? `No posts with tag "${currentTag}".` 
+      : "No blog posts yet."; // just for something wrong, blog will always there
+    emptyMsg.style.display = "";
+  } else if (emptyMsg) {
+    emptyMsg.style.display = "none";
+  }
 
   renderFilterStatus();
   updatePagination();
+  updateActiveTagStyles();
 }
 
 // event handlers
@@ -127,6 +135,7 @@ function handlePaginationClick(e) {
   renderBlogs();
 }
 
+// resize when the window is resized to update the cards
 function handleResize() {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
@@ -136,27 +145,28 @@ function handleResize() {
   }, 200);
 }
 
-// init
+// init for blogs page
 function init() {
-  // get tag from URL
+  const container = document.querySelector("#blog-posts");
+  if (!container) return;
+
+  // get all existing cards from HTML
+  allCards = Array.from(container.querySelectorAll(".blog-card"));
+  
+  // get tag from URL to filter the cards
   currentTag = getTagFromURL();
 
-  // get posts from blogs-data.js, sort by date (newest first)
-  allPosts = (window.blogPosts || [])
-    .slice()
-    .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-
-  // filter posts
-  filterPosts();
+  // filter and render the cards
+  filterCards();
   renderBlogs();
 
-  // pagination click
+  // pagination click to change the page
   const pagination = document.querySelector("#pagination");
   if (pagination) {
     pagination.addEventListener("click", handlePaginationClick);
   }
 
-  // resize
+  // resize handler to update the cards when the window is resized
   window.addEventListener("resize", handleResize);
 }
 

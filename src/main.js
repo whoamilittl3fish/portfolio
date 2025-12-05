@@ -6,9 +6,7 @@ import './css/blog-post.css';
 
 import './js/layout.js';
 import './js/theme.js';
-import './js/projects-data.js';
-import './js/script.js';
-import './js/blogs-data.js';
+import './js/projects-index.js';
 import './js/blogs-index.js';
 
 // Debug CLS - uncomment to enable
