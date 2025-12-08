@@ -18,15 +18,27 @@
                     <header class="project-card__header">
                         <div class="project-card__title-row">
                             <h3>Little World Portfolio</h3>
-                            <span class="project-card__toggle">
+                            <button class="project-card__toggle" type="button" aria-label="Expand or collapse project details">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                            </span>
+                            </button>
                         </div>
                         <span class="project-card__period">October 2025 – Present</span>
                     </header>
                     <p class="project-card__preview text-fade">Personal homepage, blogs, projects for sharing experience, also my first website I built to learn more about web development, deployment, and more. So welcome you to my little world inside...</p>
                     <div class="project-card__content">
                         <p class="project-card__description">Personal homepage, blogs, projects for sharing experience, also my first website I built to learn more about web development, deployment, and more. So welcome you to my little world inside...</p>
+                        <!-- Image Gallery - Example: Add your images here -->
+                        <!-- 
+                        Đặt ảnh vào: public/assets/projects/little-world-portfolio/
+                        Ví dụ: public/assets/projects/little-world-portfolio/homepage.jpg
+                        
+                        <div class="project-card__gallery">
+                            <div class="project-gallery">
+                                <img src="/assets/projects/little-world-portfolio/homepage.jpg" alt="Homepage screenshot" class="project-gallery__thumb" data-full="/assets/projects/little-world-portfolio/homepage.jpg">
+                                <img src="/assets/projects/little-world-portfolio/blogs.jpg" alt="Blogs page screenshot" class="project-gallery__thumb" data-full="/assets/projects/little-world-portfolio/blogs.jpg">
+                            </div>
+                        </div>
+                        -->
                         <ul class="project-card__tech">
                             <li class="tech-pill tech-pill--link"><a href="https://developer.mozilla.org/docs/Web/HTML" target="_blank" rel="noreferrer noopener">HTML</a></li>
                             <li class="tech-pill tech-pill--link"><a href="https://developer.mozilla.org/docs/Web/CSS" target="_blank" rel="noreferrer noopener">CSS</a></li>
@@ -48,15 +60,22 @@
                     <header class="project-card__header">
                         <div class="project-card__title-row">
                             <h3>Pawnshop Management App</h3>
-                            <span class="project-card__toggle">
+                            <button class="project-card__toggle" type="button" aria-label="Expand or collapse project details">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                            </span>
+                            </button>
                         </div>
                         <span class="project-card__period">June 2025 – September 2025</span>
                     </header>
-                    <p class="project-card__preview text-fade">A simple, modern, and user-friendly pawnshop management software in Vietnamese language. This is my first project as a student, when my uncle asked me to help him manage his pawnshop, I decided to build this app to learn more about C#/.NET-Windows Forms, database, UI/UX design, database management with SQLite for simple and can use locally without internet. I also have many clients currently using this app. Listen feedback from my client and improve the app to be more user-friendly and efficient.</p>
+                    <p class="project-card__preview text-fade">A simple, modern, and user-friendly pawnshop management software in Vietnamese language.</p>
                     <div class="project-card__content">
                         <p class="project-card__description">A simple, modern, and user-friendly pawnshop management software in Vietnamese language. This is my first project as a student, when my uncle asked me to help him manage his pawnshop, I decided to build this app to learn more about C#/.NET-Windows Forms, database, UI/UX design, database management with SQLite for simple and can use locally without internet. I also have many clients currently using this app. Listen feedback from my client and improve the app to be more user-friendly and efficient.</p>
+                        <div class="project-card__gallery">
+                            <div class="project-gallery">
+                                <img src="/assets/projects/pawnshop-app/1.png" alt="Main screen" class="project-gallery__thumb" data-full="/assets/projects/pawnshop-app/1.png">
+                                <img src="/assets/projects/pawnshop-app/2.png" alt="Contract management" class="project-gallery__thumb" data-full="/assets/projects/pawnshop-app/2.png">
+                                <img src="/assets/projects/pawnshop-app/3.png" alt="Additional feature" class="project-gallery__thumb" data-full="/assets/projects/pawnshop-app/3.png">
+                            </div>
+                        </div>
                         <ul class="project-card__tech">
                             <li class="tech-pill tech-pill--link"><a href="https://learn.microsoft.com/dotnet/csharp/" target="_blank" rel="noreferrer noopener">C#</a></li>
                             <li class="tech-pill tech-pill--link"><a href="https://www.sqlite.org/index.html" target="_blank" rel="noreferrer noopener">SQLite</a></li>
@@ -78,6 +97,31 @@
     </main>
 
     <div data-footer></div>
+
+    <!-- full view image lightbox -->
+    <div id="image-lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption">
+        <button class="lightbox__close" aria-label="Close lightbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
+        <button class="lightbox__prev" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 18l-6-6 6-6"/>
+            </svg>
+        </button>
+        <button class="lightbox__next" aria-label="Next image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+            </svg>
+        </button>
+        <div class="lightbox__content">
+            <img id="lightbox-image" src="" alt="" class="lightbox__image">
+            <div class="lightbox__caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/js/projects-index.js"></script>
 </body>
 
 </html>

@@ -11,7 +11,7 @@
     <main class="page">
         <div class="page__container">
             <h1 class="intro">Sharing some knowledge, funny things in tech, and more.</h1>
-            <div id="filter-status" class="filter-status"></div>
+            <div id="filter-status" class="filter-status" aria-live="polite" aria-atomic="true"></div>
             <div id="blog-posts" class="blog-list">
                 
                 <!-- blog 1 - API & Microservice -->
@@ -20,7 +20,7 @@
                         <h2 class="blog-card__title">API & Microservice</h2>
                         <p class="blog-card__summary">Understanding how APIs and microservices communicate by exchanging requests and responses.</p>
                     </a>
-                    <ul class="blog-card__tags">
+                    <ul class="blog-card__tags" aria-label="Blog tags">
                         <li><a href="?tag=API" class="blog-tag" data-tag="API">API</a></li>
                         <li><a href="?tag=short-post" class="blog-tag" data-tag="short-post">short-post</a></li>
                     </ul>
@@ -30,7 +30,7 @@
                 </article>
 
             </div>
-            <div id="pagination" class="pagination"></div>
+            <nav id="pagination" class="pagination" aria-label="Blog posts pagination"></nav>
         </div>
     </main>
 

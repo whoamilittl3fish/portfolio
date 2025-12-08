@@ -67,7 +67,8 @@ function updatePagination() {
 
   container.innerHTML = Array.from({ length: totalPages }, (_, i) => {
     const page = i + 1;
-    return `<button class="pagination__btn ${page === currentPage ? "is-active" : ""}" data-page="${page}">${page}</button>`;
+    const isActive = page === currentPage;
+    return `<button class="pagination__btn ${isActive ? "is-active" : ""}" data-page="${page}" aria-label="${isActive ? `Current page, page ${page}` : `Go to page ${page}`}" ${isActive ? 'aria-current="page"' : ''}>${page}</button>`;
   }).join("");
 }
 

@@ -214,6 +214,8 @@ footer {
   box-sizing: border-box;
   cursor: default;
   pointer-events: none;
+  font-size: inherit;
+  font-weight: inherit;
 }
 
 /* components - home about timeline */
