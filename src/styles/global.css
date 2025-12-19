@@ -101,6 +101,41 @@ body {
   background: var(--bg-primary);
   min-height: 100vh;
   transition: background-color var(--transition-normal), color var(--transition-normal);
+  position: relative;
+}
+
+/* Grid background (notebook style) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      var(--border),
+      var(--border) 1px,
+      transparent 1px,
+      transparent 24px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      var(--border),
+      var(--border) 1px,
+      transparent 1px,
+      transparent 24px
+    );
+  opacity: 0.7;
+  mask-image: 
+    linear-gradient(to right, black 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.3) 80%, black 100%);
+  -webkit-mask-image: 
+    linear-gradient(to right, black 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.3) 80%, black 100%);
+}
+
+/* Hide grid on blog post pages */
+body.no-grid::before {
+  display: none;
 }
 
 /* Typography */

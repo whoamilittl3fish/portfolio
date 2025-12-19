@@ -178,26 +178,28 @@
 /* Fixed bottom bar */
 .blog-bottom-bar {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: var(--space-md);
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 50;
-  background: var(--bg-primary);
-  border-top: 1px solid var(--border);
-  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
 }
 
-.blog-bottom-bar__container {
+.blog-bottom-bar__pill {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: var(--space-sm) var(--space-lg);
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: 0 4px 12px var(--shadow);
+  backdrop-filter: blur(10px);
 }
 
 /* Add padding to blog post to prevent content being hidden by fixed bar */
 .blog-post {
-  padding-bottom: calc(var(--space-3xl) + 60px);
+  padding-bottom: calc(var(--space-3xl) + 80px);
 }
 

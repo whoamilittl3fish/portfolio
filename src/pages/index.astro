@@ -10,15 +10,17 @@ import '../styles/pages/home.css';
 >
   <section class="hero">
     <div class="hero__container">
-      <h1>Hi there, I'm Khoa.</h1>
-      <p class="hero__tagline">Good things take time.</p>
-      <ul class="skill-list" aria-label="Core skills">
-        <li><a href="https://www.codingame.com/profile/83603140793bc15d729e1516e11dda281538186" class="pill">JS/TS</a></li>
-        <li><a href="https://github.com/whoamilittl3fish/portfolio" class="pill">Docker</a></li>
-        <li><a href="https://github.com/whoamilittl3fish" class="pill">Git</a></li>
-        <li><a href="https://github.com/whoamilittl3fish/portfolio" class="pill">Node.js</a></li>
-        <li><a href="https://github.com/whoamilittl3fish/QuanLyHopDong" class="pill">C#/.NET</a></li>
-      </ul>
+      <div class="hero__content">
+        <h1>Hi there, I'm Khoa.</h1>
+        <p class="hero__tagline">Good things take time.</p>
+        <ul class="skill-list" aria-label="Core skills">
+          <li><a href="https://www.codingame.com/profile/83603140793bc15d729e1516e11dda281538186" class="pill">JS/TS</a></li>
+          <li><a href="https://github.com/whoamilittl3fish/portfolio" class="pill">Docker</a></li>
+          <li><a href="https://github.com/whoamilittl3fish" class="pill">Git</a></li>
+          <li><a href="https://github.com/whoamilittl3fish/portfolio" class="pill">Node.js</a></li>
+          <li><a href="https://github.com/whoamilittl3fish/QuanLyHopDong" class="pill">C#/.NET</a></li>
+        </ul>
+      </div>
       <button class="btn" onclick="const about = document.getElementById('about'); const headerHeight = 60; const offset = about.getBoundingClientRect().top + window.pageYOffset - headerHeight; window.scrollTo({top: offset, behavior: 'smooth'})">
         ↓ About me
       </button>
