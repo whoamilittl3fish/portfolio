@@ -7,101 +7,85 @@ This is my source portfolio.
 
 ```
 portfolio/
-├── index.html              # homepage
-├── blogs.html              # blog list page
-├── projects.html           # projects list page
-├── blogs/                  # blog posts container (each post has its own folder)
-│   └── api-overview/       # folder example contain two language version and image
-│       ├── en.html         # english version
-│       ├── vi.html         # vietnamese version
-│       └── 1.png           # image
-│
 ├── src/
-│   ├── main.js             # entry point for all js, css
-│   ├── css/
-│   │   ├── style.css       # global, base style
-│   │   ├── btn.css         # button style
-│   │   ├── projects.css    # projects style
-│   │   ├── blogs-index.css # blog list index style
-│   │   └── blog-post.css   # every blog style
-│   ├── js/
-│   │   ├── layout.js       # header and footer
-│   │   ├── theme.js        # theme like dark and light mode
-│   │   ├── theme-init.js   # theme init (prevent flash so I run it first)
-│   │   ├── projects-index.js # project interaction here, expand card
-│   │   └── blogs-index.js  # blog list, filter tag and pagination for a lot of blogs
-│   │   
-│   └── partials/
-│       └── head.html       # share content <head> (:D I don't to write many <head> in the same) this is for SEO (meta tags) and prevent flash with theme script
+│   ├── components/          # UI Components + Layouts
+│   │   ├── BaseLayout.astro
+│   │   ├── BlogPost.astro
+│   │   ├── Header.astro
+│   │   ├── Footer.astro
+│   │   ├── BlogCard.astro
+│   │   ├── ThemeToggle.astro
+│   │   └── LanguageSwitcher.astro
+│   │
+│   ├── content/            # Data + Blog Content
+│   │   ├── config.ts       # Content Collections schema
+│   │   ├── projects.ts     # Projects data
+│   │   └── blogs/          # Blog posts (Markdown)
+│   │       ├── api-overview/
+│   │       │   ├── en.md   # English version
+│   │       │   └── vi.md   # Vietnamese version
+│   │       └── mutation-collection/
+│   │           ├── en.md
+│   │           └── vi.md
+│   │
+│   ├── pages/              # Routes
+│   │   ├── index.astro     # Homepage
+│   │   ├── projects.astro  # Projects page
+│   │   └── blogs/
+│   │       ├── index.astro  # Blog list
+│   │       └── [lang]/[slug].astro  # Dynamic blog route
+│   │
+│   ├── scripts/            # Client-side JavaScript
+│   │   ├── blog-filter.ts
+│   │   └── project-card.ts
+│   │
+│   └── styles/             # CSS
+│       ├── global.css      # Global styles with CSS variables
+│       ├── components/     # Component styles
+│       └── pages/          # Page styles
 │
 ├── public/
 │   ├── assets/
-│   │   ├── icon/           # site icon
-│   │   └── skill-icon/     # tech icon (I removed it now, but it will be here if I need it again)
-│   ├── fonts/              # custom font (Jetbrains Mono). Right now just applying on button
-│   └── partials/
-│       ├── header.html     # site header
-│       └── footer.html     # site footer
+│   │   ├── blogs/          # Blog images
+│   │   │   ├── api-overview/
+│   │   │   │   └── 1.png   # Images for each blog
+│   │   │   └── mutation-collection/
+│   │   ├── projects/       # Project screenshots
+│   │   └── icon/           # Site icons
+│   └── fonts/             # Custom fonts (JetBrains Mono)
 │
-├── vite.config.js          # vite conf (I am learning with this)
-├── eslint.config.js        # esline conf (I am also learning with this)
-├── docker-compose.dev.yml  # docker dev environment
-└── package.json            # dependencies & scripts
+├── astro.config.mjs       # Astro configuration
+├── tsconfig.json          # TypeScript config
+└── package.json           # Dependencies & scripts
 ```
-
-## Tech Stack
-
-- **Build Tool:** Vite
-- **Styling:** Vanilla CSS with CSS Variables
-- **JavaScript:** Vanilla JS (no framework)
-- **Deployment:** Vercel
-- **Development:** Docker
 
 ## How to Run
 
-### Development (with Vite)
+### Development with hot reload vite. :D
 
 ```bash
 npm install
 npm run dev
 ```
 
-### Development (with Docker)
+Server will start at `http://localhost:3000`
 
-Make sure Docker is running first.
-
-```bash
-docker compose -f docker-compose.dev.yml up builder
-```
-
-Hot reload enabled (100ms delay in vite.config.js)
-
-### Production (Docker) 
-
-#### It is removed, before I used to use nginx to build static website and now it is deploy with vite.
+### Build for Production
 
 ```bash
-docker compose -f docker-compose.prod.yml up -d
+npm run build
 ```
 
-### Stop
+Output will be in `dist/` directory and test preview before I pust on Github and deploy by Vercel.
+
+### Preview Production Build
 
 ```bash
-docker compose down
+npm run preview
 ```
 
-## Link
+## Links
 
-- **Local:** http://localhost:8080
+- **Local:** http://localhost:3000
+- **Preview** http://localhost:3002
 - **Live:** https://zoskisk.vercel.app
-
-## Adding Content
-
-- [How to add a new blog post](./src/js/README-NEWBLOG.md)
-- [How to add a new project](./src/js/README-PROJECT.md)
-
-## Notes
-
-- Blog content is static HTML.
-- JS only handles interactions (expand, filter, pagination) right now. Maybe I will update it with Astro framework.
-- Theme preference saved in localStorage.

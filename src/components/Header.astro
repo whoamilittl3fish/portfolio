@@ -1,0 +1,38 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import '../styles/components/header.css';
+
+interface Props {
+  currentPage?: string;
+}
+
+const { currentPage = '' } = Astro.props;
+
+const navLinks = [
+  { href: '/', label: 'home' },
+  { href: '/projects', label: 'projects' },
+  { href: '/blogs', label: 'blogs' },
+];
+---
+
+<header class="header">
+  <div class="header__container">
+    <div class="header__left">
+      <a class="header__logo" href="/">
+        khoan
+      </a>
+      <ThemeToggle />
+    </div>
+    <nav class="header__nav" aria-label="Primary navigation">
+      {navLinks.map(link => (
+        <a 
+          class:list={['btn', 'btn--ghost', { 'is-active': currentPage === link.label }]}
+          href={link.href}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+

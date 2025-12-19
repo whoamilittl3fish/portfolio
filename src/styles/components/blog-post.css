@@ -1,0 +1,203 @@
+.blog-post {
+  padding: var(--space-xl) 0 var(--space-3xl);
+}
+
+.blog-post__container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.blog-post__header {
+  margin-bottom: var(--space-2xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--border);
+}
+
+.blog-post__title {
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--space-md);
+}
+
+.blog-post__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.blog-post__tags {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.blog-post__content :global(h2) {
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-md);
+  font-size: var(--font-size-xl);
+}
+
+.blog-post__content :global(h3) {
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-sm);
+}
+
+.blog-post__content :global(p) {
+  margin-bottom: var(--space-md);
+}
+
+.blog-post__content :global(img) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: var(--space-lg) auto;
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+}
+
+.blog-post__content :global(img:not([src])) {
+  display: none;
+}
+
+.blog-post__content :global(pre) {
+  margin: var(--space-lg) 0;
+  padding: var(--space-md);
+  border-radius: var(--border-radius);
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}
+
+/* Ensure code blocks have readable text */
+.blog-post__content :global(pre code) {
+  color: var(--text-primary);
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* Light mode code blocks */
+[data-theme="light"] .blog-post__content :global(pre) {
+  background: var(--code-bg) !important;
+}
+
+[data-theme="light"] .blog-post__content :global(pre code) {
+  color: #24292e !important;
+}
+
+/* Light mode - ensure Shiki code blocks have readable text */
+[data-theme="light"] .blog-post__content :global(pre.astro-code),
+[data-theme="light"] .blog-post__content :global(pre.astro-code span),
+[data-theme="light"] .blog-post__content :global(pre.astro-code code) {
+  color: #24292e !important;
+}
+
+/* Override any inline styles that might be too light */
+[data-theme="light"] .blog-post__content :global(pre.astro-code[style*="color"]),
+[data-theme="light"] .blog-post__content :global(pre.astro-code span[style*="color"]) {
+  color: #24292e !important;
+}
+
+/* Light mode output/plaintext */
+[data-theme="light"] .blog-post__content :global(pre code.language-plaintext),
+[data-theme="light"] .blog-post__content :global(pre:has(code.language-plaintext)),
+[data-theme="light"] .blog-post__content :global(pre.astro-code[data-language="plaintext"]),
+[data-theme="light"] .blog-post__content :global(pre.astro-code code.language-plaintext) {
+  background: var(--code-output-bg, #f8f8f8) !important;
+}
+
+/* ========================================
+   Shiki Dual-Theme Support
+   Shiki generates inline styles with light theme colors,
+   and CSS variables (--shiki-dark-*) for dark theme.
+   We need to swap these when in dark mode.
+   ======================================== */
+
+/* Dark mode - override Shiki inline styles with higher specificity */
+[data-theme="dark"] .blog-post__content :global(pre.astro-code) {
+  background-color: #0d0d0d !important;
+  background: #0d0d0d !important;
+  border-color: #1a1a1a;
+}
+
+/* Override inline style attribute for dark mode */
+[data-theme="dark"] .blog-post__content :global(pre.astro-code[style*="background-color"]) {
+  background-color: #0d0d0d !important;
+  background: #0d0d0d !important;
+}
+
+/* Apply Shiki dark theme colors to text */
+[data-theme="dark"] .blog-post__content :global(.astro-code),
+[data-theme="dark"] .blog-post__content :global(.astro-code span),
+[data-theme="dark"] .blog-post__content :global(.astro-code span[style]) {
+  color: var(--shiki-dark) !important;
+}
+
+/* Make sure code inside pre has transparent background */
+[data-theme="dark"] .blog-post__content :global(pre.astro-code code),
+[data-theme="dark"] .blog-post__content :global(pre.astro-code span) {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* Output/plaintext code blocks - darker background */
+[data-theme="dark"] .blog-post__content :global(pre.astro-code[data-language="plaintext"]),
+[data-theme="dark"] .blog-post__content :global(pre.astro-code code.language-plaintext),
+[data-theme="dark"] .blog-post__content :global(pre:has(code.language-plaintext)) {
+  background-color: #0f0f0f !important;
+  background: #0f0f0f !important;
+}
+
+[data-theme="dark"] .blog-post__content :global(pre.astro-code[data-language="plaintext"][style*="background-color"]),
+[data-theme="dark"] .blog-post__content :global(pre.astro-code[data-language="plaintext"][style*="background"]) {
+  background-color: #0f0f0f !important;
+  background: #0f0f0f !important;
+}
+
+.blog-post__content :global(strong) {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.blog-post__content :global(code:not(pre code)) {
+  font-size: 0.9em;
+  padding: 0.15em 0.4em;
+  background: var(--code-bg);
+  border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+  .blog-post__title {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+/* Fixed bottom bar */
+.blog-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+}
+
+.blog-bottom-bar__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-sm) var(--space-lg);
+}
+
+/* Add padding to blog post to prevent content being hidden by fixed bar */
+.blog-post {
+  padding-bottom: calc(var(--space-3xl) + 60px);
+}
+

@@ -1,0 +1,59 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BlogPost from '../../../components/BlogPost.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blogs');
+  
+  // Group posts by slug to find available langs
+  const postsBySlug = new Map<string, CollectionEntry<'blogs'>[]>();
+  posts.forEach((post: CollectionEntry<'blogs'>) => {
+    const slug = post.id.split('/')[0];
+    if (!postsBySlug.has(slug)) {
+      postsBySlug.set(slug, []);
+    }
+    postsBySlug.get(slug)!.push(post);
+  });
+  
+  return posts.map((post: CollectionEntry<'blogs'>) => {
+    // Extract slug and lang from the post id (e.g., 'api-overview/en.md')
+    const parts = post.id.split('/');
+    const slug = parts[0]; // folder name (e.g., 'api-overview')
+    const lang = parts[1]?.replace(/\.md$/, '') || 'en'; // file name without extension
+    
+    // Get available langs for this slug
+    const slugPosts = postsBySlug.get(slug) || [];
+    const langs: ('en' | 'vi')[] = [];
+    if (slugPosts.some(p => p.id.endsWith('/en.md'))) langs.push('en');
+    if (slugPosts.some(p => p.id.endsWith('/vi.md'))) langs.push('vi');
+    
+    return {
+      params: { lang, slug }, // Creates /blogs/[lang]/[slug]
+      props: { post, lang, slug, langs }
+    };
+  });
+}
+
+interface Props {
+  post: CollectionEntry<'blogs'>;
+  lang: string;
+  slug: string;
+  langs?: ('en' | 'vi')[];
+}
+
+const { post, lang, slug, langs = ['en', 'vi'] } = Astro.props as Props;
+const { Content } = await post.render();
+---
+
+<BlogPost
+  title={post.data.title}
+  description={post.data.description}
+  date={post.data.date}
+  lang={lang as 'en' | 'vi'}
+  slug={slug}
+  langs={langs}
+  tags={post.data.tags}
+>
+  <Content />
+</BlogPost>
+

@@ -1,0 +1,16 @@
+.lang-switcher {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.lang-switcher .is-active {
+  background: var(--bg-secondary);
+  color: var(--accent);
+}
+
+.lang-switcher .is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+

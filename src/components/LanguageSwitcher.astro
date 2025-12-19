@@ -1,0 +1,47 @@
+---
+import '../styles/components/language-switcher.css';
+
+interface Props {
+  currentLang: 'en' | 'vi';
+  slug: string;
+  langs?: ('en' | 'vi')[];
+}
+
+const { currentLang, slug, langs = ['en', 'vi'] } = Astro.props;
+const hasEn = langs.includes('en');
+const hasVi = langs.includes('vi');
+---
+
+<div class="lang-switcher" role="group" aria-label="Language switcher">
+  <a 
+    href={hasEn ? `/blogs/en/${slug}` : '#'}
+    class:list={[
+      'btn', 
+      'btn--sm', 
+      'btn--ghost', 
+      { 'is-active': currentLang === 'en' },
+      { 'is-disabled': !hasEn }
+    ]}
+    aria-label="English version"
+    aria-disabled={!hasEn}
+    onclick={!hasEn ? 'return false;' : undefined}
+  >
+    EN
+  </a>
+  <a 
+    href={hasVi ? `/blogs/vi/${slug}` : '#'}
+    class:list={[
+      'btn', 
+      'btn--sm', 
+      'btn--ghost', 
+      { 'is-active': currentLang === 'vi' },
+      { 'is-disabled': !hasVi }
+    ]}
+    aria-label="Vietnamese version"
+    aria-disabled={!hasVi}
+    onclick={!hasVi ? 'return false;' : undefined}
+  >
+    VI
+  </a>
+</div>
+

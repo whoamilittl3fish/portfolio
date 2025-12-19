@@ -1,0 +1,141 @@
+/* Home Page Styles */
+
+/* Hero Section */
+.hero {
+  min-height: calc(100vh - var(--header-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-3xl) 0;
+}
+
+.hero__container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: calc(100vh - var(--header-height) - var(--space-3xl) * 2);
+}
+
+.hero__container > button {
+  margin-top: auto;
+  align-self: center;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: var(--space-sm);
+}
+
+.hero__tagline {
+  font-size: var(--font-size-lg);
+  color: var(--text-muted);
+  margin-bottom: var(--space-xl);
+}
+
+.skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+  list-style: none;
+  padding: 0;
+  margin-bottom: var(--space-xl);
+}
+
+/* Section */
+.section {
+  padding: var(--space-2xl) 0;
+}
+
+.section__container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.section__title {
+  display: inline-block;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--space-xl);
+}
+
+.section__end {
+  text-align: center;
+  font-style: italic;
+}
+
+/* Timeline */
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 100%;
+}
+
+.timeline__item {
+  display: flex;
+  gap: var(--space-lg);
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.timeline__item:last-child {
+  border-bottom: none;
+}
+
+.timeline__year {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+  min-width: 100px;
+  flex-shrink: 0;
+}
+
+.timeline__text {
+  margin: 0;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+/* Interests */
+.interests {
+  max-width: 100%;
+}
+
+.interests p {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+}
+
+@media (max-width: 600px) {
+  .timeline__item {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .timeline__year {
+    min-width: auto;
+  }
+}
+

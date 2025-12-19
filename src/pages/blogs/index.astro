@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import '../../styles/pages/blogs.css';
+
+type BlogPost = CollectionEntry<'blogs'>;
+
+// Get all blog posts
+const allPostsRaw = await getCollection('blogs');
+
+// Group posts by slug (both EN and VI versions)
+const postsBySlug = new Map<string, { en?: BlogPost; vi?: BlogPost }>();
+
+allPostsRaw.forEach((post: BlogPost) => {
+  const slug = post.id.split('/')[0];
+  const lang = post.id.endsWith('/en.md') ? 'en' : 'vi';
+  
+  if (!postsBySlug.has(slug)) {
+    postsBySlug.set(slug, {});
+  }
+  
+  const group = postsBySlug.get(slug)!;
+  if (lang === 'en') {
+    group.en = post;
+  } else {
+    group.vi = post;
+  }
+});
+
+// Only show EN posts, but keep VI reference for lang display
+const enPosts = Array.from(postsBySlug.values())
+  .filter(group => group.en)
+  .map(group => group.en!);
+
+// Sort by date (newest first)
+const sortedPosts = enPosts.sort((a: BlogPost, b: BlogPost) => 
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+// Get unique tags for filtering
+const allTags = [...new Set(sortedPosts.flatMap((post: BlogPost) => post.data.tags))];
+
+// Get slug and available langs from id
+function getSlugAndLangs(id: string, postsBySlug: Map<string, { en?: BlogPost; vi?: BlogPost }>): { slug: string; langs: ('en' | 'vi')[] } {
+  const slug = id.split('/')[0];
+  const group = postsBySlug.get(slug);
+  const langs: ('en' | 'vi')[] = [];
+  if (group?.en) langs.push('en');
+  if (group?.vi) langs.push('vi');
+  return { slug, langs };
+}
+---
+
+<BaseLayout 
+  title="Khoa Ngo Blogs" 
+  description="Blog posts about many things that I learn and explore."
+  currentPage="blogs"
+>
+  <section class="blogs-page">
+    <div class="blogs__container">
+      <h1 class="blogs__intro">Sharing some knowledge, funny things in tech, and more.</h1>
+      
+      <!-- Tag filter -->
+      <div class="blogs__filters">
+        <span class="blogs__filter-label">Filter:</span>
+        <button class="pill is-active" data-filter="all">All</button>
+        {allTags.map(tag => (
+          <button class="pill" data-filter={tag}>{tag}</button>
+        ))}
+      </div>
+      
+      <div id="blog-posts" class="blog-grid">
+        {sortedPosts.map((post) => {
+          const { slug, langs } = getSlugAndLangs(post.id, postsBySlug);
+          return (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              slug={slug}
+              lang="en"
+              langs={langs}
+              date={post.data.date}
+              tags={post.data.tags}
+              data-tags={post.data.tags.join(',')}
+            />
+          );
+        })}
+      </div>
+      
+      <p class="blogs__empty" id="empty-message" style="display: none;">
+        No posts found with that tag.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { initBlogFilters } from '../../scripts/blog-filter';
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBlogFilters);
+  } else {
+    initBlogFilters();
+  }
+</script>

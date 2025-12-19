@@ -1,0 +1,56 @@
+---
+import '../styles/components/blog-card.css';
+
+interface Props {
+  title: string;
+  description: string;
+  slug: string;
+  lang: string;
+  langs?: ('en' | 'vi')[];
+  date: Date;
+  tags?: string[];
+  'data-tags'?: string;
+}
+
+const { title, description, slug, lang, langs = [lang as 'en' | 'vi'], date, tags = [], 'data-tags': dataTags } = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat(lang === 'vi' ? 'vi-VN' : 'en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric'
+}).format(date);
+---
+
+<article 
+  class="blog-card" 
+  {...{ 'data-tags': dataTags || tags.join(',') }}
+>
+  <a href={`/blogs/${lang}/${slug}`} class="blog-card__link">
+    <h2 class="blog-card__title">{title}</h2>
+    <p class="blog-card__summary">{description}</p>
+  </a>
+  {tags.length > 0 && (
+    <ul class="blog-card__tags" aria-label="Blog tags">
+      {tags.map(tag => (
+        <li>
+          <button 
+            type="button"
+            class="pill blog-tag-filter" 
+            data-filter={tag}
+          >
+            {tag}
+          </button>
+        </li>
+      ))}
+    </ul>
+  )}
+  <div class="blog-card__meta">
+    <span class="blog-card__date">{formattedDate}</span>
+    <span class="blog-card__lang">
+      <span class:list={[{ 'is-disabled': !langs.includes('en') }]}>EN</span>
+      {langs.includes('en') && langs.includes('vi') && ' / '}
+      <span class:list={[{ 'is-disabled': !langs.includes('vi') }]}>VI</span>
+    </span>
+  </div>
+</article>
+

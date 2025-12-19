@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import '../styles/pages/home.css';
+---
+
+<BaseLayout 
+  title="Khoa Ngo | Web Developer Portfolio" 
+  description="Portfolio of Khoa Ngo (zoskisk) - Web Developer specializing in JavaScript, TypeScript, Node.js, Docker, and C#/.NET."
+  currentPage="home"
+>
+  <section class="hero">
+    <div class="hero__container">
+      <h1>Hi there, I'm Khoa.</h1>
+      <p class="hero__tagline">Good things take time.</p>
+      <ul class="skill-list" aria-label="Core skills">
+        <li><a href="https://www.codingame.com/profile/83603140793bc15d729e1516e11dda281538186" class="pill">JS/TS</a></li>
+        <li><a href="https://github.com/whoamilittl3fish/portfolio" class="pill">Docker</a></li>
+        <li><a href="https://github.com/whoamilittl3fish" class="pill">Git</a></li>
+        <li><a href="https://github.com/whoamilittl3fish/portfolio" class="pill">Node.js</a></li>
+        <li><a href="https://github.com/whoamilittl3fish/QuanLyHopDong" class="pill">C#/.NET</a></li>
+      </ul>
+      <button class="btn" onclick="const about = document.getElementById('about'); const headerHeight = 60; const offset = about.getBoundingClientRect().top + window.pageYOffset - headerHeight; window.scrollTo({top: offset, behavior: 'smooth'})">
+        ↓ About me
+      </button>
+    </div>
+  </section>
+
+  <section id="about" class="section">
+    <div class="section__container">
+      <h2 class="section__title">about</h2>
+      <ul class="timeline" aria-label="Timeline of my story">
+        <li class="timeline__item">
+          <span class="timeline__year">Nov 2025</span>
+          <p class="timeline__text">Built my first <a href="https://github.com/whoamilittl3fish/portfolio">portfolio</a> website. The first idea was with a cat theme, but I changed it later to a simple and clean design. Easy to see and navigate. I think that content is the most important thing on a website.</p>
+        </li>
+        <li class="timeline__item">
+          <span class="timeline__year">Oct 2025</span>
+          <p class="timeline__text">Solved a lot of puzzles on CodinGame, including bot programming and optimization challenges. At this time, I reached the Discipline rank and placed in the <strong>top 1%</strong> on <a href="https://www.codingame.com/profile/83603140793bc15d729e1516e11dda281538186">CodinGame</a>.</p>
+        </li>
+        <li class="timeline__item">
+          <span class="timeline__year">Oct 2025</span>
+          <p class="timeline__text">Played and developed the <a href="https://snake.phuquocdevs.com/">Snake game</a> in JavaScript using Phaser. Focused on logic, clean code, performance, debugging, and optimization.</p>
+        </li>
+        <li class="timeline__item">
+          <span class="timeline__year">Sep 2025</span>
+          <p class="timeline__text">Started a great bootcamp at <a href="https://phuquocdevs.com">PhuQuocDevs</a> as a Web Developer. Learned Git, Docker, Node.js, Agile/Scrum, workflow, team collaboration, and how developers think and solve problems.</p>
+        </li>
+        <li class="timeline__item">
+          <span class="timeline__year">Jun 2025</span>
+          <p class="timeline__text">Started building a <a href="https://github.com/whoamilittl3fish/QuanLyHopDong">Pawnshop management</a> app using C# and .NET with SQLite. A real-world project for my uncle's business.</p>
+        </li>
+        <li class="timeline__item">
+          <span class="timeline__year">Oct 2024</span>
+          <p class="timeline__text">Graduated from the University of Information Technology - Vietnam National University, Ho Chi Minh City.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__container">
+      <h2 class="section__title">interests</h2>
+      <div class="interests">
+        <p>I'm interested in experimenting with new technologies—configuration, open source projects, services, tools, etc. When I have time, I like to try running and playing with them.</p>
+        <p>Like any typical guy, I really enjoy playing games and watching anime and movie series. Especially horror movies, which make me feel scared and excited with strong emotions.</p>
+        <p>I usually do some gym activities, not to impress anyone, just to keep my body healthy and fit.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="section__container">
+      <p class="section__end text-muted">endl... that's all for now.</p>
+    </div>
+  </section>
+</BaseLayout>
