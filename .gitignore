@@ -30,5 +30,8 @@ src/js/debug-cls.js
 
 README.dev.md
 
-# Temporary files (Cursor workspace images at root)
+# Temporary files
 /assets/
+
+# Jetbrains folder
+.idea
