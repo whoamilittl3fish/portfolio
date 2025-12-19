@@ -105,10 +105,34 @@
   border-radius: var(--border-radius);
   overflow-x: auto;
   line-height: 1.6;
+  font-size: 0.875rem;
+}
+
+/* Highlight.js theme switching */
+.blog-content pre code.hljs {
+  background: transparent;
+  padding: 0;
+}
+
+/* Light mode - use github theme */
+:root:not([data-theme='dark']) .blog-content pre code.hljs {
+  color: #24292e;
+}
+
+/* Dark mode - use github-dark theme */
+:root[data-theme='dark'] .blog-content pre code.hljs {
+  color: #c9d1d9;
+}
+
+.blog-content pre code {
+  font-family: var(--font-mono);
+  white-space: pre;
+  word-wrap: normal;
 }
 
 .blog-content code {
   font-family: var(--font-mono);
+  font-size: 0.9em;
 }
 
 /* responsive */
@@ -136,6 +160,10 @@
   .blog-content p {
     margin-bottom: 1.25rem;
   }
+  .blog-content pre {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -144,5 +172,9 @@
   }
   .blog-content h1 {
     font-size: var(--font-body-size);
+  }
+  .blog-content pre {
+    padding: 0.875rem;
+    font-size: 0.75rem;
   }
 }

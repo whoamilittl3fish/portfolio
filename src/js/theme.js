@@ -29,7 +29,7 @@ function applyTheme(theme, toggleBtn) {
   root.style.colorScheme = normalizedTheme;
 
   if (toggleBtn) {
-    toggleBtn.textContent = normalizedTheme === "dark" ? "🌙 Dark" : "☀️ Light";
+    toggleBtn.textContent = normalizedTheme === "dark" ? "🌙" : "☀️";
   }
 
   try {
@@ -46,7 +46,10 @@ function init() {
   applyTheme(getInitialTheme(), toggleBtn);
 
   if (toggleBtn) {
-    toggleBtn.addEventListener("click", () => {
+    toggleBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
       const root = document.documentElement;
       const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
       

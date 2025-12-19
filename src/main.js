@@ -8,6 +8,7 @@ import './js/layout.js';
 import './js/theme.js';
 import './js/projects-index.js';
 import './js/blogs-index.js';
+import './js/code-highlight.js';
 
 // Debug CLS - uncomment to enable
 //import './js/debug-cls.js';
