@@ -68,7 +68,6 @@ const backLabel = lang === 'vi' ? 'Quay lại' : 'Back';
 <script>
   /**
    * Theme toggle functionality for bottom nav
-   * Syncs with the main theme toggle in header
    */
   const themeToggle = document.getElementById('bottom-theme-toggle');
   const themeIcon = themeToggle?.querySelector('.bottom-nav__theme-icon');
@@ -77,6 +76,22 @@ const backLabel = lang === 'vi' ? 'Quay lại' : 'Back';
     if (!themeIcon) return;
     const isDark = document.documentElement.dataset.theme === 'dark';
     themeIcon.textContent = isDark ? '🌙' : '☀️';
+  }
+  
+  function toggleTheme(): void {
+    const current = document.documentElement.dataset.theme;
+    const next = current === 'dark' ? 'light' : 'dark';
+    
+    // Update theme
+    document.documentElement.dataset.theme = next;
+    document.documentElement.style.colorScheme = next;
+    localStorage.setItem('theme', next);
+    
+    // Update icon
+    updateThemeIcon();
+    
+    // Dispatch event for other components
+    window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: next } }));
   }
   
   // Set initial icon
@@ -89,9 +104,7 @@ const backLabel = lang === 'vi' ? 'Quay lại' : 'Back';
     attributeFilter: ['data-theme'] 
   });
   
-  // Handle click - trigger main theme toggle
-  themeToggle?.addEventListener('click', () => {
-    document.getElementById('theme-toggle')?.click();
-  });
+  // Handle click
+  themeToggle?.addEventListener('click', toggleTheme);
 </script>
 
