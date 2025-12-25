@@ -93,6 +93,10 @@
 
 /* Mobile adjustments */
 @media (max-width: 500px) {
+  .bottom-nav {
+    bottom: var(--space-md);
+  }
+  
   .bottom-nav__pill {
     gap: var(--space-xs);
     padding: var(--space-xs) var(--space-sm);

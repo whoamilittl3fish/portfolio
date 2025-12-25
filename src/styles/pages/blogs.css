@@ -15,6 +15,32 @@
   margin-bottom: var(--space-xl);
 }
 
+.blogs__search {
+  margin-bottom: var(--space-lg);
+}
+
+.blogs__search-input {
+  width: 100%;
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.blogs__search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.blogs__search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.15);
+}
+
 .blogs__filters {
   display: flex;
   flex-wrap: wrap;

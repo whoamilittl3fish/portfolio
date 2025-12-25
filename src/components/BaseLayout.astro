@@ -54,6 +54,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/assets/icon/main.png">
   
+  <!-- Additional SEO -->
+  <meta name="author" content="Khoa Ngo">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  
   <!-- Fonts preload -->
   <link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/JetBrainsMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
@@ -90,6 +95,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   
   main {
     flex: 1;
+    padding-bottom: 80px; /* Space for bottom nav */
+  }
+  
+  @media (max-width: 500px) {
+    main {
+      padding-bottom: 30px;
+    }
   }
 </style>
 

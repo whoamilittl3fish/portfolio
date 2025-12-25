@@ -1,6 +1,7 @@
 /**
- * Blog Tag Filter
+ * Blog Tag Filter & Search
  * - Multi-tag selection (AND logic)
+ * - Search by title or tag
  * - URL sync
  */
 
@@ -21,9 +22,28 @@ function shouldShowCard(cardTags: string[], activeTags: string[], isAllActive: b
   return activeTags.every(tag => cardTags.includes(tag));
 }
 
+function matchesSearch(card: Element, searchQuery: string): boolean {
+  if (!searchQuery) return true;
+  
+  const query = searchQuery.toLowerCase();
+  
+  // Get title from card
+  const titleEl = card.querySelector('.blog-card__title');
+  const title = titleEl?.textContent?.toLowerCase() || '';
+  
+  // Get tags from card
+  const cardTagsStr = card.getAttribute('data-tags') || '';
+  const tags = cardTagsStr.toLowerCase();
+  
+  return title.includes(query) || tags.includes(query);
+}
+
 export function initBlogFilters() {
   const emptyMessage = document.getElementById('empty-message');
   const allButton = document.querySelector('[data-filter="all"]');
+  const searchInput = document.getElementById('blog-search') as HTMLInputElement | null;
+  
+  let currentSearch = '';
 
   function updateFilters() {
     const filterButtons = document.querySelectorAll('[data-filter]');
@@ -42,7 +62,9 @@ export function initBlogFilters() {
       }
       
       const cardTags = cardTagsStr.split(',').map(t => t.trim()).filter(Boolean);
-      const shouldShow = shouldShowCard(cardTags, activeTags, isAllActive);
+      const matchesTags = shouldShowCard(cardTags, activeTags, isAllActive);
+      const matchesQuery = matchesSearch(card, currentSearch);
+      const shouldShow = matchesTags && matchesQuery;
       
       (card as HTMLElement).style.display = shouldShow ? 'flex' : 'none';
       if (shouldShow) visibleCount++;
@@ -59,6 +81,11 @@ export function initBlogFilters() {
       url.searchParams.set('tags', activeTags.join(','));
     } else {
       url.searchParams.delete('tags');
+    }
+    if (currentSearch) {
+      url.searchParams.set('q', currentSearch);
+    } else {
+      url.searchParams.delete('q');
     }
     window.history.replaceState({}, '', url);
   }
@@ -109,6 +136,14 @@ export function initBlogFilters() {
   // Handle filter button clicks
   document.addEventListener('click', handleFilterClick);
 
+  // Handle search input
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      currentSearch = (e.target as HTMLInputElement).value.trim();
+      updateFilters();
+    });
+  }
+
   // Initialize from URL params
   const urlParams = new URLSearchParams(window.location.search);
   const tagsParam = urlParams.get('tags') || urlParams.get('tag');
@@ -122,6 +157,13 @@ export function initBlogFilters() {
     if (tags.length > 0) {
       allButton?.classList.remove('is-active');
     }
+  }
+  
+  // Initialize search from URL
+  const searchParam = urlParams.get('q');
+  if (searchParam && searchInput) {
+    currentSearch = searchParam;
+    searchInput.value = searchParam;
   }
   
   updateFilters();

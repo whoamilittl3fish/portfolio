@@ -61,6 +61,17 @@ function getSlugAndLangs(id: string, postsBySlug: Map<string, { en?: BlogPost; v
     <div class="blogs__container">
       <h1 class="blogs__intro">Sharing some knowledge, funny things in tech, and more.</h1>
       
+      <!-- Search box -->
+      <div class="blogs__search">
+        <input 
+          type="text" 
+          id="blog-search" 
+          class="blogs__search-input" 
+          placeholder="Search posts by title or tag..."
+          autocomplete="off"
+        />
+      </div>
+      
       <!-- Tag filter -->
       <div class="blogs__filters">
         <span class="blogs__filter-label">Filter:</span>

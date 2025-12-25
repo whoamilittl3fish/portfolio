@@ -31,7 +31,7 @@ const navLinks = [
   { href: '/blogs', label: 'blogs' },
 ];
 
-const backLabel = lang === 'vi' ? 'Quay lại' : 'back';
+const backLabel = 'blog';
 ---
 
 <nav class="bottom-nav" aria-label="Navigation">
@@ -150,8 +150,15 @@ const backLabel = lang === 'vi' ? 'Quay lại' : 'back';
    */
   const bottomNav = document.querySelector('.bottom-nav') as HTMLElement;
   const footer = document.querySelector('.footer') as HTMLElement;
-  const defaultBottom = 24; // var(--space-xl)
   const spacing = 16;
+  
+  function isMobile(): boolean {
+    return window.innerWidth <= 500;
+  }
+  
+  function getDefaultBottom(): number {
+    return isMobile() ? 16 : 24; // var(--space-md) vs var(--space-xl)
+  }
   
   function updateNavPosition(): void {
     if (!bottomNav || !footer) return;
@@ -160,6 +167,7 @@ const backLabel = lang === 'vi' ? 'Quay lại' : 'back';
     const navHeight = bottomNav.offsetHeight;
     const scrollY = window.scrollY;
     const windowHeight = window.innerHeight;
+    const defaultBottom = getDefaultBottom();
     
     // Position where nav bottom would touch footer top (when fixed)
     const navBottomWhenFixed = scrollY + windowHeight - defaultBottom;

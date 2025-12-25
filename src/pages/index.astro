@@ -1,6 +1,23 @@
 ---
 import BaseLayout from '../components/BaseLayout.astro';
+import { getEntry } from 'astro:content';
+import { marked } from 'marked';
 import '../styles/pages/home.css';
+
+// Load content from markdown files
+// Astro automatically processes content collections during build
+// All content is rendered as static HTML
+const aboutEntry = await getEntry('home', 'about');
+const interestsEntry = await getEntry('home', 'interests');
+
+const timeline = aboutEntry?.data.timeline || [];
+const { Content: InterestsContent } = interestsEntry ? await interestsEntry.render() : { Content: null };
+
+// Parse markdown in timeline text
+// HTML is rendered at build time, not runtime
+function parseMarkdown(text: string): string {
+  return marked.parseInline(text) as string;
+}
 ---
 
 <BaseLayout 
@@ -21,7 +38,7 @@ import '../styles/pages/home.css';
           <li><a href="https://github.com/whoamilittl3fish/QuanLyHopDong" class="pill">C#/.NET</a></li>
         </ul>
       </div>
-      <button class="btn" onclick="const about = document.getElementById('about'); const headerHeight = 60; const offset = about.getBoundingClientRect().top + window.pageYOffset - headerHeight; window.scrollTo({top: offset, behavior: 'smooth'})">
+      <button id="scroll-to-about" class="btn">
         ↓ my story
       </button>
     </div>
@@ -31,30 +48,12 @@ import '../styles/pages/home.css';
     <div class="section__container">
       <h2 class="section__title">about</h2>
       <ul class="timeline" aria-label="Timeline of my story">
-        <li class="timeline__item">
-          <span class="timeline__year">Nov 2025</span>
-          <p class="timeline__text">Built my first <a href="https://github.com/whoamilittl3fish/portfolio">portfolio</a> website. The first idea was with a cat theme, but I changed it later to a simple and clean design. Easy to see and navigate. I think that content is the most important thing on a website.</p>
-        </li>
-        <li class="timeline__item">
-          <span class="timeline__year">Oct 2025</span>
-          <p class="timeline__text">Solved a lot of puzzles on CodinGame, including bot programming and optimization challenges. At this time, I reached the Discipline rank and placed in the <strong>top 1%</strong> on <a href="https://www.codingame.com/profile/83603140793bc15d729e1516e11dda281538186">CodinGame</a>.</p>
-        </li>
-        <li class="timeline__item">
-          <span class="timeline__year">Oct 2025</span>
-          <p class="timeline__text">Played and developed the <a href="https://snake.phuquocdevs.com/">Snake game</a> in JavaScript using Phaser. Focused on logic, clean code, performance, debugging, and optimization.</p>
-        </li>
-        <li class="timeline__item">
-          <span class="timeline__year">Sep 2025</span>
-          <p class="timeline__text">Started a great bootcamp at <a href="https://phuquocdevs.com">PhuQuocDevs</a> as a Web Developer. Learned Git, Docker, Node.js, Agile/Scrum, workflow, team collaboration, and how developers think and solve problems.</p>
-        </li>
-        <li class="timeline__item">
-          <span class="timeline__year">Jun 2025</span>
-          <p class="timeline__text">Started building a <a href="https://github.com/whoamilittl3fish/QuanLyHopDong">Pawnshop management</a> app using C# and .NET with SQLite. A real-world project for my uncle's business.</p>
-        </li>
-        <li class="timeline__item">
-          <span class="timeline__year">Oct 2024</span>
-          <p class="timeline__text">Graduated from the University of Information Technology - Vietnam National University, Ho Chi Minh City.</p>
-        </li>
+        {timeline.map((item) => (
+          <li class="timeline__item">
+            <span class="timeline__year">{item.year}</span>
+            <p class="timeline__text" set:html={parseMarkdown(item.text)} />
+          </li>
+        ))}
       </ul>
     </div>
   </section>
@@ -63,16 +62,130 @@ import '../styles/pages/home.css';
     <div class="section__container">
       <h2 class="section__title">interests</h2>
       <div class="interests">
-        <p>I'm interested in experimenting with new technologies—configuration, open source projects, services, tools, etc. When I have time, I like to try running and playing with them.</p>
-        <p>Like any typical guy, I really enjoy playing games and watching anime and movie series. Especially horror movies, which make me feel scared and excited with strong emotions.</p>
-        <p>I usually do some gym activities, not to impress anyone, just to keep my body healthy and fit.</p>
+        {InterestsContent && <InterestsContent />}
       </div>
     </div>
   </section>
 
   <section id="contact" class="section">
     <div class="section__container">
-      <p class="section__end text-muted">endl... that's all for now.</p>
+      <p id="end-text" class="section__end text-muted"></p>
     </div>
   </section>
 </BaseLayout>
+
+<!-- Structured Data for SEO -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Khoa Ngo",
+  "alternateName": "zoskisk",
+  "url": "https://zoskisk.vercel.app",
+  "jobTitle": "Web Developer",
+  "description": "Web Developer specializing in JavaScript, TypeScript, Node.js, Docker, and C#/.NET",
+  "knowsAbout": ["JavaScript", "TypeScript", "Node.js", "Docker", "C#", ".NET", "Git"],
+  "sameAs": [
+    "https://github.com/whoamilittl3fish",
+    "https://www.codingame.com/profile/83603140793bc15d729e1516e11dda281538186"
+  ]
+}, null, 2)} />
+
+<script>
+  /**
+   * Scroll to about section handler
+   */
+  const scrollButton = document.getElementById('scroll-to-about');
+  const aboutSection = document.getElementById('about');
+  
+  if (scrollButton && aboutSection) {
+    scrollButton.addEventListener('click', () => {
+      const headerHeight = 60;
+      const offset = aboutSection.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    });
+  }
+  
+  /**
+   * Typing effect for "endl... that's all for now."
+   * Uses Intersection Observer for better performance
+   */
+  const TYPING_SPEED = 50;
+  const FULL_TEXT = "endl... that's all for now.";
+  
+  const endText = document.getElementById('end-text');
+  let hasTyped = false;
+  let isTyping = false;
+  
+  function typeText() {
+    if (hasTyped || !endText || isTyping) return;
+    
+    hasTyped = true;
+    isTyping = true;
+    let index = 0;
+    endText.textContent = '';
+    endText.classList.add('typing');
+    
+    function type() {
+      if (index < FULL_TEXT.length) {
+        endText.textContent = FULL_TEXT.substring(0, index + 1);
+        index++;
+        setTimeout(type, TYPING_SPEED);
+      } else {
+        isTyping = false;
+        endText.classList.remove('typing');
+      }
+    }
+    
+    type();
+  }
+  
+  // Use Intersection Observer for better performance
+  if (endText && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasTyped) {
+            typeText();
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: '-100px 0px' }
+    );
+    
+    observer.observe(endText);
+  } else if (endText) {
+    // Fallback for browsers without Intersection Observer
+    function checkScroll() {
+      if (hasTyped || !endText) return;
+      
+      const rect = endText.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      if (rect.top < windowHeight - 100) {
+        typeText();
+        window.removeEventListener('scroll', checkScroll);
+      }
+    }
+    
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', checkScroll);
+    } else {
+      checkScroll();
+    }
+  }
+</script>
+
+<style>
+  #end-text.typing::after {
+    content: '|';
+    animation: blink 1s infinite;
+  }
+  
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+</style>
