@@ -1,5 +1,11 @@
+/**
+ * Blog Post Styles
+ * Styling for individual blog post pages
+ */
+
+/* Layout */
 .blog-post {
-  padding: var(--space-xl) 0 var(--space-3xl);
+  padding: var(--space-xl) 0 calc(var(--space-3xl) + 80px);
 }
 
 .blog-post__container {
@@ -8,6 +14,7 @@
   padding: 0 var(--space-lg);
 }
 
+/* Header */
 .blog-post__header {
   margin-bottom: var(--space-2xl);
   padding-bottom: var(--space-lg);
@@ -33,6 +40,7 @@
   gap: var(--space-xs);
 }
 
+/* Content Typography */
 .blog-post__content :global(h2) {
   margin-top: var(--space-2xl);
   margin-bottom: var(--space-md);
@@ -48,6 +56,12 @@
   margin-bottom: var(--space-md);
 }
 
+.blog-post__content :global(strong) {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Images */
 .blog-post__content :global(img) {
   display: block;
   max-width: 100%;
@@ -55,12 +69,22 @@
   margin: var(--space-lg) auto;
   border: 1px solid var(--border);
   border-radius: var(--border-radius);
+  cursor: pointer;
 }
 
 .blog-post__content :global(img:not([src])) {
   display: none;
 }
 
+/* Inline Code */
+.blog-post__content :global(code:not(pre code)) {
+  font-size: 0.9em;
+  padding: 0.15em 0.4em;
+  background: var(--code-bg);
+  border-radius: 4px;
+}
+
+/* Code Blocks */
 .blog-post__content :global(pre) {
   margin: var(--space-lg) 0;
   padding: var(--space-md);
@@ -71,7 +95,6 @@
   line-height: 1.6;
 }
 
-/* Ensure code blocks have readable text */
 .blog-post__content :global(pre code) {
   color: var(--text-primary);
   background: none;
@@ -79,7 +102,7 @@
   font-size: inherit;
 }
 
-/* Light mode code blocks */
+/* Light Mode Code Blocks */
 [data-theme="light"] .blog-post__content :global(pre) {
   background: var(--code-bg) !important;
 }
@@ -88,127 +111,39 @@
   color: #24292e !important;
 }
 
-/* Light mode - ensure Shiki code blocks have readable text */
 [data-theme="light"] .blog-post__content :global(pre.astro-code),
 [data-theme="light"] .blog-post__content :global(pre.astro-code span),
 [data-theme="light"] .blog-post__content :global(pre.astro-code code) {
   color: #24292e !important;
 }
 
-/* Override any inline styles that might be too light */
-[data-theme="light"] .blog-post__content :global(pre.astro-code[style*="color"]),
-[data-theme="light"] .blog-post__content :global(pre.astro-code span[style*="color"]) {
-  color: #24292e !important;
-}
-
-/* Light mode output/plaintext */
-[data-theme="light"] .blog-post__content :global(pre code.language-plaintext),
-[data-theme="light"] .blog-post__content :global(pre:has(code.language-plaintext)),
-[data-theme="light"] .blog-post__content :global(pre.astro-code[data-language="plaintext"]),
-[data-theme="light"] .blog-post__content :global(pre.astro-code code.language-plaintext) {
+[data-theme="light"] .blog-post__content :global(pre.astro-code[data-language="plaintext"]) {
   background: var(--code-output-bg, #f8f8f8) !important;
 }
 
-/* ========================================
-   Shiki Dual-Theme Support
-   Shiki generates inline styles with light theme colors,
-   and CSS variables (--shiki-dark-*) for dark theme.
-   We need to swap these when in dark mode.
-   ======================================== */
-
-/* Dark mode - override Shiki inline styles with higher specificity */
+/* Dark Mode Code Blocks */
 [data-theme="dark"] .blog-post__content :global(pre.astro-code) {
   background-color: #0d0d0d !important;
-  background: #0d0d0d !important;
   border-color: #1a1a1a;
 }
 
-/* Override inline style attribute for dark mode */
-[data-theme="dark"] .blog-post__content :global(pre.astro-code[style*="background-color"]) {
-  background-color: #0d0d0d !important;
-  background: #0d0d0d !important;
-}
-
-/* Apply Shiki dark theme colors to text */
 [data-theme="dark"] .blog-post__content :global(.astro-code),
-[data-theme="dark"] .blog-post__content :global(.astro-code span),
-[data-theme="dark"] .blog-post__content :global(.astro-code span[style]) {
+[data-theme="dark"] .blog-post__content :global(.astro-code span) {
   color: var(--shiki-dark) !important;
 }
 
-/* Make sure code inside pre has transparent background */
 [data-theme="dark"] .blog-post__content :global(pre.astro-code code),
 [data-theme="dark"] .blog-post__content :global(pre.astro-code span) {
   background-color: transparent !important;
-  background: transparent !important;
 }
 
-/* Output/plaintext code blocks - darker background */
-[data-theme="dark"] .blog-post__content :global(pre.astro-code[data-language="plaintext"]),
-[data-theme="dark"] .blog-post__content :global(pre.astro-code code.language-plaintext),
-[data-theme="dark"] .blog-post__content :global(pre:has(code.language-plaintext)) {
+[data-theme="dark"] .blog-post__content :global(pre.astro-code[data-language="plaintext"]) {
   background-color: #0f0f0f !important;
-  background: #0f0f0f !important;
 }
 
-[data-theme="dark"] .blog-post__content :global(pre.astro-code[data-language="plaintext"][style*="background-color"]),
-[data-theme="dark"] .blog-post__content :global(pre.astro-code[data-language="plaintext"][style*="background"]) {
-  background-color: #0f0f0f !important;
-  background: #0f0f0f !important;
-}
-
-.blog-post__content :global(strong) {
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-.blog-post__content :global(code:not(pre code)) {
-  font-size: 0.9em;
-  padding: 0.15em 0.4em;
-  background: var(--code-bg);
-  border-radius: 4px;
-}
-
+/* Responsive */
 @media (max-width: 600px) {
   .blog-post__title {
     font-size: var(--font-size-2xl);
   }
 }
-
-/* Fixed bottom bar */
-.blog-bottom-bar {
-  position: fixed;
-  bottom: var(--space-md);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 50;
-  display: flex;
-  justify-content: center;
-}
-
-.blog-bottom-bar__pill {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-  padding: var(--space-xs) var(--space-md);
-  background: var(--bg-primary);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  box-shadow: 0 4px 12px var(--shadow);
-  backdrop-filter: blur(10px);
-  transition: border-color var(--transition-fast);
-}
-
-.blog-bottom-bar__pill:hover {
-  border-color: var(--accent);
-}
-
-.blog-bottom-bar__pill .btn:hover {
-  color: var(--accent);
-}
-
-/* Add padding to blog post to prevent content being hidden by fixed bar */
-.blog-post {
-  padding-bottom: calc(var(--space-3xl) + 80px);
-}
-

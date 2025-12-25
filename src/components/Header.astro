@@ -1,5 +1,9 @@
 ---
-import ThemeToggle from './ThemeToggle.astro';
+/**
+ * Header Component
+ * Shows greeting and clock with fun animations
+ * Greeting changes based on current page
+ */
 import '../styles/components/header.css';
 
 interface Props {
@@ -7,32 +11,90 @@ interface Props {
 }
 
 const { currentPage = '' } = Astro.props;
-
-const navLinks = [
-  { href: '/', label: 'home' },
-  { href: '/projects', label: 'projects' },
-  { href: '/blogs', label: 'blogs' },
-];
 ---
 
-<header class="header">
+<header class="header" data-page={currentPage}>
   <div class="header__container">
-    <div class="header__left">
-      <a class="header__logo" href="/">
-        khoan
-      </a>
-      <ThemeToggle />
-    </div>
-    <nav class="header__nav" aria-label="Primary navigation">
-      {navLinks.map(link => (
-        <a 
-          class:list={['btn', 'btn--ghost', { 'is-active': currentPage === link.label }]}
-          href={link.href}
-        >
-          {link.label}
-        </a>
-      ))}
-    </nav>
+    <a href="/" class="header__greeting-link">
+      <div class="header__greeting" id="greeting-text"></div>
+    </a>
+    <span class="header__divider">•</span>
+    <span class="header__clock" id="header-clock">
+      <span class="header__clock-time">--:--</span>
+    </span>
   </div>
 </header>
 
+<script>
+  // Greetings by page
+  const greetingsByPage: Record<string, string[]> = {
+    home: [
+      "hi, i'm khoan",
+      "hey, i'm khoa", 
+      "hello, i'm zoskisk",
+      "yo, call me khoan",
+      "xin chào, mình là khoa",
+    ],
+    projects: [
+      "check out my work",
+      "here's what i built",
+      "some cool stuff below",
+      "projects i'm proud of",
+      "xem thử nè",
+    ],
+    blogs: [
+      "reading something?",
+      "hope you find this useful",
+      "welcome to my blog",
+      "enjoy the read!",
+      "need some help?",
+      "đọc gì đó à?",
+    ],
+  };
+  
+  const defaultGreetings = [
+    "hi, i'm khoan",
+    "hey there!",
+    "welcome!",
+  ];
+  
+  const header = document.querySelector('.header');
+  const currentPage = header?.getAttribute('data-page') || '';
+  const greetings = greetingsByPage[currentPage] || defaultGreetings;
+  
+  const greetingEl = document.getElementById('greeting-text');
+  
+  // Animate text character by character
+  function animateText(text: string) {
+    if (!greetingEl) return;
+    greetingEl.innerHTML = '';
+    
+    [...text].forEach((char, i) => {
+      const span = document.createElement('span');
+      span.className = 'header__char';
+      span.textContent = char === ' ' ? '\u00A0' : char;
+      span.style.animationDelay = `${i * 0.05}s`;
+      greetingEl.appendChild(span);
+    });
+  }
+  
+  // Pick random greeting and animate
+  const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+  animateText(randomGreeting);
+  
+  // Clock
+  const clockTime = document.querySelector('.header__clock-time');
+  
+  function updateClock() {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const offset = -now.getTimezoneOffset() / 60;
+    const tzStr = `GMT${offset >= 0 ? '+' : ''}${offset}`;
+    
+    if (clockTime) clockTime.textContent = `${hours}:${minutes} ${tzStr}`;
+  }
+  
+  updateClock();
+  setInterval(updateClock, 60000);
+</script>

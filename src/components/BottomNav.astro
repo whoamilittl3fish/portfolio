@@ -1,0 +1,97 @@
+---
+/**
+ * Shared bottom navigation bar component
+ * Used across main pages and blog posts with different configurations
+ */
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import '../styles/components/bottom-nav.css';
+
+interface Props {
+  /** Current page for highlighting active nav link */
+  currentPage?: string;
+  /** Variant: 'main' for home/projects/blogs, 'blog' for blog posts */
+  variant?: 'main' | 'blog';
+  /** Blog-specific props */
+  lang?: 'en' | 'vi';
+  slug?: string;
+  langs?: ('en' | 'vi')[];
+}
+
+const { 
+  currentPage = '', 
+  variant = 'main',
+  lang = 'en',
+  slug = '',
+  langs = ['en', 'vi']
+} = Astro.props;
+
+const navLinks = [
+  { href: '/', label: 'home' },
+  { href: '/projects', label: 'projects' },
+  { href: '/blogs', label: 'blogs' },
+];
+
+const backLabel = lang === 'vi' ? 'Quay lại' : 'Back';
+---
+
+<nav class="bottom-nav" aria-label="Navigation">
+  <div class="bottom-nav__pill">
+    {variant === 'main' && navLinks.map(link => (
+      <a 
+        class:list={['bottom-nav__link', { 'is-active': currentPage === link.label }]}
+        href={link.href}
+      >
+        {link.label}
+      </a>
+    ))}
+    
+    {variant === 'blog' && (
+      <>
+        <LanguageSwitcher currentLang={lang} slug={slug} langs={langs} />
+        <a href="/blogs" class="bottom-nav__link">{backLabel}</a>
+      </>
+    )}
+    
+    <span class="bottom-nav__divider"></span>
+    
+    <button 
+      id="bottom-theme-toggle" 
+      class="bottom-nav__theme" 
+      type="button" 
+      aria-label="Toggle theme"
+    >
+      <span class="bottom-nav__theme-icon">☀️</span>
+    </button>
+  </div>
+</nav>
+
+<script>
+  /**
+   * Theme toggle functionality for bottom nav
+   * Syncs with the main theme toggle in header
+   */
+  const themeToggle = document.getElementById('bottom-theme-toggle');
+  const themeIcon = themeToggle?.querySelector('.bottom-nav__theme-icon');
+  
+  function updateThemeIcon(): void {
+    if (!themeIcon) return;
+    const isDark = document.documentElement.dataset.theme === 'dark';
+    themeIcon.textContent = isDark ? '🌙' : '☀️';
+  }
+  
+  // Set initial icon
+  updateThemeIcon();
+  
+  // Watch for theme changes
+  const observer = new MutationObserver(updateThemeIcon);
+  observer.observe(document.documentElement, { 
+    attributes: true, 
+    attributeFilter: ['data-theme'] 
+  });
+  
+  // Handle click - trigger main theme toggle
+  themeToggle?.addEventListener('click', () => {
+    document.getElementById('theme-toggle')?.click();
+  });
+</script>
+

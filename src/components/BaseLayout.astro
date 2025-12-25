@@ -1,7 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import MobileNav from '../components/MobileNav.astro';
+import BottomNav from '../components/BottomNav.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -9,7 +9,8 @@ interface Props {
   description: string;
   image?: string;
   currentPage?: string;
-  hideMobileNav?: boolean;
+  /** Hide the default bottom nav (for pages with custom nav like blog posts) */
+  hideBottomNav?: boolean;
 }
 
 const { 
@@ -17,7 +18,7 @@ const {
   description, 
   image = '/assets/icon/main.png',
   currentPage = '',
-  hideMobileNav = false
+  hideBottomNav = false
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -76,7 +77,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   
   <Footer />
   
-  {!hideMobileNav && <MobileNav currentPage={currentPage} />}
+  {!hideBottomNav && <BottomNav currentPage={currentPage} variant="main" />}
 </body>
 </html>
 

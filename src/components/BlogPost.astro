@@ -1,6 +1,10 @@
 ---
+/**
+ * Blog Post Layout Component
+ * Displays a single blog post with proper formatting
+ */
 import BaseLayout from './BaseLayout.astro';
-import LanguageSwitcher from '../components/LanguageSwitcher.astro';
+import BottomNav from './BottomNav.astro';
 import '../styles/components/blog-post.css';
 
 interface Props {
@@ -20,11 +24,9 @@ const formattedDate = new Intl.DateTimeFormat(lang === 'vi' ? 'vi-VN' : 'en-US',
   month: 'long',
   day: 'numeric'
 }).format(date);
-
-const backLabel = lang === 'vi' ? 'Quay lại' : 'Back';
 ---
 
-<BaseLayout title={title} description={description} currentPage="blogs" hideMobileNav={true}>
+<BaseLayout title={title} description={description} currentPage="blogs" hideBottomNav={true}>
   <article class="blog-post">
     <div class="blog-post__container">
       <header class="blog-post__header">
@@ -47,121 +49,17 @@ const backLabel = lang === 'vi' ? 'Quay lại' : 'Back';
     </div>
   </article>
   
-  <!-- Fixed bottom bar -->
-  <div class="blog-bottom-bar">
-    <div class="blog-bottom-bar__pill">
-      <LanguageSwitcher currentLang={lang} slug={slug} langs={langs} />
-      <a href="/blogs" class="btn btn--ghost btn--sm">{backLabel}</a>
-    </div>
-  </div>
+  <!-- Blog-specific bottom nav -->
+  <BottomNav variant="blog" lang={lang} slug={slug} langs={langs} />
 </BaseLayout>
 
 <script>
-  // Override Shiki inline styles in dark mode
-  function fixShikiStyles() {
-    const isDark = document.documentElement.dataset.theme === 'dark';
-    const contentArea = document.querySelector('.blog-post__content');
-    if (!contentArea) return;
-    
-    const codeBlocks = contentArea.querySelectorAll<HTMLElement>('pre.astro-code');
-    
-    // If no code blocks found yet, wait a bit for Shiki to render
-    if (codeBlocks.length === 0) {
-      setTimeout(fixShikiStyles, 50);
-      return;
-    }
-    
-    codeBlocks.forEach((pre) => {
-      // Check if it's plaintext by data-language attribute or code class
-      const dataLang = pre.getAttribute('data-language');
-      const codeElement = pre.querySelector('code');
-      const isPlaintext = dataLang === 'plaintext' || 
-                         codeElement?.classList.contains('language-plaintext') ||
-                         codeElement?.className.includes('plaintext');
-      
-      const bgColor = isPlaintext 
-        ? (isDark ? '#0f0f0f' : '#f8f8f8')
-        : (isDark ? '#0d0d0d' : '#f4f4f4');
-      
-      // Override inline background-color for both light and dark mode
-      pre.style.setProperty('background-color', bgColor, 'important');
-      pre.style.setProperty('background', bgColor, 'important');
-      
-      // Override text colors using CSS variables (dark mode only)
-      if (isDark) {
-        const spans = pre.querySelectorAll<HTMLElement>('span');
-        spans.forEach((span) => {
-          const darkColor = span.style.getPropertyValue('--shiki-dark');
-          if (darkColor) {
-            span.style.setProperty('color', darkColor, 'important');
-          }
-        });
-      } else {
-        // Light mode: ensure text is readable (override any light colors that might be too bright)
-        const spans = pre.querySelectorAll<HTMLElement>('span');
-        spans.forEach((span) => {
-          // Check if span has inline color that might be too light
-          const currentColor = span.style.color;
-          if (currentColor) {
-            // If color is very light (like white/light colors), use dark text
-            const rgb = currentColor.match(/\d+/g);
-            if (rgb && rgb.length >= 3) {
-              const brightness = (parseInt(rgb[0]) + parseInt(rgb[1]) + parseInt(rgb[2])) / 3;
-              if (brightness > 200) {
-                span.style.setProperty('color', '#24292e', 'important');
-              }
-            }
-          }
-        });
-      }
-    });
-  }
-  
-  // Wait for DOM and Shiki to fully render
-  function initShikiFix() {
-    // Use requestAnimationFrame to ensure DOM is ready
-    requestAnimationFrame(() => {
-      // Wait a bit more for Shiki to inject styles
-      setTimeout(() => {
-        fixShikiStyles();
-        // Retry once more after a short delay to catch any late-rendered blocks
-        setTimeout(fixShikiStyles, 100);
-      }, 50);
-    });
-  }
-  
-  // Run on load
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initShikiFix);
-  } else {
-    initShikiFix();
-  }
-  
-  // Watch for theme changes
-  const themeObserver = new MutationObserver(() => {
-    setTimeout(fixShikiStyles, 50);
-  });
-  
-  themeObserver.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['data-theme']
-  });
-  
-  // Watch for new code blocks being added (in case of dynamic content)
-  const contentObserver = new MutationObserver(() => {
-    setTimeout(fixShikiStyles, 50);
-  });
-  
-  const contentArea = document.querySelector('.blog-post__content');
-  if (contentArea) {
-    contentObserver.observe(contentArea, {
-      childList: true,
-      subtree: true
-    });
-  }
-  
-  // Initialize lightbox for images
   import { initLightboxForImages } from '../scripts/lightbox';
+  import { fixShikiCodeBlocks } from '../scripts/code-block-fix';
+  
+  // Initialize lightbox for blog images
   initLightboxForImages();
+  
+  // Fix Shiki code block styling
+  fixShikiCodeBlocks('.blog-post__content');
 </script>
-
