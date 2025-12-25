@@ -1,0 +1,88 @@
+/* Bottom Navigation Bar */
+.mobile-nav {
+  position: fixed;
+  bottom: var(--space-xl);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.mobile-nav__pill {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs);
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: 0 4px 20px var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+/* Navigation Links */
+.mobile-nav__link,
+.mobile-nav__link:hover,
+.mobile-nav__link:focus,
+.mobile-nav__link:active {
+  text-decoration: none !important;
+}
+
+.mobile-nav__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xs) var(--space-md);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 400;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  transition: color var(--transition-fast), 
+              border-color var(--transition-fast),
+              font-weight var(--transition-fast);
+}
+
+.mobile-nav__link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.mobile-nav__link.is-active {
+  color: var(--accent);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+/* Divider */
+.mobile-nav__divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border);
+  margin: 0 var(--space-xs);
+}
+
+/* Theme Toggle */
+.mobile-nav__theme {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.mobile-nav__theme:hover {
+  background: var(--bg-secondary);
+  border-color: var(--accent);
+}
+
+.mobile-nav__theme-icon {
+  font-size: 1rem;
+  line-height: 1;
+}

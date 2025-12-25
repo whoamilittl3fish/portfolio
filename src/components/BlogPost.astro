@@ -24,7 +24,7 @@ const formattedDate = new Intl.DateTimeFormat(lang === 'vi' ? 'vi-VN' : 'en-US',
 const backLabel = lang === 'vi' ? 'Quay lại' : 'Back';
 ---
 
-<BaseLayout title={title} description={description} currentPage="blogs">
+<BaseLayout title={title} description={description} currentPage="blogs" hideMobileNav={true}>
   <article class="blog-post">
     <div class="blog-post__container">
       <header class="blog-post__header">

@@ -1,0 +1,69 @@
+---
+import '../styles/components/mobile-nav.css';
+
+interface Props {
+  currentPage?: string;
+}
+
+const { currentPage = '' } = Astro.props;
+
+const navLinks = [
+  { href: '/', label: 'home' },
+  { href: '/projects', label: 'projects' },
+  { href: '/blogs', label: 'blogs' },
+];
+---
+
+<nav class="mobile-nav" aria-label="Main navigation">
+  <div class="mobile-nav__pill">
+    {navLinks.map(link => (
+      <a 
+        class:list={['mobile-nav__link', { 'is-active': currentPage === link.label }]}
+        href={link.href}
+      >
+        {link.label}
+      </a>
+    ))}
+    
+    <span class="mobile-nav__divider"></span>
+    
+    <button 
+      id="mobile-theme-toggle" 
+      class="mobile-nav__theme" 
+      type="button" 
+      aria-label="Toggle theme"
+    >
+      <span class="mobile-nav__theme-icon">☀️</span>
+    </button>
+  </div>
+</nav>
+
+<script>
+  // Mobile theme toggle - sync with main theme toggle
+  const mobileToggle = document.getElementById('mobile-theme-toggle');
+  const themeIcon = mobileToggle?.querySelector('.mobile-nav__theme-icon');
+  
+  function updateMobileIcon() {
+    if (themeIcon) {
+      const isDark = document.documentElement.dataset.theme === 'dark';
+      themeIcon.textContent = isDark ? '🌙' : '☀️';
+    }
+  }
+  
+  // Initial icon state
+  updateMobileIcon();
+  
+  // Listen for theme changes from main toggle
+  const observer = new MutationObserver(() => updateMobileIcon());
+  observer.observe(document.documentElement, { 
+    attributes: true, 
+    attributeFilter: ['data-theme'] 
+  });
+  
+  // Handle click
+  mobileToggle?.addEventListener('click', () => {
+    const mainToggle = document.getElementById('theme-toggle');
+    mainToggle?.click();
+  });
+</script>
+
