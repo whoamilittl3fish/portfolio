@@ -196,6 +196,15 @@
   border-radius: 999px;
   box-shadow: 0 4px 12px var(--shadow);
   backdrop-filter: blur(10px);
+  transition: border-color var(--transition-fast);
+}
+
+.blog-bottom-bar__pill:hover {
+  border-color: var(--accent);
+}
+
+.blog-bottom-bar__pill .btn:hover {
+  color: var(--accent);
 }
 
 /* Add padding to blog post to prevent content being hidden by fixed bar */
