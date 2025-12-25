@@ -78,9 +78,36 @@ const backLabel = lang === 'vi' ? 'Quay lại' : 'Back';
     themeIcon.textContent = isDark ? '🌙' : '☀️';
   }
   
+  // Force repaint for mobile browsers
+  function forceRepaint(): void {
+    // Toggle grid opacity to force body::before repaint
+    document.body.style.setProperty('--grid-opacity', '0.71');
+    void document.body.offsetHeight;
+    document.body.style.setProperty('--grid-opacity', '0.7');
+    void document.body.offsetHeight;
+    document.body.style.removeProperty('--grid-opacity');
+    
+    // Force reflow
+    void document.documentElement.offsetHeight;
+    void document.body.offsetHeight;
+    getComputedStyle(document.body);
+    getComputedStyle(document.documentElement);
+    
+    // Force repaint of key elements
+    document.querySelectorAll('section, main, header, footer, .hero, .btn, .pill').forEach(el => {
+      void (el as HTMLElement).offsetHeight;
+      getComputedStyle(el);
+    });
+  }
+  
   function toggleTheme(): void {
     const current = document.documentElement.dataset.theme;
     const next = current === 'dark' ? 'light' : 'dark';
+    
+    // Disable transitions temporarily
+    const style = document.createElement('style');
+    style.textContent = '* { transition: none !important; }';
+    document.head.appendChild(style);
     
     // Update theme
     document.documentElement.dataset.theme = next;
@@ -90,7 +117,17 @@ const backLabel = lang === 'vi' ? 'Quay lại' : 'Back';
     // Update icon
     updateThemeIcon();
     
-    // Dispatch event for other components
+    // Force repaint (critical for mobile)
+    forceRepaint();
+    
+    // Re-enable transitions
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.head.removeChild(style);
+      });
+    });
+    
+    // Dispatch event
     window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: next } }));
   }
   
