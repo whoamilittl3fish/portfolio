@@ -31,7 +31,7 @@ const navLinks = [
   { href: '/blogs', label: 'blogs' },
 ];
 
-const backLabel = lang === 'vi' ? 'Quay lại' : 'Back';
+const backLabel = lang === 'vi' ? 'Quay lại' : 'back';
 ---
 
 <nav class="bottom-nav" aria-label="Navigation">
@@ -143,5 +143,55 @@ const backLabel = lang === 'vi' ? 'Quay lại' : 'Back';
   
   // Handle click
   themeToggle?.addEventListener('click', toggleTheme);
+  
+  /**
+   * Footer collision detection
+   * Nav sticks above footer when scrolled to bottom (like sticky from bottom)
+   */
+  const bottomNav = document.querySelector('.bottom-nav') as HTMLElement;
+  const footer = document.querySelector('.footer') as HTMLElement;
+  const defaultBottom = 24; // var(--space-xl)
+  const spacing = 16;
+  
+  function updateNavPosition(): void {
+    if (!bottomNav || !footer) return;
+    
+    const footerTop = footer.offsetTop;
+    const navHeight = bottomNav.offsetHeight;
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+    
+    // Position where nav bottom would touch footer top (when fixed)
+    const navBottomWhenFixed = scrollY + windowHeight - defaultBottom;
+    const collisionPoint = footerTop - spacing;
+    
+    if (navBottomWhenFixed > collisionPoint) {
+      // Stick nav just above footer using absolute positioning
+      bottomNav.style.position = 'absolute';
+      bottomNav.style.bottom = 'auto';
+      bottomNav.style.top = `${footerTop - navHeight - spacing}px`;
+    } else {
+      // Normal fixed position at bottom
+      bottomNav.style.position = '';
+      bottomNav.style.bottom = '';
+      bottomNav.style.top = '';
+    }
+  }
+  
+  // Throttled scroll handler
+  let ticking = false;
+  function onScroll(): void {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        updateNavPosition();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', updateNavPosition);
+  updateNavPosition();
 </script>
 

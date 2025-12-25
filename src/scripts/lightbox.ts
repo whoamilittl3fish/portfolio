@@ -98,7 +98,7 @@ export function createLightbox(images: string[], initialIndex: number = 0): void
       <img src="${images[currentIndex]}" class="lightbox__image" alt="Image ${currentIndex + 1} of ${images.length}">
       <div class="lightbox__bottom-bar">
         <div class="lightbox__bottom-bar__pill">
-          <button class="lightbox__back btn btn--ghost btn--sm" aria-label="Back">Back</button>
+          <button class="lightbox__back btn btn--ghost btn--sm" aria-label="Back">back</button>
         </div>
       </div>
     </div>

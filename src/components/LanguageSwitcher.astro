@@ -26,7 +26,7 @@ const hasVi = langs.includes('vi');
     aria-disabled={!hasEn}
     onclick={!hasEn ? 'return false;' : undefined}
   >
-    EN
+    en
   </a>
   <a 
     href={hasVi ? `/blogs/vi/${slug}` : '#'}
@@ -41,7 +41,7 @@ const hasVi = langs.includes('vi');
     aria-disabled={!hasVi}
     onclick={!hasVi ? 'return false;' : undefined}
   >
-    VI
+    vi
   </a>
 </div>
 
