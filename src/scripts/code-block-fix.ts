@@ -1,20 +1,25 @@
-// Fix code blocks color for theme switching
+/**
+ * Fix code blocks color for theme switching
+ * Handles Shiki syntax highlighting theme changes
+ */
+
 function fixCodeBlocks() {
   const isDark = document.documentElement.dataset.theme === 'dark';
   const codeBlocks = document.querySelectorAll<HTMLElement>('pre.astro-code');
 
   codeBlocks.forEach((pre) => {
-    // Change background
+    // Update background color
     pre.style.background = isDark ? '#0d0d0d' : '#f4f4f4';
 
+    // Update text colors for all spans
     pre.querySelectorAll<HTMLElement>('span').forEach((span) => {
-      // Save original light color (only once)
+      // Save original light color on first run
       if (!span.dataset.lightColor && span.style.color) {
         span.dataset.lightColor = span.style.color;
       }
 
       if (isDark) {
-        // Dark mode: use --shiki-dark color
+        // Dark mode: use Shiki dark theme color
         const darkColor = span.style.getPropertyValue('--shiki-dark');
         if (darkColor) span.style.color = darkColor;
       } else {
@@ -26,10 +31,10 @@ function fixCodeBlocks() {
   });
 }
 
-// Run after page load
+// Initialize on page load
 setTimeout(fixCodeBlocks, 100);
 
-// Run when theme changes
+// Watch for theme changes
 new MutationObserver(fixCodeBlocks).observe(document.documentElement, {
   attributes: true,
   attributeFilter: ['data-theme']

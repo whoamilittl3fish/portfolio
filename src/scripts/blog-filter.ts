@@ -4,6 +4,23 @@
  * - URL sync
  */
 
+function getActiveTags(filterButtons: NodeListOf<Element>): string[] {
+  return Array.from(filterButtons)
+    .filter(btn => {
+      const filter = btn.getAttribute('data-filter');
+      return filter && filter !== 'all' && btn.classList.contains('is-active');
+    })
+    .map(btn => btn.getAttribute('data-filter')?.trim())
+    .filter(Boolean) as string[];
+}
+
+function shouldShowCard(cardTags: string[], activeTags: string[], isAllActive: boolean): boolean {
+  if (isAllActive) return true;
+  if (activeTags.length === 0) return true;
+  // AND logic: card must have ALL active tags
+  return activeTags.every(tag => cardTags.includes(tag));
+}
+
 export function initBlogFilters() {
   const emptyMessage = document.getElementById('empty-message');
   const allButton = document.querySelector('[data-filter="all"]');
@@ -12,15 +29,7 @@ export function initBlogFilters() {
     const filterButtons = document.querySelectorAll('[data-filter]');
     const blogCards = document.querySelectorAll('.blog-grid article');
     
-    // Get all active tags (except "all")
-    const activeTags = Array.from(filterButtons)
-      .filter(btn => {
-        const filter = btn.getAttribute('data-filter');
-        return filter && filter !== 'all' && btn.classList.contains('is-active');
-      })
-      .map(btn => btn.getAttribute('data-filter')?.trim())
-      .filter(Boolean) as string[];
-
+    const activeTags = getActiveTags(filterButtons);
     const isAllActive = allButton?.classList.contains('is-active') || false;
 
     // Filter cards
@@ -33,16 +42,7 @@ export function initBlogFilters() {
       }
       
       const cardTags = cardTagsStr.split(',').map(t => t.trim()).filter(Boolean);
-      
-      let shouldShow = false;
-      if (isAllActive) {
-        shouldShow = true;
-      } else if (activeTags.length > 0) {
-        // AND logic: card must have ALL active tags
-        shouldShow = activeTags.every(tag => cardTags.includes(tag));
-      } else {
-        shouldShow = true;
-      }
+      const shouldShow = shouldShowCard(cardTags, activeTags, isAllActive);
       
       (card as HTMLElement).style.display = shouldShow ? 'flex' : 'none';
       if (shouldShow) visibleCount++;
@@ -63,8 +63,7 @@ export function initBlogFilters() {
     window.history.replaceState({}, '', url);
   }
 
-  // Handle filter button clicks
-  document.addEventListener('click', (e) => {
+  function handleFilterClick(e: Event) {
     const target = e.target as HTMLElement;
     const filterBtn = target.closest('[data-filter]') as HTMLElement;
     
@@ -81,32 +80,34 @@ export function initBlogFilters() {
     const filterButtons = document.querySelectorAll('[data-filter]');
     
     if (filter === 'all') {
+      // Deactivate all other filters
       filterButtons.forEach(b => {
         if (b !== allButton) b.classList.remove('is-active');
       });
       allButton?.classList.add('is-active');
     } else {
+      // Toggle filter
       filterBtn.classList.toggle('is-active');
       
-      // Sync with top filter button
-      const topFilterBtn = Array.from(filterButtons).find(
-        b => b !== allButton && b.getAttribute('data-filter') === filter
+      // Sync with duplicate filter button (if exists)
+      const duplicateBtn = Array.from(filterButtons).find(
+        b => b !== allButton && b !== filterBtn && b.getAttribute('data-filter') === filter
       );
-      if (topFilterBtn && topFilterBtn !== filterBtn) {
-        topFilterBtn.classList.toggle('is-active');
+      if (duplicateBtn) {
+        duplicateBtn.classList.toggle('is-active');
       }
       
+      // Update "all" button state
       const hasActiveTags = Array.from(filterButtons)
         .some(b => b !== allButton && b.classList.contains('is-active'));
-      if (hasActiveTags) {
-        allButton?.classList.remove('is-active');
-      } else {
-        allButton?.classList.add('is-active');
-      }
+      allButton?.classList.toggle('is-active', !hasActiveTags);
     }
     
     updateFilters();
-  });
+  }
+
+  // Handle filter button clicks
+  document.addEventListener('click', handleFilterClick);
 
   // Initialize from URL params
   const urlParams = new URLSearchParams(window.location.search);
