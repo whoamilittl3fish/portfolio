@@ -1,6 +1,7 @@
 .lang-switcher {
   display: flex;
   gap: var(--space-xs);
+  flex-shrink: 0;
 }
 
 .lang-switcher .is-active {
@@ -12,5 +13,18 @@
   opacity: 0.4;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+/* Mobile adjustments */
+@media (max-width: 500px) {
+  .lang-switcher {
+    gap: 2px;
+  }
+  
+  .lang-switcher .btn {
+    padding: var(--space-xs) var(--space-xs);
+    font-size: var(--font-size-xs);
+    min-width: auto;
+  }
 }
 

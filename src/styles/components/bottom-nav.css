@@ -16,6 +16,7 @@
 .bottom-nav__pill {
   display: flex;
   align-items: center;
+  flex-wrap: nowrap;
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-md);
   background: var(--bg-primary);
@@ -87,4 +88,29 @@
 .bottom-nav__theme-icon {
   font-size: 1rem;
   line-height: 1;
+}
+
+/* Mobile adjustments */
+@media (max-width: 500px) {
+  .bottom-nav__pill {
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+  }
+  
+  .bottom-nav__link {
+    padding: var(--space-xs);
+    font-size: var(--font-size-xs);
+    white-space: nowrap;
+  }
+  
+  .bottom-nav__theme {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+  
+  .bottom-nav__divider {
+    height: 16px;
+    flex-shrink: 0;
+  }
 }
