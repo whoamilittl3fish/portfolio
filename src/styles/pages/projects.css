@@ -34,10 +34,15 @@
   border-radius: var(--border-radius);
   padding: var(--space-lg);
   transition: border-color var(--transition-fast);
+  cursor: pointer;
 }
 
 .project-card:hover {
   border-color: var(--accent);
+}
+
+.project-card.is-expanded {
+  cursor: default;
 }
 
 /* Card Header */

@@ -111,12 +111,48 @@ function handleCardToggle(btn: Element): void {
 }
 
 /**
+ * Expands a project card
+ */
+function expandCard(card: Element): void {
+  const toggleBtn = card.querySelector('.project-card__toggle');
+  if (!toggleBtn) return;
+  
+  const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+  if (!isExpanded) {
+    toggleBtn.setAttribute('aria-expanded', 'true');
+    card.classList.add('is-expanded');
+  }
+}
+
+/**
  * Initializes all project card interactions
  */
 export function initProjectCards(): void {
-  // Toggle project card expansion
+  // Toggle project card expansion via button
   document.querySelectorAll('.project-card__toggle').forEach(btn => {
-    btn.addEventListener('click', () => handleCardToggle(btn));
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      handleCardToggle(btn);
+    });
+  });
+
+  // Expand card when clicking on card (but not on interactive elements)
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      // Don't expand if clicking on interactive elements
+      const target = e.target as HTMLElement;
+      if (
+        target.closest('.project-card__toggle') ||
+        target.closest('a') ||
+        target.closest('button') ||
+        target.closest('.project-gallery__nav') ||
+        target.closest('.project-gallery__image')
+      ) {
+        return;
+      }
+      
+      expandCard(card);
+    });
   });
 
   // Initialize galleries
