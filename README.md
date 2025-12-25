@@ -61,7 +61,7 @@ portfolio/
 
 ## How to Run
 
-### Development with hot reload vite. :D
+### Development with hot reload vite.
 
 ```bash
 npm install
@@ -84,8 +84,13 @@ Output will be in `dist/` directory and test preview before I pust on Github and
 npm run preview
 ```
 
-## Links
+### Development hot reload with Docker
 
-- **Local:** http://localhost:3000
-- **Preview** http://localhost:3002
-- **Live:** https://zoskisk.vercel.app
+```bash
+docker compose up
+```
+
+Server will start at `http://localhost:8000`
+
+--- 
+### **Live:** [zoskisk](https://zoskisk.vercel.app)

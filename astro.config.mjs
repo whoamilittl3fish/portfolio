@@ -15,7 +15,7 @@ export default defineConfig({
   },
   server: {
     host: true,
-    port: 3000,
+    port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
     watch: {
       // hot reload file watching
       usePolling: true,
