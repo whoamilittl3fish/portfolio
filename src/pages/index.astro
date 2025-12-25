@@ -48,7 +48,7 @@ function parseMarkdown(text: string): string {
     <div class="section__container">
       <h2 class="section__title">about</h2>
       <ul class="timeline" aria-label="Timeline of my story">
-        {timeline.map((item) => (
+        {timeline.map((item: { year: string; text: string }) => (
           <li class="timeline__item">
             <span class="timeline__year">{item.year}</span>
             <p class="timeline__text" set:html={parseMarkdown(item.text)} />
@@ -75,7 +75,7 @@ function parseMarkdown(text: string): string {
 </BaseLayout>
 
 <!-- Structured Data for SEO -->
-<script type="application/ld+json" set:html={JSON.stringify({
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Khoa Ngo",
@@ -126,6 +126,7 @@ function parseMarkdown(text: string): string {
     endText.classList.add('typing');
     
     function type() {
+      if (!endText) return;
       if (index < FULL_TEXT.length) {
         endText.textContent = FULL_TEXT.substring(0, index + 1);
         index++;
