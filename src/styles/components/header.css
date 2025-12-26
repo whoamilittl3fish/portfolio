@@ -35,7 +35,6 @@
 
 /* Greeting with character animation */
 .header__greeting {
-  font-family: var(--font-mono);
   font-size: var(--font-size-base);
   font-weight: 500;
   color: var(--text-primary);
@@ -69,28 +68,27 @@
 .header__divider {
   color: var(--text-muted);
   opacity: 0;
-  animation: fadeIn 0.3s ease forwards;
+  animation: fadeInDivider 0.3s ease forwards;
   animation-delay: 0.8s;
 }
 
-@keyframes fadeIn {
+@keyframes fadeInDivider {
   to { opacity: 0.5; }
 }
 
 /* Clock */
 .header__clock {
-  font-family: var(--font-mono);
   display: flex;
   align-items: center;
   gap: var(--space-xs);
   color: var(--text-muted);
   font-size: var(--font-size-sm);
   opacity: 0;
-  animation: fadeIn 0.3s ease forwards;
+  animation: fadeInClock 0.3s ease forwards;
   animation-delay: 1s;
 }
 
-@keyframes fadeIn {
+@keyframes fadeInClock {
   to { opacity: 1; }
 }
 

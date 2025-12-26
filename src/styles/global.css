@@ -179,7 +179,6 @@ li {
 
 /* Code */
 code {
-  font-family: var(--font-mono);
   font-size: 1em;
   padding: 0.15em 0.4em;
   background: var(--code-bg);
@@ -229,7 +228,6 @@ section {
   align-items: center;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
-  font-family: var(--font-mono);
   font-size: var(--font-size-sm);
   color: var(--text-primary);
   background: var(--bg-secondary);

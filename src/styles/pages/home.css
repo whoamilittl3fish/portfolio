@@ -34,7 +34,6 @@
 }
 
 .hero__container > button {
-  font-family: var(--font-mono);
   animation: bounce 2s ease-in-out infinite;
 }
 
@@ -48,13 +47,11 @@
 }
 
 .hero h1 {
-  font-family: var(--font-mono);
   font-size: clamp(2rem, 5vw, 3rem);
   margin-bottom: var(--space-sm);
 }
 
 .hero__tagline {
-  font-family: var(--font-mono);
   font-size: var(--font-size-lg);
   color: var(--text-muted);
   margin-bottom: var(--space-xl);
@@ -82,7 +79,6 @@
 }
 
 .section__title {
-  font-family: var(--font-mono);
   display: inline-block;
   font-size: var(--font-size-lg);
   font-weight: 600;
@@ -94,13 +90,8 @@
 }
 
 .section__end {
-  font-family: var(--font-mono);
   text-align: center;
   font-style: italic;
-}
-
-#end-text {
-  font-family: var(--font-mono);
 }
 
 /* Timeline */
