@@ -87,15 +87,16 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: inherit;
 }
 
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  font-family: var(--font-mono);
 }
 
 body {
-  font-family: var(--font-mono);
   font-size: var(--font-size-base);
   line-height: 1.7;
   color: var(--text-primary);
@@ -223,6 +224,7 @@ section {
 }
 
 /* Buttons */
+button,
 .btn {
   display: inline-flex;
   align-items: center;

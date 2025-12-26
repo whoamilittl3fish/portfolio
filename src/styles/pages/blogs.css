@@ -22,7 +22,6 @@
 .blogs__search-input {
   width: 100%;
   padding: var(--space-sm) var(--space-lg);
-  font-family: var(--font-mono);
   font-size: var(--font-size-sm);
   background: var(--surface);
   border: 1px solid var(--border);
@@ -57,7 +56,6 @@
 .blogs__filters .pill {
   cursor: pointer;
   border: none;
-  font-family: var(--font-mono);
 }
 
 .blogs__filters .pill.is-active {
