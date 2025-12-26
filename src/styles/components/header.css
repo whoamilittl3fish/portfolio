@@ -35,6 +35,7 @@
 
 /* Greeting with character animation */
 .header__greeting {
+  font-family: var(--font-mono);
   font-size: var(--font-size-base);
   font-weight: 500;
   color: var(--text-primary);
@@ -78,6 +79,7 @@
 
 /* Clock */
 .header__clock {
+  font-family: var(--font-mono);
   display: flex;
   align-items: center;
   gap: var(--space-xs);
