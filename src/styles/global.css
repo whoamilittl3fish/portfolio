@@ -46,12 +46,13 @@
   
   /* Typography */
   --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
-  --font-size-sm: 0.875rem;
+  --font-size-xs: 1rem;
+  --font-size-sm: 1rem;
   --font-size-base: 1rem;
   --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 2rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2.25rem;
+  --font-size-3xl: 3rem;
   
   /* Layout */
   --max-width: 800px;
@@ -179,7 +180,7 @@ li {
 /* Code */
 code {
   font-family: var(--font-mono);
-  font-size: 0.9em;
+  font-size: 1em;
   padding: 0.15em 0.4em;
   background: var(--code-bg);
   border-radius: 4px;
@@ -269,14 +270,14 @@ section {
 
 .btn--sm {
   padding: var(--space-xs) var(--space-sm);
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 
 /* Pills / Tags */
 .pill {
   display: inline-block;
   padding: var(--space-xs) var(--space-sm);
-  font-size: 0.75rem;
+  font-size: 1rem;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -335,8 +336,9 @@ section {
 /* Responsive */
 @media (max-width: 768px) {
   :root {
-    --font-size-3xl: 1.75rem;
-    --font-size-2xl: 1.375rem;
+    --font-size-3xl: 2rem;
+    --font-size-2xl: 1.625rem;
+    --font-size-xl: 1.25rem;
   }
   
   .container {

@@ -65,7 +65,7 @@
 }
 
 .blog-card__lang {
-  font-size: 0.7rem;
+  font-size: 1rem;
   padding: 2px 6px;
   background: var(--bg-tertiary);
   border-radius: 4px;

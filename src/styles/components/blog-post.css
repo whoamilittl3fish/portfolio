@@ -78,7 +78,7 @@
 
 /* Inline Code */
 .blog-post__content :global(code:not(pre code)) {
-  font-size: 0.9em;
+  font-size: 1em;
   padding: 0.15em 0.4em;
   background: var(--code-bg);
   border-radius: 4px;
