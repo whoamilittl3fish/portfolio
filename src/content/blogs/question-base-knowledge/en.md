@@ -11,7 +11,7 @@ I will update my questions and answers here. If there are any mistakes, I hope y
 
 ## Question 1: 
 
-What do you do first when the application encounters an error? (Testing debugging ability and logical thinking.)
+What do you do first when the application have a bug? (Testing debugging ability and logical thinking.)
 
 ### Answer:
 
@@ -73,7 +73,7 @@ or
 
 `feature -> main -> release/1.0 -> production`
 
-**Advantages:**
+**Pros and Cons:**
 
 - More flexible.
 

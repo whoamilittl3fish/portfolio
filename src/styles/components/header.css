@@ -10,6 +10,7 @@
   background: var(--bg-primary);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(10px);
+  font-family: var(--font-mono);
 }
 
 .header__container {

@@ -93,7 +93,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-  font-family: var(--font-mono);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 body {
@@ -231,6 +231,7 @@ button,
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
   font-size: var(--font-size-sm);
+  font-family: var(--font-mono);
   color: var(--text-primary);
   background: var(--bg-secondary);
   border: 1px solid var(--border);

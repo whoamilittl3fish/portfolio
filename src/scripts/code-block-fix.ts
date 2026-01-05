@@ -24,6 +24,14 @@ export function fixShikiCodeBlocks(containerSelector?: string): void {
     const isPlaintext = dataLang === 'plaintext' || 
                        codeElement?.classList.contains('language-plaintext');
     
+    // Set font-family to JetBrains Mono
+    pre.style.setProperty('font-family', 'var(--font-mono)', 'important');
+    
+    // Set font-family for all children
+    pre.querySelectorAll('*').forEach((el: HTMLElement) => {
+      el.style.setProperty('font-family', 'var(--font-mono)', 'important');
+    });
+    
     // Set background color
     const bgColor = isPlaintext 
       ? (isDark ? '#0f0f0f' : '#f8f8f8')

@@ -11,6 +11,7 @@
   transform: translateX(-50%);
   z-index: 100;
   transition: bottom 0.2s ease;
+  font-family: var(--font-mono);
 }
 
 /* Pill wrapper */
