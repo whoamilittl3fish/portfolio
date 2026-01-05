@@ -76,7 +76,7 @@ Server will start at `http://localhost:3000`
 npm run build
 ```
 
-Output will be in `dist/` directory and test preview before I pust on Github and deploy by Vercel.
+Output will be in `dist/` directory and test preview before I push on Github and deploy by Vercel.
 
 ### Preview Production Build
 

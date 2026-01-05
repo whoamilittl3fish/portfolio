@@ -3,7 +3,9 @@
  * Styling for individual blog post pages
  */
 
-/* Layout */
+/* ============================================
+   Layout
+   ============================================ */
 .blog-post {
   padding: var(--space-xl) 0 calc(var(--space-3xl) + 80px);
 }
@@ -14,7 +16,9 @@
   padding: 0 var(--space-lg);
 }
 
-/* Header */
+/* ============================================
+   Header
+   ============================================ */
 .blog-post__header {
   margin-bottom: var(--space-2xl);
   padding-bottom: var(--space-lg);
@@ -22,7 +26,7 @@
 }
 
 .blog-post__title {
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-2xl);
   margin-bottom: var(--space-md);
 }
 
@@ -40,28 +44,86 @@
   gap: var(--space-xs);
 }
 
-/* Content Typography */
+/* ============================================
+   Content Typography
+   ============================================ */
+.blog-post__content {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.blog-post__content :global(p) {
+  margin-bottom: var(--space-md);
+  line-height: 1.7;
+}
+
+/* Headings - Shared styles */
+.blog-post__content :global(h2),
+.blog-post__content :global(h3),
+.blog-post__content :global(h4),
+.blog-post__content :global(h5),
+.blog-post__content :global(h6) {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Heading sizes and spacing */
 .blog-post__content :global(h2) {
   margin-top: var(--space-2xl);
   margin-bottom: var(--space-md);
   font-size: var(--font-size-xl);
+  line-height: 1.4;
+}
+
+.blog-post__content :global(h2:first-child) {
+  margin-top: 0;
 }
 
 .blog-post__content :global(h3) {
   margin-top: var(--space-xl);
   margin-bottom: var(--space-sm);
+  font-size: var(--font-size-lg);
+  line-height: 1.4;
 }
 
-.blog-post__content :global(p) {
-  margin-bottom: var(--space-md);
+.blog-post__content :global(h4) {
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
 }
 
+.blog-post__content :global(h5),
+.blog-post__content :global(h6) {
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-xs);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+}
+
+/* Bold text - styled as heading-like elements */
+.blog-post__content :global(p strong),
 .blog-post__content :global(strong) {
+  display: block;
   color: var(--text-primary);
-  font-weight: 600;
+  font-weight: 700;
+  font-size: var(--font-size-base);
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-sm);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
 }
 
-/* Images */
+.blog-post__content :global(p:has(strong:first-child)) {
+  margin-bottom: var(--space-sm);
+}
+
+.blog-post__content :global(p:has(strong:first-child) + p) {
+  margin-top: 0;
+}
+
+/* ============================================
+   Images
+   ============================================ */
 .blog-post__content :global(img) {
   display: block;
   max-width: 100%;
@@ -76,6 +138,9 @@
   display: none;
 }
 
+/* ============================================
+   Code
+   ============================================ */
 /* Inline Code */
 .blog-post__content :global(code:not(pre code)) {
   font-size: 1em;
@@ -102,7 +167,10 @@
   font-size: inherit;
 }
 
-/* Light Mode Code Blocks */
+/* ============================================
+   Code Blocks - Theme Styles
+   ============================================ */
+/* Light Mode */
 [data-theme="light"] .blog-post__content :global(pre) {
   background: var(--code-bg) !important;
 }
@@ -121,7 +189,7 @@
   background: var(--code-output-bg, #f8f8f8) !important;
 }
 
-/* Dark Mode Code Blocks */
+/* Dark Mode */
 [data-theme="dark"] .blog-post__content :global(pre.astro-code) {
   background-color: #0d0d0d !important;
   border-color: #1a1a1a;
@@ -141,7 +209,9 @@
   background-color: #0f0f0f !important;
 }
 
-/* Responsive */
+/* ============================================
+   Responsive
+   ============================================ */
 @media (max-width: 600px) {
   .blog-post__title {
     font-size: var(--font-size-2xl);
