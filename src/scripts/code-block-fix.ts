@@ -28,8 +28,10 @@ export function fixShikiCodeBlocks(containerSelector?: string): void {
     pre.style.setProperty('font-family', 'var(--font-mono)', 'important');
     
     // Set font-family for all children
-    pre.querySelectorAll('*').forEach((el: HTMLElement) => {
-      el.style.setProperty('font-family', 'var(--font-mono)', 'important');
+    pre.querySelectorAll('*').forEach((el) => {
+      if (el instanceof HTMLElement) {
+        el.style.setProperty('font-family', 'var(--font-mono)', 'important');
+      }
     });
     
     // Set background color
