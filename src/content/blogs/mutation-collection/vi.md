@@ -87,10 +87,6 @@ Vì cách cũ thay vì chạy vòng lặp từ 0 cho tới cuối độ dài c�
 
 Cách này không cần tạo thêm biến copy mới.
 
-#### Hạn chế: 
-
-Cách này khiến code khó đọc hơn.
-
 ### Cách 2:
 
 Tạo ra một bản copy của dữ liệu đó và chạy vòng lặp qua bản copy để thay đổi/xoá dữ liệu. Chúng ta có thể chỉ cần copy index của object nếu chỉ cần ids để biết phần từ nào cần xoá chẳng hạn. 

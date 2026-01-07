@@ -85,10 +85,6 @@ Because the old way instead of iterating from 0 to the end, the length of the ar
 
 This approach doesn't need to create a new copy variable.
 
-#### Limitation: 
-
-This approach makes the code harder to read.
-
 ### Solution 2:
 
 Create a copy of that data and iterate through the copy to modify/delete the data. We can just copy the index of the object if we only need ids to know which element to delete, for example.
