@@ -11,7 +11,7 @@ I will update my questions and answers here. If there are any mistakes, I hope y
 
 ## Question 1: 
 
-What do you do first when the application have a bug? (Testing debugging ability and logical thinking.)
+What do you do first when the application encounters an error? (Testing debugging ability and logical thinking.)
 
 ### Answer:
 
@@ -22,6 +22,16 @@ What do you do first when the application have a bug? (Testing debugging ability
 - After finding the faulty code block, I will continue adding more detailed logs. When running the application, the code will execute those logs to tell me in detail how the current code operates, what the next step produces, and from there I will catch where the logic produces incorrect results. This is to make the code tell a story about how the code runs.
 
 - This will help me identify where the bug is. It could be a logic error, a race condition when 2 code blocks run in parallel and one block runs first but incorrectly, contrary to my original intention of waiting for the result of the other block to run.
+
+Things to avoid when debugging:
+
+- Reading the entire code. This makes it easy to miss small, hard-to-spot errors and becomes tiring.
+
+- Having theories but in the form of unverified guesses.
+
+- Fixing errors immediately without understanding the old bug, which may create new bugs.
+
+- Not logging. Not knowing how the code runs.
 
 ## Question 2: 
 
@@ -73,7 +83,7 @@ or
 
 `feature -> main -> release/1.0 -> production`
 
-**Pros and Cons:**
+**Pros:**
 
 - More flexible.
 
@@ -87,7 +97,7 @@ What is OOP? (Fundamental knowledge)
 
 ### Answer:
 
-- OOP is Object-oriented programming. It means organizing code in a structured way by objects.
+OOP is Object-oriented programming. It means organizing code in a structured way by objects.
 
 Take a simple example like when there is a user object: `user` will have functions and properties like: `login()`, `name`, `payBy()`.
 

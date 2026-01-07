@@ -23,6 +23,16 @@ Khi ứng dụng gặp lỗi thì em làm gì trước? (Đo khả năng debug v
 
 - Điều đó sẽ khiến mình xác định được bug nằm ở đâu. Có thể lỗi logic, lỗi race condition khi 2 khối code chạy song song và một khối code chạy trước nhưng lại sai với ý định ban đầu của mình là đợi kết quả của khối còn lại chạy.
 
+Tránh nên làm khi debug:
+
+- Đọc toàn bộ code. Điều này khiến dễ bỏ sót lỗi nhỏ khó thấy và mệt mỏi.
+
+- Có lý thuyết nhưng ở dạng đoán mò chưa kiểm chứng.
+
+- Sửa lỗi ngay khi chưa hiểu bug cũ, có khả năng tạo bug mới.
+
+- Không log. Không biết code chạy thế nào.
+
 ## Câu hỏi 2: 
 
 Gitflow, Github flow, Gitlab flow là gì, khác nhau như nào? (Kiểm tra khả năng làm việc nhóm với công cụ Git, tất nhiên khi làm chung một dự án thì sử dụng Git thành thạo là việc cần có.)
