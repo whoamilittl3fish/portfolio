@@ -50,6 +50,10 @@
   margin: var(--space-sm) 0 0 0;
 }
 
+.blog-card__tags .pill {
+  font-family: inherit;
+}
+
 .blog-card__meta {
   display: flex;
   align-items: center;
