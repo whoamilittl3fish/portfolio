@@ -13,6 +13,27 @@
 .blogs__intro {
   font-size: var(--font-size-xl);
   margin-bottom: var(--space-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.blogs__rss-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-muted);
+  transition: color 0.2s, transform 0.2s;
+  text-decoration: none;
+  margin-left: var(--space-xs);
+}
+
+.blogs__rss-link:hover {
+  color: var(--accent);
+  transform: scale(1.1);
+}
+
+.blogs__rss-link svg {
+  display: block;
 }
 
 .blogs__search {

@@ -37,6 +37,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <meta name="description" content={description}>
   <link rel="canonical" href={canonicalURL}>
   
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="Khoa Ngo Blogs RSS">
+  
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content={canonicalURL}>
