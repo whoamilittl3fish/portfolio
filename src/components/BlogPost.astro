@@ -56,10 +56,38 @@ const formattedDate = new Intl.DateTimeFormat(lang === 'vi' ? 'vi-VN' : 'en-US',
 <script>
   import { initLightboxForImages } from '../scripts/lightbox';
   import { fixShikiCodeBlocks } from '../scripts/code-block-fix';
+  import { showMessageBox } from '../scripts/message-box';
   
   // Initialize lightbox for blog images
   initLightboxForImages();
   
   // Fix Shiki code block styling
   fixShikiCodeBlocks('.blog-post__content');
+
+  // Expose showMessageBox globally for use in blog content
+  // Can be called from HTML in markdown: <button onclick="showMessageBox('Content')">Click me</button>
+  (window as any).showMessageBox = showMessageBox;
+
+  // Auto-detect elements with data-message-box attribute
+  // Usage in markdown: <button data-message-box="Your message here">Show Message</button>
+  function initMessageBoxTriggers() {
+    const triggers = document.querySelectorAll('[data-message-box]');
+    triggers.forEach(trigger => {
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        const message = trigger.getAttribute('data-message-box');
+        const title = trigger.getAttribute('data-message-box-title');
+        if (message) {
+          showMessageBox(message, title ? { title } : undefined);
+        }
+      });
+    });
+  }
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMessageBoxTriggers);
+  } else {
+    initMessageBoxTriggers();
+  }
 </script>

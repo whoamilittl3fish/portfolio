@@ -167,5 +167,52 @@ export function initBlogFilters() {
   }
   
   updateFilters();
+
+  // Handle upcoming blog card clicks
+  function handleUpcomingCardClick(e: Event) {
+    const target = e.target as HTMLElement;
+    const upcomingCard = target.closest('[data-upcoming="true"]') as HTMLElement;
+    
+    if (!upcomingCard) return;
+    
+    // Check if click is on the link inside the upcoming card
+    const link = target.closest('.blog-card__link') as HTMLAnchorElement;
+    if (link) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Detect language from the link href (e.g., /blogs/en/slug or /blogs/vi/slug)
+      const href = link.getAttribute('href') || '';
+      let lang: 'en' | 'vi' = 'en';
+      
+      if (href.includes('/blogs/vi/')) {
+        lang = 'vi';
+      } else if (href.includes('/blogs/en/')) {
+        lang = 'en';
+      } else {
+        // Fallback: detect from current URL
+        const pathname = window.location.pathname;
+        if (pathname.includes('/blogs/vi/')) {
+          lang = 'vi';
+        } else {
+          lang = 'en';
+        }
+      }
+      
+      // Messages in different languages
+      const messages = {
+        en: 'This post is currently being written. Please check back later!',
+        vi: 'Bài viết này đang được viết. Vui lòng quay lại sau!'
+      };
+      
+      // Import and use MessageBox
+      import('./message-box.js').then(({ showMessageBox }) => {
+        showMessageBox(messages[lang]);
+      });
+    }
+  }
+
+  // Add click listener for upcoming cards
+  document.addEventListener('click', handleUpcomingCardClick);
 }
 

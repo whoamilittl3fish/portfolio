@@ -90,9 +90,14 @@ function getSlugAndLangs(id: string, postsBySlug: Map<string, { en?: BlogPost; v
         ))}
       </div>
       
-      <div id="blog-posts" class="blog-grid">
+      <div id="blog-posts" class="blog-grid" data-blog-lang="en">
         {sortedPosts.map((post) => {
           const { slug, langs } = getSlugAndLangs(post.id, postsBySlug);
+          const group = postsBySlug.get(slug);
+          // Check if either EN or VI version has 'upcomming' tag
+          const isUpcoming = 
+            (group?.en?.data.tags.includes('upcoming')) || 
+            (group?.vi?.data.tags.includes('upcoming'));
           return (
             <BlogCard
               title={post.data.title}
@@ -103,6 +108,7 @@ function getSlugAndLangs(id: string, postsBySlug: Map<string, { en?: BlogPost; v
               date={post.data.date}
               tags={post.data.tags}
               data-tags={post.data.tags.join(',')}
+              isUpcoming={isUpcoming}
             />
           );
         })}

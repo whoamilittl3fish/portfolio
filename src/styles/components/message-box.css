@@ -1,0 +1,210 @@
+/* ============================================
+   MessageBox (Reusable Modal Component)
+   ============================================ */
+
+.message-box {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  animation: messageBoxFadeIn var(--transition-normal) ease-out;
+}
+
+.message-box[style*="display: none"] {
+  animation: none;
+}
+
+@keyframes messageBoxFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.message-box__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  animation: backdropFadeIn var(--transition-normal) ease-out;
+}
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.message-box__content {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 90vw;
+  max-height: 90vh;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  animation: contentSlideIn var(--transition-normal) ease-out;
+  overflow: hidden;
+}
+
+@keyframes contentSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.message-box__close {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  z-index: 2;
+  padding: 0;
+}
+
+.message-box__close:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: rotate(90deg);
+}
+
+.message-box__close:active {
+  transform: rotate(90deg) scale(0.95);
+}
+
+.message-box__close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.message-box__body {
+  padding: var(--space-2xl) var(--space-xl);
+  overflow-y: auto;
+  flex: 1;
+  color: var(--text-primary);
+}
+
+.message-box__body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.message-box__body::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+.message-box__body::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.message-box__body::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .message-box {
+    padding: var(--space-md);
+  }
+
+  .message-box__content {
+    max-width: 100%;
+    max-height: 95vh;
+  }
+
+  .message-box__body {
+    padding: var(--space-xl) var(--space-lg);
+  }
+
+  .message-box__close {
+    top: var(--space-sm);
+    right: var(--space-sm);
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* Content styling */
+.message-box__body h1,
+.message-box__body h2,
+.message-box__body h3,
+.message-box__body h4,
+.message-box__body h5,
+.message-box__body h6 {
+  margin-top: 0;
+  margin-bottom: var(--space-md);
+  color: var(--text-primary);
+}
+
+.message-box__body p {
+  margin-bottom: var(--space-md);
+  line-height: 1.6;
+}
+
+.message-box__body p:last-child {
+  margin-bottom: 0;
+}
+
+.message-box__body a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.message-box__body a:hover {
+  color: var(--accent-hover);
+}
+
+.message-box__body code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.message-box__body pre {
+  background: var(--code-bg);
+  padding: var(--space-md);
+  border-radius: var(--border-radius);
+  overflow-x: auto;
+  margin-bottom: var(--space-md);
+}
+
+.message-box__body ul,
+.message-box__body ol {
+  margin-bottom: var(--space-md);
+  padding-left: var(--space-xl);
+}
+
+.message-box__body li {
+  margin-bottom: var(--space-xs);
+}

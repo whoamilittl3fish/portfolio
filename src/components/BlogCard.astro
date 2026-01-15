@@ -10,9 +10,10 @@ interface Props {
   date: Date;
   tags?: string[];
   'data-tags'?: string;
+  isUpcoming?: boolean;
 }
 
-const { title, description, slug, lang, langs = [lang as 'en' | 'vi'], date, tags = [], 'data-tags': dataTags } = Astro.props;
+const { title, description, slug, lang, langs = [lang as 'en' | 'vi'], date, tags = [], 'data-tags': dataTags, isUpcoming = false } = Astro.props;
 
 const formattedDate = new Intl.DateTimeFormat(lang === 'vi' ? 'vi-VN' : 'en-US', {
   year: 'numeric',
@@ -22,7 +23,8 @@ const formattedDate = new Intl.DateTimeFormat(lang === 'vi' ? 'vi-VN' : 'en-US',
 ---
 
 <article 
-  class="blog-card" 
+  class:list={['blog-card', { 'blog-card--upcoming': isUpcoming }]}
+  data-upcoming={isUpcoming ? 'true' : undefined}
   {...{ 'data-tags': dataTags || tags.join(',') }}
 >
   <a href={`/blogs/${lang}/${slug}`} class="blog-card__link">
