@@ -2,7 +2,7 @@
 title: "OAuth là gì và làm được gì? Luồng hoạt động?"
 description: "Định nghĩa OAuth thường sử dụng rất nhiều nhưng chưa chắc đã hiểu rõ luồng hoạt động như nào, và tại sao lại dùng OAuth."
 date: 2026-01-15
-tags: ["OAuth, base-knowledge, short-post"]
+tags: ["OAuth", "base-knowledge", "short-post"]
 ---
 
 # OAuth là gì?

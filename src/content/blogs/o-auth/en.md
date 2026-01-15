@@ -2,7 +2,7 @@
 title: "What is OAuth and what can it do? How does it work?"
 description: "OAuth is a term that is used very often but many people don't know what it means, how the flow works, and why we use OAuth."
 date: 2026-01-15
-tags: ["OAuth"]
+tags: ["OAuth", "base-knowledge", "short-post"]
 ---
 
 # What is OAuth?
