@@ -1,17 +1,19 @@
 ---
-import BaseLayout from '../components/BaseLayout.astro';
-import { getEntry } from 'astro:content';
-import { marked } from 'marked';
-import '../styles/pages/home.css';
+import BaseLayout from "../components/BaseLayout.astro";
+import { getEntry } from "astro:content";
+import { marked } from "marked";
+import "../styles/pages/home.css";
 
 // Load content from markdown files
 // Astro automatically processes content collections during build
 // All content is rendered as static HTML
-const aboutEntry = await getEntry('home', 'about');
-const interestsEntry = await getEntry('home', 'interests');
+const aboutEntry = await getEntry("home", "about");
+const interestsEntry = await getEntry("home", "interests");
 
 const timeline = aboutEntry?.data.timeline || [];
-const { Content: InterestsContent } = interestsEntry ? await interestsEntry.render() : { Content: null };
+const { Content: InterestsContent } = interestsEntry
+  ? await interestsEntry.render()
+  : { Content: null };
 
 // Parse markdown in timeline text
 // HTML is rendered at build time, not runtime
@@ -20,9 +22,9 @@ function parseMarkdown(text: string): string {
 }
 ---
 
-<BaseLayout 
-  title="Khoa Ngo | Web Developer Portfolio" 
-  description="Portfolio of Khoa Ngo (zoskisk) - Web Developer specializing in JavaScript, TypeScript, Node.js, Docker, and C#/.NET."
+<BaseLayout
+  title="Khoa Ngo | Web Developer Portfolio"
+  description="Portfolio of Khoa Ngo (zoskisk) - Developer. I am very interesting in everything about programming, right now I learn how self-host all my thing from zoskisk.com with auth, vpn, ... If you found anything interesting, let's connect. Have a good day!"
   keywords="Khoa Ngo, zoskisk, web developer, portfolio, JavaScript, TypeScript, Node.js, Docker, C#, .NET, software engineer, Vietnam developer"
   currentPage="home"
 >
@@ -32,16 +34,34 @@ function parseMarkdown(text: string): string {
         <h1>Hi there, I'm Khoa.</h1>
         <p class="hero__tagline">Good things take time.</p>
         <ul class="skill-list" aria-label="Core skills">
-          <li><a href="https://www.codingame.com/profile/83603140793bc15d729e1516e11dda281538186" class="pill">JS/TS</a></li>
-          <li><a href="https://github.com/whoamilittl3fish/portfolio" class="pill">Docker</a></li>
-          <li><a href="https://github.com/whoamilittl3fish" class="pill">Git</a></li>
-          <li><a href="https://github.com/whoamilittl3fish/portfolio" class="pill">Node.js</a></li>
-          <li><a href="https://github.com/whoamilittl3fish/QuanLyHopDong" class="pill">C#/.NET</a></li>
+          <li>
+            <a
+              href="https://www.codingame.com/profile/83603140793bc15d729e1516e11dda281538186"
+              class="pill">JS/TS</a
+            >
+          </li>
+          <li>
+            <a href="https://github.com/whoamilittl3fish/portfolio" class="pill"
+              >Docker</a
+            >
+          </li>
+          <li>
+            <a href="https://github.com/whoamilittl3fish" class="pill">Git</a>
+          </li>
+          <li>
+            <a href="https://github.com/whoamilittl3fish/portfolio" class="pill"
+              >Node.js</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://github.com/whoamilittl3fish/QuanLyHopDong"
+              class="pill">C#/.NET</a
+            >
+          </li>
         </ul>
       </div>
-      <button id="scroll-to-about" class="btn">
-        ↓ my story
-      </button>
+      <button id="scroll-to-about" class="btn"> ↓ my story </button>
     </div>
   </section>
 
@@ -49,12 +69,14 @@ function parseMarkdown(text: string): string {
     <div class="section__container">
       <h2 class="section__title">about</h2>
       <ul class="timeline" aria-label="Timeline of my story">
-        {timeline.map((item: { year: string; text: string }) => (
-          <li class="timeline__item">
-            <span class="timeline__year">{item.year}</span>
-            <p class="timeline__text" set:html={parseMarkdown(item.text)} />
-          </li>
-        ))}
+        {
+          timeline.map((item: { year: string; text: string }) => (
+            <li class="timeline__item">
+              <span class="timeline__year">{item.year}</span>
+              <p class="timeline__text" set:html={parseMarkdown(item.text)} />
+            </li>
+          ))
+        }
       </ul>
     </div>
   </section>
@@ -76,58 +98,81 @@ function parseMarkdown(text: string): string {
 </BaseLayout>
 
 <!-- Structured Data for SEO -->
-<script type="application/ld+json" is:inline set:html={JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Khoa Ngo",
-  "alternateName": "zoskisk",
-  "url": "https://zoskisk.vercel.app",
-  "image": "https://zoskisk.vercel.app/assets/icon/main.png",
-  "jobTitle": "Web Developer",
-  "description": "Web Developer specializing in JavaScript, TypeScript, Node.js, Docker, and C#/.NET",
-  "knowsAbout": ["Web Development", "JavaScript", "TypeScript", "Node.js", "Docker", "C#", ".NET", "Git", "Astro", "Backend Development"],
-  "knowsLanguage": ["English", "Vietnamese"],
-  "sameAs": [
-    "https://github.com/whoamilittl3fish",
-    "https://www.codingame.com/profile/83603140793bc15d729e1516e11dda281538186"
-  ]
-}, null, 2)} />
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "Khoa Ngo",
+      alternateName: "zoskisk",
+      url: "https://zoskisk.vercel.app",
+      image: "https://zoskisk.vercel.app/assets/icon/main.png",
+      jobTitle: "Web Developer",
+      description:
+        "Web Developer specializing in JavaScript, TypeScript, Node.js, Docker, and C#/.NET",
+      knowsAbout: [
+        "Web Development",
+        "JavaScript",
+        "TypeScript",
+        "Node.js",
+        "Docker",
+        "C#",
+        ".NET",
+        "Git",
+        "Astro",
+        "Backend Development",
+      ],
+      knowsLanguage: ["English", "Vietnamese"],
+      sameAs: [
+        "https://github.com/whoamilittl3fish",
+        "https://www.codingame.com/profile/83603140793bc15d729e1516e11dda281538186",
+      ],
+    },
+    null,
+    2,
+  )}
+/>
 
 <script>
   /**
    * Scroll to about section handler
    */
-  const scrollButton = document.getElementById('scroll-to-about');
-  const aboutSection = document.getElementById('about');
-  
+  const scrollButton = document.getElementById("scroll-to-about");
+  const aboutSection = document.getElementById("about");
+
   if (scrollButton && aboutSection) {
-    scrollButton.addEventListener('click', () => {
+    scrollButton.addEventListener("click", () => {
       const headerHeight = 60;
-      const offset = aboutSection.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-      window.scrollTo({ top: offset, behavior: 'smooth' });
+      const offset =
+        aboutSection.getBoundingClientRect().top +
+        window.pageYOffset -
+        headerHeight;
+      window.scrollTo({ top: offset, behavior: "smooth" });
     });
   }
-  
+
   /**
    * Typing effect for "endl... that's all for now."
    * Uses Intersection Observer for better performance
    */
   const TYPING_SPEED = 50;
   const FULL_TEXT = "endl... that's all for now.";
-  
-  const endText = document.getElementById('end-text');
+
+  const endText = document.getElementById("end-text");
   let hasTyped = false;
   let isTyping = false;
-  
+
   function typeText() {
     if (hasTyped || !endText || isTyping) return;
-    
+
     hasTyped = true;
     isTyping = true;
     let index = 0;
-    endText.textContent = '';
-    endText.classList.add('typing');
-    
+    endText.textContent = "";
+    endText.classList.add("typing");
+
     function type() {
       if (!endText) return;
       if (index < FULL_TEXT.length) {
@@ -136,15 +181,15 @@ function parseMarkdown(text: string): string {
         setTimeout(type, TYPING_SPEED);
       } else {
         isTyping = false;
-        endText.classList.remove('typing');
+        endText.classList.remove("typing");
       }
     }
-    
+
     type();
   }
-  
+
   // Use Intersection Observer for better performance
-  if (endText && 'IntersectionObserver' in window) {
+  if (endText && "IntersectionObserver" in window) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -154,28 +199,28 @@ function parseMarkdown(text: string): string {
           }
         });
       },
-      { rootMargin: '-100px 0px' }
+      { rootMargin: "-100px 0px" },
     );
-    
+
     observer.observe(endText);
   } else if (endText) {
     // Fallback for browsers without Intersection Observer
     function checkScroll() {
       if (hasTyped || !endText) return;
-      
+
       const rect = endText.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      
+
       if (rect.top < windowHeight - 100) {
         typeText();
-        window.removeEventListener('scroll', checkScroll);
+        window.removeEventListener("scroll", checkScroll);
       }
     }
-    
-    window.addEventListener('scroll', checkScroll, { passive: true });
-    
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', checkScroll);
+
+    window.addEventListener("scroll", checkScroll, { passive: true });
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", checkScroll);
     } else {
       checkScroll();
     }
@@ -184,12 +229,18 @@ function parseMarkdown(text: string): string {
 
 <style>
   #end-text.typing::after {
-    content: '|';
+    content: "|";
     animation: blink 1s infinite;
   }
-  
+
   @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+    0%,
+    50% {
+      opacity: 1;
+    }
+    51%,
+    100% {
+      opacity: 0;
+    }
   }
 </style>
