@@ -9,8 +9,10 @@ import '../styles/components/message-box.css';
 interface Props {
   title: string;
   description: string;
+  keywords?: string;
   image?: string;
   currentPage?: string;
+  themeColor?: string;
   /** Hide the default bottom nav (for pages with custom nav like blog posts) */
   hideBottomNav?: boolean;
 }
@@ -18,8 +20,10 @@ interface Props {
 const { 
   title, 
   description, 
+  keywords = "web developer, portfolio, javascript, typescript, node.js, docker, software engineer",
   image = '/assets/icon/main.png',
   currentPage = '',
+  themeColor = '#000000',
   hideBottomNav = false
 } = Astro.props;
 
@@ -38,6 +42,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <title>{title}</title>
   <meta name="title" content={title}>
   <meta name="description" content={description}>
+  <meta name="keywords" content={keywords}>
+  <meta name="theme-color" content={themeColor}>
   <link rel="canonical" href={canonicalURL}>
   
   <!-- RSS Feed -->
@@ -49,6 +55,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <meta property="og:title" content={title}>
   <meta property="og:description" content={description}>
   <meta property="og:image" content={new URL(image, Astro.site)}>
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Khoa Ngo Portfolio">
   
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
@@ -78,6 +86,28 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       document.documentElement.style.colorScheme = theme;
     })();
   </script>
+
+  <!-- Breadcrumb Structured Data -->
+  {currentPage && currentPage !== 'home' && (
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": Astro.site?.toString()
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": currentPage.charAt(0).toUpperCase() + currentPage.slice(1),
+          "item": new URL(Astro.url.pathname, Astro.site).toString()
+        }
+      ]
+    })} />
+  )}
 </head>
 <body>
   <Header currentPage={currentPage} />

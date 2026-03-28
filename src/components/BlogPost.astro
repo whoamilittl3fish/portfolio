@@ -26,7 +26,13 @@ const formattedDate = new Intl.DateTimeFormat(lang === 'vi' ? 'vi-VN' : 'en-US',
 }).format(date);
 ---
 
-<BaseLayout title={title} description={description} currentPage="blogs" hideBottomNav={true}>
+<BaseLayout 
+  title={title} 
+  description={description} 
+  keywords={tags.join(', ')} 
+  currentPage="blogs" 
+  hideBottomNav={true}
+>
   <article class="blog-post">
     <div class="blog-post__container">
       <header class="blog-post__header">
@@ -52,6 +58,24 @@ const formattedDate = new Intl.DateTimeFormat(lang === 'vi' ? 'vi-VN' : 'en-US',
   <!-- Blog-specific bottom nav -->
   <BottomNav variant="blog" lang={lang} slug={slug} langs={langs} />
 </BaseLayout>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": description,
+  "datePublished": date.toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": "Khoa Ngo"
+  },
+  "url": new URL(Astro.url.pathname, Astro.site).toString(),
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": new URL(Astro.url.pathname, Astro.site).toString()
+  },
+  "keywords": tags.join(', ')
+}, null, 2)} />
 
 <script>
   import { initLightboxForImages } from '../scripts/lightbox';

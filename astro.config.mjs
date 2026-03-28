@@ -3,7 +3,11 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://zoskisk.vercel.app',
-  integrations: [sitemap()],
+  integrations: [sitemap({
+    changefreq: 'weekly',
+    priority: 0.7,
+    lastmod: new Date(),
+  })],
   markdown: {
     shikiConfig: {
       themes: {

@@ -6,7 +6,8 @@ import { projects } from '../content/projects';
 
 <BaseLayout 
   title="Khoa Ngo Projects" 
-  description="A collection of projects I've worked on, showcasing my development skills and experience."
+  description="A collection of web development projects by Khoa Ngo, featuring JavaScript, TypeScript, Node.js, and .NET applications."
+  keywords="web development projects, Khoa Ngo projects, portfolio projects, software development, fullstack applications, open source"
   currentPage="projects"
 >
   <section class="projects-page">
@@ -118,6 +119,28 @@ import { projects } from '../content/projects';
     </div>
   </section>
 </BaseLayout>
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Khoa Ngo Projects",
+  "description": "A collection of web development projects by Khoa Ngo",
+  "itemListElement": projects.map((project, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "item": {
+      "@type": "SoftwareApplication",
+      "name": project.title,
+      "description": project.description,
+      "applicationCategory": "Web Application",
+      "operatingSystem": "Web",
+      "author": {
+        "@type": "Person",
+        "name": "Khoa Ngo"
+      },
+      "url": project.links.live || project.links.source
+    }
+  }))
+}, null, 2)} />
 
 <script>
   import { initProjectCards } from '../scripts/project-card';
