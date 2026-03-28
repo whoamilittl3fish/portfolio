@@ -33,45 +33,48 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <Analytics />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content={Astro.generator}>
   
+  <!-- Favicon / Icons -->
+  <link rel="icon" type="image/png" href={new URL('/assets/icon/main.png', Astro.site).toString()}>
+  <link rel="apple-touch-icon" href={new URL('/assets/icon/main.png', Astro.site).toString()}>
+  <link rel="shortcut icon" type="image/x-icon" href={new URL('/assets/icon/main.png', Astro.site).toString()}>
+
   <!-- Primary Meta Tags -->
   <title>{title}</title>
   <meta name="title" content={title}>
   <meta name="description" content={description}>
   <meta name="keywords" content={keywords}>
   <meta name="theme-color" content={themeColor}>
-  <link rel="canonical" href={canonicalURL}>
+  <link rel="canonical" href={canonicalURL.toString()}>
   
   <!-- RSS Feed -->
   <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="Khoa Ngo Blogs RSS">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content={canonicalURL}>
+  <meta property="og:url" content={canonicalURL.toString()}>
   <meta property="og:title" content={title}>
   <meta property="og:description" content={description}>
-  <meta property="og:image" content={new URL(image, Astro.site)}>
+  <meta property="og:image" content={new URL(image, Astro.site).toString()}>
   <meta property="og:locale" content="en_US">
   <meta property="og:site_name" content="Khoa Ngo Portfolio">
   
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content={canonicalURL}>
-  <meta property="twitter:title" content={title}>
-  <meta property="twitter:description" content={description}>
-  <meta property="twitter:image" content={new URL(image, Astro.site)}>
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/assets/icon/main.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content={canonicalURL.toString()}>
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+  <meta name="twitter:image" content={new URL(image, Astro.site).toString()}>
   
   <!-- Additional SEO -->
   <meta name="author" content="Khoa Ngo">
   <meta name="robots" content="index, follow">
   <meta name="language" content="English">
+
+  <Analytics />
   
   <!-- Fonts preload -->
   <link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
