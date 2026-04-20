@@ -3,7 +3,6 @@
  * Shared bottom navigation bar component
  * Used across main pages and blog posts with different configurations
  */
-import LanguageSwitcher from './LanguageSwitcher.astro';
 import '../styles/components/bottom-nav.css';
 
 interface Props {
@@ -47,8 +46,25 @@ const backLabel = 'blogs';
     
     {variant === 'blog' && (
       <>
-        <LanguageSwitcher currentLang={lang} slug={slug} langs={langs} />
-        <a href="/blogs" class="bottom-nav__link">{backLabel}</a>
+        {lang === 'en' ? (
+          <a 
+            href={langs.includes('vi') ? `/blogs/vi/${slug}` : '#'} 
+            class:list={['bottom-nav__link', { 'is-disabled': !langs.includes('vi') }]}
+            aria-disabled={!langs.includes('vi')}
+          >
+            vi
+          </a>
+        ) : (
+          <a 
+            href={langs.includes('en') ? `/blogs/en/${slug}` : '#'} 
+            class:list={['bottom-nav__link', { 'is-disabled': !langs.includes('en') }]}
+            aria-disabled={!langs.includes('en')}
+          >
+            en
+          </a>
+        )}
+        <a href="/" class="bottom-nav__link">home</a>
+        <a href="/blogs" class="bottom-nav__link">blogs</a>
       </>
     )}
     
