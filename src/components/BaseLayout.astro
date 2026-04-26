@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import BottomNav from '../components/BottomNav.astro';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
+import Terminal from './Terminal.astro';
 import '../styles/global.css';
 import '../styles/components/message-box.css';
 
@@ -134,6 +135,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <Footer />
   
   {!hideBottomNav && <BottomNav currentPage={currentPage} variant="main" />}
+  <Terminal />
 </body>
 </html>
 
