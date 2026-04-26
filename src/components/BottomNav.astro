@@ -30,7 +30,6 @@ const navLinks = [
   { href: '/blogs', label: 'blogs' },
 ];
 
-const backLabel = 'blogs';
 ---
 
 <nav class="bottom-nav" aria-label="Navigation">
@@ -47,21 +46,17 @@ const backLabel = 'blogs';
     {variant === 'blog' && (
       <>
         {lang === 'en' ? (
-          <a 
-            href={langs.includes('vi') ? `/blogs/vi/${slug}` : '#'} 
-            class:list={['bottom-nav__link', { 'is-disabled': !langs.includes('vi') }]}
-            aria-disabled={!langs.includes('vi')}
-          >
-            vi
-          </a>
+          langs.includes('vi') ? (
+            <a href={`/blogs/vi/${slug}`} class="bottom-nav__link">vi</a>
+          ) : (
+            <span class:list={['bottom-nav__link', 'is-disabled']}>vi</span>
+          )
         ) : (
-          <a 
-            href={langs.includes('en') ? `/blogs/en/${slug}` : '#'} 
-            class:list={['bottom-nav__link', { 'is-disabled': !langs.includes('en') }]}
-            aria-disabled={!langs.includes('en')}
-          >
-            en
-          </a>
+          langs.includes('en') ? (
+            <a href={`/blogs/en/${slug}`} class="bottom-nav__link">en</a>
+          ) : (
+            <span class:list={['bottom-nav__link', 'is-disabled']}>en</span>
+          )
         )}
         <a href="/" class="bottom-nav__link">home</a>
         <a href="/blogs" class="bottom-nav__link">blogs</a>
@@ -82,38 +77,15 @@ const backLabel = 'blogs';
 </nav>
 
 <script>
-  /**
-   * Theme toggle functionality for bottom nav
-   */
+  import { forceRepaint } from '../scripts/utils/dom';
+
   const themeToggle = document.getElementById('bottom-theme-toggle');
   const themeIcon = themeToggle?.querySelector('.bottom-nav__theme-icon');
-  
+
   function updateThemeIcon(): void {
     if (!themeIcon) return;
     const isDark = document.documentElement.dataset.theme === 'dark';
     themeIcon.textContent = isDark ? '🌙' : '☀️';
-  }
-  
-  // Force repaint for mobile browsers
-  function forceRepaint(): void {
-    // Toggle grid opacity to force body::before repaint
-    document.body.style.setProperty('--grid-opacity', '0.71');
-    void document.body.offsetHeight;
-    document.body.style.setProperty('--grid-opacity', '0.7');
-    void document.body.offsetHeight;
-    document.body.style.removeProperty('--grid-opacity');
-    
-    // Force reflow
-    void document.documentElement.offsetHeight;
-    void document.body.offsetHeight;
-    getComputedStyle(document.body);
-    getComputedStyle(document.documentElement);
-    
-    // Force repaint of key elements
-    document.querySelectorAll('section, main, header, footer, .hero, .btn, .pill').forEach(el => {
-      void (el as HTMLElement).offsetHeight;
-      getComputedStyle(el);
-    });
   }
   
   function toggleTheme(): void {
