@@ -73,6 +73,15 @@ const navLinks = [
     >
       <span class="bottom-nav__theme-icon">☀️</span>
     </button>
+
+    <button 
+      id="bottom-back-to-top" 
+      class="bottom-nav__theme" 
+      type="button" 
+      aria-label="Back to top"
+    >
+      ▲
+    </button>
   </div>
 </nav>
 
@@ -131,6 +140,12 @@ const navLinks = [
   
   // Handle click
   themeToggle?.addEventListener('click', toggleTheme);
+  
+  // Back to top
+  const backToTop = document.getElementById('bottom-back-to-top');
+  backToTop?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
   
   /**
    * Footer collision detection

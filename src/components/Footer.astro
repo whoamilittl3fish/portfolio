@@ -26,21 +26,6 @@ import '../styles/components/footer.css';
         </svg>
       </a>
 
-      <span class="footer__divider"></span>
-
-      <button id="footer-back-to-top" class="footer__top-btn" type="button" aria-label="Back to top">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-          <path d="M12 19V5"/>
-          <path d="M5 12l7-7 7 7"/>
-        </svg>
-      </button>
     </div>
   </div>
 </footer>
-
-<script>
-  const backToTop = document.getElementById('footer-back-to-top');
-  backToTop?.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-</script>
