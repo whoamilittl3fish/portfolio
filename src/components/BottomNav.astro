@@ -64,11 +64,22 @@ const navLinks = [
     )}
     
     <span class="bottom-nav__divider"></span>
-    
-    <button 
-      id="bottom-theme-toggle" 
-      class="bottom-nav__theme" 
-      type="button" 
+
+    <button
+      id="terminal-trigger"
+      class="bottom-nav__terminal"
+      type="button"
+      aria-label="Open terminal"
+      aria-expanded="false"
+      aria-controls="terminal-popup"
+    >&gt;_</button>
+
+    <span class="bottom-nav__divider"></span>
+
+    <button
+      id="bottom-theme-toggle"
+      class="bottom-nav__theme"
+      type="button"
       aria-label="Toggle theme"
     >
       <span class="bottom-nav__theme-icon">☀️</span>

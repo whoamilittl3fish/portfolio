@@ -23,14 +23,6 @@ const terminalData = {
 
 <script type="application/json" id="terminal-data" is:inline set:html={JSON.stringify(terminalData)} />
 
-<button
-  id="terminal-trigger"
-  class="terminal-trigger"
-  aria-label="Open terminal"
-  aria-expanded="false"
-  aria-controls="terminal-popup"
->&gt;_</button>
-
 <div id="terminal-overlay" class="terminal-overlay" aria-hidden="true"></div>
 
 <div
@@ -40,7 +32,8 @@ const terminalData = {
   aria-label="Interactive terminal"
   aria-modal="true"
 >
-  <div id="terminal-resize-handle" class="terminal-resize-handle"></div>
+  <div id="terminal-resize-top" class="terminal-resize-top"></div>
+  <div id="terminal-resize-left" class="terminal-resize-left"></div>
   <div class="terminal-header">
     <span class="terminal-header__title">zoskisk@portfolio</span>
     <div class="terminal-header__actions">

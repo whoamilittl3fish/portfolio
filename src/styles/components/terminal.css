@@ -1,53 +1,13 @@
 /* Terminal Widget */
 
 :root {
-  --terminal-bottom-extra: 0px;
+  --terminal-popup-bottom: 90px;
 }
 
-.terminal-trigger {
-  position: fixed;
-  bottom: calc(var(--space-lg) + var(--terminal-bottom-extra));
-  right: var(--space-lg);
-  z-index: 100;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--bg-secondary);
-  border: 2px solid var(--accent);
-  color: var(--accent);
-  font-family: ui-monospace, 'Cascadia Code', monospace;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
-  user-select: none;
-}
-
-.terminal-trigger:hover {
-  background: var(--accent);
-  color: #fff;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-  transform: scale(1.08);
-}
-
-.terminal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 99;
-}
-
-.terminal-overlay.is-open {
-  display: block;
-}
-
+/* ── Popup ──────────────────────────────────────────────────────────────── */
 .terminal-popup {
   position: fixed;
-  bottom: calc(var(--space-lg) + 52px + var(--terminal-bottom-extra));
+  bottom: var(--terminal-popup-bottom);
   right: var(--space-lg);
   width: 420px;
   height: 300px;
@@ -78,11 +38,22 @@
   height: 50vh !important;
   bottom: 0 !important;
   right: 0 !important;
-  border-radius: 12px 12px 0 0;
+  top: auto !important;
+  left: auto !important;
+  border-radius: 12px 12px 0 0 !important;
 }
 
-/* Drag-to-resize handle on top edge */
-.terminal-resize-handle {
+/* ── Overlay ─────────────────────────────────────────────────────────────── */
+.terminal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+}
+.terminal-overlay.is-open { display: block; }
+
+/* ── Resize: top edge (vertical) ─────────────────────────────────────────── */
+.terminal-resize-top {
   position: absolute;
   top: 0;
   left: 0;
@@ -92,11 +63,21 @@
   z-index: 2;
   border-radius: 8px 8px 0 0;
 }
+.terminal-resize-top:hover { background: rgba(255,255,255,0.06); }
 
-.terminal-resize-handle:hover {
-  background: rgba(255, 255, 255, 0.06);
+/* ── Resize: left edge (horizontal) ─────────────────────────────────────── */
+.terminal-resize-left {
+  position: absolute;
+  top: 6px;
+  bottom: 0;
+  left: 0;
+  width: 6px;
+  cursor: ew-resize;
+  z-index: 2;
 }
+.terminal-resize-left:hover { background: rgba(255,255,255,0.06); }
 
+/* ── Header ──────────────────────────────────────────────────────────────── */
 .terminal-header {
   display: flex;
   align-items: center;
@@ -106,12 +87,15 @@
   background: #0d0d14;
   border-radius: 8px 8px 0 0;
   flex-shrink: 0;
+  cursor: grab;
 }
+.terminal-header:active { cursor: grabbing; }
 
 .terminal-header__title {
   font-size: 11px;
   color: #555;
   user-select: none;
+  pointer-events: none;
 }
 
 .terminal-header__actions {
@@ -120,7 +104,8 @@
   gap: 2px;
 }
 
-.terminal-header__btn {
+.terminal-header__btn,
+.terminal-header__close {
   background: none;
   border: none;
   color: #555;
@@ -132,30 +117,10 @@
   font-family: inherit;
   transition: color 0.15s, background 0.15s;
 }
+.terminal-header__btn:hover,
+.terminal-header__close:hover { color: #e0e0e0; background: #2a2a3a; }
 
-.terminal-header__btn:hover {
-  color: #e0e0e0;
-  background: #2a2a3a;
-}
-
-.terminal-header__close {
-  background: none;
-  border: none;
-  color: #555;
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1;
-  padding: 2px 5px;
-  border-radius: 3px;
-  font-family: inherit;
-  transition: color 0.15s, background 0.15s;
-}
-
-.terminal-header__close:hover {
-  color: #e0e0e0;
-  background: #2a2a3a;
-}
-
+/* ── Output ──────────────────────────────────────────────────────────────── */
 .terminal-output {
   flex: 1;
   overflow-y: auto;
@@ -164,11 +129,11 @@
   flex-direction: column;
   gap: 1px;
 }
-
 .terminal-output::-webkit-scrollbar { width: 4px; }
 .terminal-output::-webkit-scrollbar-track { background: transparent; }
 .terminal-output::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
 
+/* ── Lines ───────────────────────────────────────────────────────────────── */
 .terminal-line {
   margin: 0;
   padding: 1px 0;
@@ -178,20 +143,15 @@
   font-size: 13px;
   font-family: inherit;
 }
-
 .terminal-line--command { color: #e0e0e0; }
 .terminal-line--output  { color: #aaa; }
 .terminal-line--muted   { color: #555; }
 .terminal-line--error   { color: #f07070; }
 
-a.terminal-line--link {
-  display: block;
-  color: #7eb8f7;
-  text-decoration: none;
-  cursor: pointer;
-}
+a.terminal-line--link { display: block; color: #7eb8f7; text-decoration: none; cursor: pointer; }
 a.terminal-line--link:hover { color: #aad4ff; text-decoration: underline; }
 
+/* ── Input row ───────────────────────────────────────────────────────────── */
 .terminal-input-row {
   display: flex;
   align-items: center;
@@ -222,15 +182,18 @@ a.terminal-line--link:hover { color: #aad4ff; text-decoration: underline; }
   min-width: 0;
 }
 
-/* Mobile: bottom sheet */
+/* ── Mobile: bottom sheet ────────────────────────────────────────────────── */
 @media (max-width: 600px) {
-  .terminal-resize-handle { display: none; }
+  .terminal-resize-top,
+  .terminal-resize-left { display: none; }
 
   .terminal-popup {
     width: 100%;
     height: 60dvh;
     bottom: 0;
     right: 0;
+    top: auto !important;
+    left: auto !important;
     border-radius: 12px 12px 0 0;
     border-bottom: none;
     transform: translateY(100%);
@@ -238,12 +201,6 @@ a.terminal-line--link:hover { color: #aad4ff; text-decoration: underline; }
     transition: transform 0.2s ease;
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
-
-  .terminal-popup.is-open {
-    transform: translateY(0);
-  }
-
-  .terminal-overlay.is-open {
-    background: rgba(0, 0, 0, 0.5);
-  }
+  .terminal-popup.is-open { transform: translateY(0); }
+  .terminal-overlay.is-open { background: rgba(0,0,0,0.5); }
 }
