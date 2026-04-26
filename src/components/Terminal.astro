@@ -40,9 +40,13 @@ const terminalData = {
   aria-label="Interactive terminal"
   aria-modal="true"
 >
+  <div id="terminal-resize-handle" class="terminal-resize-handle"></div>
   <div class="terminal-header">
     <span class="terminal-header__title">zoskisk@portfolio</span>
-    <button id="terminal-close" class="terminal-header__close" aria-label="Close terminal">✕</button>
+    <div class="terminal-header__actions">
+      <button id="terminal-maximize" class="terminal-header__btn" aria-label="Maximize terminal">⊞</button>
+      <button id="terminal-close" class="terminal-header__close" aria-label="Close terminal">✕</button>
+    </div>
   </div>
   <div id="terminal-output" class="terminal-output" aria-live="polite" aria-atomic="false"></div>
   <div class="terminal-input-row">

@@ -7,6 +7,8 @@ type Dir = '/' | 'blogs' | 'projects';
 
 const GH_USER = 'whoamilittl3fish';
 const GH_CACHE_KEY = 'gh_stats_cache_v1';
+const HISTORY_CACHE_KEY = 'terminal_history_v1';
+const MAX_HISTORY = 100;
 
 const SKILLS = 'JS/TS  Node.js  C#/.NET  Docker  Git  Astro';
 
@@ -17,12 +19,13 @@ const HELP_LINES = [
   '  ls               list directory contents',
   '  cd <dir>         change directory (blogs, projects)',
   '  cd ..            go back to root',
-  '  cat skills.txt   view skills (from root only)',
-  '  open <item>      open item in browser',
+  '  cat <name>       view file or open item',
   '  activity         show last github push',
   '  history          show recent github activity',
   '  clear            clear terminal',
 ];
+
+const ALL_COMMANDS = ['zoskisk', 'whoami', 'ls', 'cd', 'cat', 'activity', 'history', 'clear'];
 
 function getPrompt(dir: Dir): string {
   return dir === '/' ? '~$' : `~/${dir} $`;
@@ -56,6 +59,8 @@ export function initTerminal(): void {
   const popup = document.getElementById('terminal-popup') as HTMLElement | null;
   const overlay = document.getElementById('terminal-overlay') as HTMLElement | null;
   const closeBtn = document.getElementById('terminal-close') as HTMLButtonElement | null;
+  const maximizeBtn = document.getElementById('terminal-maximize') as HTMLButtonElement | null;
+  const resizeHandle = document.getElementById('terminal-resize-handle') as HTMLElement | null;
   const outputEl = document.getElementById('terminal-output') as HTMLElement | null;
   const inputEl = document.getElementById('terminal-input') as HTMLInputElement | null;
   const promptEl = document.getElementById('terminal-prompt') as HTMLElement | null;
@@ -63,7 +68,16 @@ export function initTerminal(): void {
   if (!trigger || !popup || !outputEl || !inputEl || !promptEl) return;
 
   let currentDir: Dir = '/';
-  const cmdHistory: string[] = [];
+  let isMaximized = false;
+
+  const cmdHistory: string[] = (() => {
+    try {
+      const raw = localStorage.getItem(HISTORY_CACHE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  })();
   let historyIdx = -1;
 
   if (document.querySelector('.bottom-nav')) {
@@ -117,12 +131,90 @@ export function initTerminal(): void {
     trigger!.focus();
   }
 
+  function toggleMaximize(): void {
+    isMaximized = !isMaximized;
+    if (isMaximized) {
+      popup!.style.transition = 'height 0.2s ease, width 0.2s ease, bottom 0.2s ease, right 0.2s ease, border-radius 0.2s ease';
+      popup!.style.height = '';
+      popup!.classList.add('is-maximized');
+      if (maximizeBtn) {
+        maximizeBtn.textContent = '⊟';
+        maximizeBtn.setAttribute('aria-label', 'Restore terminal');
+      }
+    } else {
+      popup!.style.transition = '';
+      popup!.classList.remove('is-maximized');
+      if (maximizeBtn) {
+        maximizeBtn.textContent = '⊞';
+        maximizeBtn.setAttribute('aria-label', 'Maximize terminal');
+      }
+    }
+    inputEl!.focus();
+  }
+
+  function saveHistory(): void {
+    try {
+      localStorage.setItem(HISTORY_CACHE_KEY, JSON.stringify(cmdHistory.slice(-MAX_HISTORY)));
+    } catch {}
+  }
+
+  function autocomplete(): void {
+    const val = inputEl!.value;
+    const parts = val.trimStart().split(/\s+/);
+
+    if (parts.length === 0 || !val.trim()) return;
+
+    if (parts.length === 1) {
+      const partial = parts[0];
+      const matches = ALL_COMMANDS.filter(c => c.startsWith(partial) && c !== partial);
+      if (matches.length === 1) {
+        inputEl!.value = matches[0] + ' ';
+      } else if (matches.length > 1) {
+        appendLine(`${getPrompt(currentDir)} ${val}`, 'terminal-line--command');
+        appendLine(matches.join('  '));
+        scrollToBottom();
+      }
+      return;
+    }
+
+    const cmd = parts[0];
+    const partial = parts.slice(1).join(' ');
+
+    if (cmd === 'cat') {
+      let candidates: string[] = [];
+      if (currentDir === '/') {
+        candidates = ['skills.txt'];
+      } else if (currentDir === 'blogs') {
+        candidates = data.blogs.map(b => b.slug);
+      } else if (currentDir === 'projects') {
+        candidates = data.projects.map(p => p.name);
+      }
+      const matches = candidates.filter(c => c.startsWith(partial));
+      if (matches.length === 1) {
+        inputEl!.value = `cat ${matches[0]}`;
+      } else if (matches.length > 1) {
+        appendLine(`${getPrompt(currentDir)} ${val}`, 'terminal-line--command');
+        appendLine(matches.join('  '));
+        scrollToBottom();
+      }
+    } else if (cmd === 'cd') {
+      const candidates = currentDir === '/' ? ['blogs', 'projects'] : ['..'];
+      const matches = candidates.filter(c => c.startsWith(partial));
+      if (matches.length === 1) inputEl!.value = `cd ${matches[0]}`;
+    } else if (cmd === 'zoskisk' && '--help'.startsWith(partial)) {
+      inputEl!.value = 'zoskisk --help';
+    }
+  }
+
   function processCommand(raw: string): void {
     const trimmed = raw.trim();
     if (!trimmed) return;
 
-    cmdHistory.push(trimmed);
+    if (!cmdHistory.length || cmdHistory[cmdHistory.length - 1] !== trimmed) {
+      cmdHistory.push(trimmed);
+    }
     historyIdx = -1;
+    saveHistory();
 
     appendLine(`${getPrompt(currentDir)} ${trimmed}`, 'terminal-line--command');
 
@@ -182,44 +274,39 @@ export function initTerminal(): void {
         break;
 
       case 'cat':
-        if (arg === 'skills.txt') {
-          if (currentDir === '/') {
+        if (currentDir === '/') {
+          if (arg === 'skills.txt') {
             appendLine(SKILLS);
+          } else if (!arg) {
+            appendLine('usage: cat <file>', 'terminal-line--error');
           } else {
-            appendLine('cat: skills.txt: no such file in current directory', 'terminal-line--error');
+            appendLine(`cat: ${arg}: no such file`, 'terminal-line--error');
           }
-        } else if (!arg) {
-          appendLine('usage: cat <file>', 'terminal-line--error');
+        } else if (currentDir === 'blogs') {
+          if (!arg) {
+            appendLine('usage: cat <slug>', 'terminal-line--error');
+          } else {
+            const blog = data.blogs.find(b => b.slug === arg);
+            if (blog) {
+              closeTerminal();
+              window.location.href = blog.url;
+              return;
+            }
+            appendLine(`cat: ${arg}: not found`, 'terminal-line--error');
+          }
         } else {
-          appendLine(`cat: ${arg}: no such file`, 'terminal-line--error');
+          if (!arg) {
+            appendLine('usage: cat <name>', 'terminal-line--error');
+          } else {
+            const project = data.projects.find(p => p.name === arg);
+            if (project) {
+              window.open(project.url, '_blank', 'noopener,noreferrer');
+              return;
+            }
+            appendLine(`cat: ${arg}: not found`, 'terminal-line--error');
+          }
         }
         break;
-
-      case 'open': {
-        if (!arg) {
-          appendLine('usage: open <item>', 'terminal-line--error');
-          break;
-        }
-        if (currentDir === 'blogs') {
-          const blog = data.blogs.find(b => b.slug === arg);
-          if (blog) {
-            closeTerminal();
-            window.location.href = blog.url;
-            return;
-          }
-          appendLine(`open: not found: ${arg}`, 'terminal-line--error');
-        } else if (currentDir === 'projects') {
-          const project = data.projects.find(p => p.name === arg);
-          if (project) {
-            window.open(project.url, '_blank', 'noopener,noreferrer');
-            return;
-          }
-          appendLine(`open: not found: ${arg}`, 'terminal-line--error');
-        } else {
-          appendLine("open: cd into blogs/ or projects/ first", 'terminal-line--muted');
-        }
-        break;
-      }
 
       case 'activity': {
         const cacheStr = localStorage.getItem(GH_CACHE_KEY);
@@ -249,8 +336,7 @@ export function initTerminal(): void {
                 const repoUrl = `https://github.com/${push.repo.name}`;
                 const commit = push.payload.commits[push.payload.commits.length - 1];
                 const msg = commit.message.split('\n')[0];
-                const ago = timeAgo(new Date(push.created_at));
-                appendLine(`last push: ${repo} · ${ago}`);
+                appendLine(`last push: ${repo} · ${timeAgo(new Date(push.created_at))}`);
                 appendLine(`  ${msg}`, 'terminal-line--muted');
                 appendLink('  → open repo', repoUrl);
               } else {
@@ -282,8 +368,7 @@ export function initTerminal(): void {
                 const repo = e.repo.name.split('/')[1];
                 const commit = e.payload.commits[e.payload.commits.length - 1];
                 const msg = commit.message.split('\n')[0];
-                const ago = timeAgo(new Date(e.created_at));
-                appendLine(`${repo} · ${ago}`);
+                appendLine(`${repo} · ${timeAgo(new Date(e.created_at))}`);
                 appendLine(`  ${msg}`, 'terminal-line--muted');
               });
             }
@@ -308,11 +393,12 @@ export function initTerminal(): void {
   });
 
   closeBtn?.addEventListener('click', closeTerminal);
+  maximizeBtn?.addEventListener('click', toggleMaximize);
   overlay?.addEventListener('click', closeTerminal);
 
   document.addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.key === 'Escape' && popup!.classList.contains('is-open')) {
-      closeTerminal();
+      isMaximized ? toggleMaximize() : closeTerminal();
       return;
     }
     if (e.key === '`' && !e.ctrlKey && !e.metaKey && !e.altKey) {
@@ -350,15 +436,48 @@ export function initTerminal(): void {
       }
     } else if (e.key === 'Tab') {
       e.preventDefault();
-      closeBtn?.focus();
+      if (inputEl.value.trim()) {
+        autocomplete();
+      } else {
+        closeBtn?.focus();
+      }
     }
   });
 
   closeBtn?.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key === 'Tab') {
+    if (e.key === 'Tab' && !e.shiftKey) {
       e.preventDefault();
       inputEl.focus();
     }
+  });
+
+  // Resize: drag top edge to change popup height
+  let isResizing = false;
+  let resizeStartY = 0;
+  let resizeStartH = 0;
+
+  resizeHandle?.addEventListener('mousedown', (e) => {
+    if (isMaximized) return;
+    isResizing = true;
+    resizeStartY = e.clientY;
+    resizeStartH = popup!.offsetHeight;
+    e.preventDefault();
+    document.body.style.cursor = 'ns-resize';
+    document.body.style.userSelect = 'none';
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isResizing) return;
+    const dy = resizeStartY - e.clientY;
+    const newH = Math.max(150, Math.min(Math.floor(window.innerHeight * 0.85), resizeStartH + dy));
+    popup!.style.height = `${newH}px`;
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!isResizing) return;
+    isResizing = false;
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
   });
 
   appendLine('zoskisk portfolio terminal', 'terminal-line--muted');
