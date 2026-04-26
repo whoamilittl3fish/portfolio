@@ -54,17 +54,27 @@
 .hero__tagline {
   font-size: var(--font-size-lg);
   color: var(--text-muted);
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-sm);
 }
 
-.skill-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-sm);
-  list-style: none;
-  padding: 0;
+.hero__terminal-hint {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
   margin-bottom: var(--space-xl);
+  opacity: 0.7;
+}
+
+.hero__terminal-hint kbd {
+  font-family: ui-monospace, monospace;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 0.85em;
+}
+
+.hero__terminal-hint span {
+  font-family: ui-monospace, monospace;
 }
 
 /* Section */
@@ -149,3 +159,69 @@
   }
 }
 
+/* GitHub Year Picker */
+.github-year-picker {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.github-year-btn {
+  font-size: var(--font-size-sm);
+  padding: 3px 12px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.github-year-btn:hover,
+.github-year-btn.is-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* GitHub Stats */
+.github-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .github-stats {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.github-stats a {
+  display: block;
+  max-width: 100%;
+}
+
+.github-stats__img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+}
+
+.github-stats__img--dark {
+  /* Invert light background to dark, and hue-rotate 180deg to turn the pinkish inverted color back to green */
+  filter: invert(1) hue-rotate(180deg);
+}
+
+[data-theme="light"] .github-stats__img--dark,
+html:not([data-theme="dark"]) .github-stats__img--dark {
+  display: none;
+}
+
+[data-theme="dark"] .github-stats__img--light {
+  display: none;
+}

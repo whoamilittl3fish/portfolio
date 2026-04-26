@@ -1,0 +1,137 @@
+.gh-live-stats {
+  width: 100%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--space-md);
+  margin-top: var(--space-xl);
+  font-family: inherit;
+}
+
+.gh-live-stats__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px dashed var(--border);
+}
+
+.gh-live-stats__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.gh-live-stats__status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #f39c12;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+.pulse-dot--green {
+  background-color: var(--accent);
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(243, 156, 18, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0); }
+}
+
+.gh-live-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-md);
+}
+
+.gh-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.gh-stat-card--full {
+  grid-column: 1 / -1;
+}
+
+.gh-stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.gh-stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.gh-stat-langs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.gh-lang-pill {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-secondary);
+}
+
+.gh-latest-commit {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--border-radius);
+  border-left: 3px solid var(--accent);
+}
+
+.gh-commit-repo {
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+}
+
+.gh-commit-repo:hover {
+  text-decoration: underline;
+}
+
+.gh-commit-msg {
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  margin: 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gh-commit-time {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.gh-live-stats__error {
+  color: #e74c3c;
+  font-size: var(--font-size-sm);
+  text-align: center;
+  padding: var(--space-sm);
+}

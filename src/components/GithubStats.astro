@@ -1,0 +1,198 @@
+---
+import "../styles/components/github-stats.css";
+---
+
+<div class="gh-live-stats" id="gh-live-stats" style="display: none;">
+  <div class="gh-live-stats__header">
+    <div class="gh-live-stats__title">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+      </svg>
+      <span>Live GitHub Stats</span>
+    </div>
+    <div class="gh-live-stats__status">
+      <span class="pulse-dot"></span> Fetching real-time...
+    </div>
+  </div>
+
+  <div class="gh-live-stats__grid" id="gh-stats-content" style="display: none;">
+    <div class="gh-stat-card">
+      <span class="gh-stat-label">Public Repos</span>
+      <span class="gh-stat-value" id="gh-repos">0</span>
+    </div>
+    <div class="gh-stat-card">
+      <span class="gh-stat-label">Recent Languages</span>
+      <div class="gh-stat-langs" id="gh-langs">
+        <!-- Langs will be inserted here -->
+      </div>
+    </div>
+    <div class="gh-stat-card gh-stat-card--full">
+      <span class="gh-stat-label">Latest Commit</span>
+      <div class="gh-latest-commit">
+        <a id="gh-commit-link" href="#" target="_blank" rel="noopener" class="gh-commit-repo">repo-name</a>
+        <span class="gh-commit-msg" id="gh-commit-msg">loading...</span>
+        <span class="gh-commit-time" id="gh-commit-time">just now</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="gh-live-stats__error" id="gh-stats-error" style="display: none;">
+    Could not load GitHub stats. Rate limit exceeded or network error.
+  </div>
+</div>
+
+<script>
+  async function fetchGitHubStats() {
+    const username = "whoamilittl3fish";
+    const liveStatsEl = document.getElementById("gh-live-stats");
+    const contentEl = document.getElementById("gh-stats-content");
+    const errorEl = document.getElementById("gh-stats-error");
+    const statusEl = document.querySelector(".gh-live-stats__status");
+    
+    if (!liveStatsEl || !contentEl || !errorEl || !statusEl) return;
+
+    const CACHE_KEY = 'gh_stats_cache_v1';
+    const CACHE_EXPIRY = 15 * 60 * 1000; // 15 minutes
+    
+    try {
+      // Check cache first
+      const cachedStr = localStorage.getItem(CACHE_KEY);
+      if (cachedStr) {
+        const cached = JSON.parse(cachedStr);
+        if (Date.now() - cached.timestamp < CACHE_EXPIRY) {
+          renderStats(cached.data);
+          liveStatsEl.style.display = "block";
+          contentEl.style.display = "grid";
+          statusEl.innerHTML = `<span class="pulse-dot pulse-dot--green"></span> Cached`;
+          return;
+        }
+      }
+
+      // Fetch user data
+      const userRes = await fetch(`https://api.github.com/users/${username}`);
+      if (!userRes.ok) throw new Error("Failed to fetch user");
+      const userData = await userRes.json();
+      
+      let pushEventData = null;
+      // Fetch recent events for latest commit
+      const eventsRes = await fetch(`https://api.github.com/users/${username}/events/public?per_page=10`);
+      if (eventsRes.ok) {
+        const events = await eventsRes.json();
+        const pushEvent = events.find((e: any) => e.type === "PushEvent" && e.payload.commits.length > 0);
+        
+        if (pushEvent) {
+          pushEventData = {
+            repoName: pushEvent.repo.name.split('/')[1] || pushEvent.repo.name,
+            repoUrl: `https://github.com/${pushEvent.repo.name}`,
+            message: pushEvent.payload.commits[pushEvent.payload.commits.length - 1].message.split('\n')[0],
+            time: pushEvent.created_at
+          };
+        }
+      }
+
+      let sortedLangs: [string, number][] = [];
+      // Fetch recent repos for languages
+      const reposRes = await fetch(`https://api.github.com/users/${username}/repos?sort=pushed&per_page=10`);
+      if (reposRes.ok) {
+        const repos = await reposRes.json();
+        const langs = new Map<string, number>();
+        
+        repos.forEach((r: any) => {
+          if (r.language) {
+            langs.set(r.language, (langs.get(r.language) || 0) + 1);
+          }
+        });
+
+        // Sort by frequency
+        sortedLangs = Array.from(langs.entries()).sort((a, b) => b[1] - a[1]).slice(0, 4);
+      }
+
+      const finalData = {
+        public_repos: userData.public_repos,
+        pushEvent: pushEventData,
+        langs: sortedLangs
+      };
+
+      // Save to cache
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        timestamp: Date.now(),
+        data: finalData
+      }));
+
+      // Render
+      renderStats(finalData);
+      
+      // Show content
+      liveStatsEl.style.display = "block";
+      contentEl.style.display = "grid";
+      statusEl.innerHTML = `<span class="pulse-dot pulse-dot--green"></span> Live`;
+      
+    } catch (error) {
+      console.error("Error loading GitHub stats:", error);
+      
+      // Try to fallback to expired cache if available
+      const cachedStr = localStorage.getItem(CACHE_KEY);
+      if (cachedStr) {
+        const cached = JSON.parse(cachedStr);
+        renderStats(cached.data);
+        liveStatsEl.style.display = "block";
+        contentEl.style.display = "grid";
+        statusEl.innerHTML = `<span></span> Offline (Cached)`;
+        return;
+      }
+
+      // If no cache and rate limited, it remains hidden (display: none)
+    }
+  }
+
+  function renderStats(data: any) {
+    document.getElementById("gh-repos")!.textContent = data.public_repos;
+
+    if (data.pushEvent) {
+      document.getElementById("gh-commit-link")!.textContent = data.pushEvent.repoName;
+      (document.getElementById("gh-commit-link") as HTMLAnchorElement)!.href = data.pushEvent.repoUrl;
+      document.getElementById("gh-commit-msg")!.textContent = data.pushEvent.message;
+      document.getElementById("gh-commit-time")!.textContent = timeAgo(new Date(data.pushEvent.time));
+    }
+
+    const langsContainer = document.getElementById("gh-langs");
+    if (langsContainer) {
+      langsContainer.innerHTML = '';
+      data.langs.forEach(([lang]: [string]) => {
+        const span = document.createElement('span');
+        span.className = 'gh-lang-pill';
+        span.textContent = lang;
+        langsContainer.appendChild(span);
+      });
+    }
+  }
+
+  function timeAgo(date: Date) {
+    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+    let interval = seconds / 31536000;
+    if (interval > 1) return Math.floor(interval) + "y ago";
+    interval = seconds / 2592000;
+    if (interval > 1) return Math.floor(interval) + "mo ago";
+    interval = seconds / 86400;
+    if (interval > 1) return Math.floor(interval) + "d ago";
+    interval = seconds / 3600;
+    if (interval > 1) return Math.floor(interval) + "h ago";
+    interval = seconds / 60;
+    if (interval > 1) return Math.floor(interval) + "m ago";
+    return Math.floor(seconds) + "s ago";
+  }
+
+  // Load when the page loads or when it comes into view
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        fetchGitHubStats();
+        observer.disconnect();
+      }
+    });
+    const el = document.getElementById("gh-live-stats");
+    if (el) observer.observe(el);
+  } else {
+    fetchGitHubStats();
+  }
+</script>

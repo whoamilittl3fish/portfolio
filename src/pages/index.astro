@@ -2,6 +2,7 @@
 import BaseLayout from "../components/BaseLayout.astro";
 import { getEntry } from "astro:content";
 import { marked } from "marked";
+import GithubStats from "../components/GithubStats.astro";
 import "../styles/pages/home.css";
 
 // Load content from markdown files
@@ -33,33 +34,7 @@ function parseMarkdown(text: string): string {
       <div class="hero__content">
         <h1>Hi there, I'm Khoa.</h1>
         <p class="hero__tagline">Good things take time.</p>
-        <ul class="skill-list" aria-label="Core skills">
-          <li>
-            <a
-              href="https://www.codingame.com/profile/83603140793bc15d729e1516e11dda281538186"
-              class="pill">JS/TS</a
-            >
-          </li>
-          <li>
-            <a href="https://github.com/whoamilittl3fish/portfolio" class="pill"
-              >Docker</a
-            >
-          </li>
-          <li>
-            <a href="https://github.com/whoamilittl3fish" class="pill">Git</a>
-          </li>
-          <li>
-            <a href="https://github.com/whoamilittl3fish/portfolio" class="pill"
-              >Node.js</a
-            >
-          </li>
-          <li>
-            <a
-              href="https://github.com/whoamilittl3fish/QuanLyHopDong"
-              class="pill">C#/.NET</a
-            >
-          </li>
-        </ul>
+        <p class="hero__terminal-hint">press <kbd>`</kbd> or <span>&gt;_</span> to explore</p>
       </div>
       <button id="scroll-to-about" class="btn"> ↓ my story </button>
     </div>
@@ -87,6 +62,24 @@ function parseMarkdown(text: string): string {
       <div class="interests">
         {InterestsContent && <InterestsContent />}
       </div>
+    </div>
+  </section>
+
+  <section id="stats" class="section">
+    <div class="section__container">
+      <h2 class="section__title">github</h2>
+      <div class="github-year-picker">
+        <button class="github-year-btn" data-year="2024">2024</button>
+        <button class="github-year-btn" data-year="2025">2025</button>
+        <button class="github-year-btn is-active" data-year="2026">2026</button>
+      </div>
+      <div class="github-stats">
+        <a id="github-chart-link" href="https://github.com/whoamilittl3fish" target="_blank" rel="noopener" style="width: 100%;">
+          <img id="github-chart-light" class="github-stats__img github-stats__img--light" src="https://ghchart.rshah.org/2026/whoamilittl3fish" alt="Khoa Ngo's GitHub Activity Graph" style="width: 100%;" />
+          <img id="github-chart-dark" class="github-stats__img github-stats__img--dark" src="https://ghchart.rshah.org/2026/whoamilittl3fish" alt="Khoa Ngo's GitHub Activity Graph" style="width: 100%;" />
+        </a>
+      </div>
+      <GithubStats />
     </div>
   </section>
 
@@ -136,6 +129,24 @@ function parseMarkdown(text: string): string {
 />
 
 <script>
+  /**
+   * GitHub year picker
+   */
+  const yearBtns = document.querySelectorAll<HTMLButtonElement>('.github-year-btn');
+  yearBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const year = btn.dataset.year;
+      const lightImg = document.getElementById('github-chart-light') as HTMLImageElement | null;
+      const darkImg = document.getElementById('github-chart-dark') as HTMLImageElement | null;
+      if (!lightImg || !darkImg || !year) return;
+      const src = `https://ghchart.rshah.org/${year}/whoamilittl3fish`;
+      lightImg.src = src;
+      darkImg.src = src;
+      yearBtns.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+    });
+  });
+
   /**
    * Scroll to about section handler
    */
