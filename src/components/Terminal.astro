@@ -1,0 +1,70 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { projects } from '../content/projects';
+import '../styles/components/terminal.css';
+
+const allBlogs = await getCollection('blogs');
+const enBlogs = allBlogs
+  .filter((post: CollectionEntry<'blogs'>) => post.id.endsWith('/en.md') && !post.data.tags.includes('upcoming'))
+  .map((post: CollectionEntry<'blogs'>) => ({
+    slug: post.id.split('/')[0],
+    title: post.data.title,
+    url: `/blogs/en/${post.id.split('/')[0]}`
+  }));
+
+const terminalData = {
+  blogs: enBlogs,
+  projects: projects.map(p => ({
+    name: p.title,
+    url: p.links.live ?? p.links.source ?? '#'
+  }))
+};
+---
+
+<script type="application/json" id="terminal-data" is:inline set:html={JSON.stringify(terminalData)} />
+
+<button
+  id="terminal-trigger"
+  class="terminal-trigger"
+  aria-label="Open terminal"
+  aria-expanded="false"
+  aria-controls="terminal-popup"
+>&gt;_</button>
+
+<div id="terminal-overlay" class="terminal-overlay" aria-hidden="true"></div>
+
+<div
+  id="terminal-popup"
+  class="terminal-popup"
+  role="dialog"
+  aria-label="Interactive terminal"
+  aria-modal="true"
+>
+  <div class="terminal-header">
+    <span class="terminal-header__title">zoskisk@portfolio</span>
+    <button id="terminal-close" class="terminal-header__close" aria-label="Close terminal">✕</button>
+  </div>
+  <div id="terminal-output" class="terminal-output" aria-live="polite" aria-atomic="false"></div>
+  <div class="terminal-input-row">
+    <span id="terminal-prompt" class="terminal-prompt">~$</span>
+    <input
+      id="terminal-input"
+      class="terminal-input"
+      type="text"
+      aria-label="Terminal input"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="false"
+    />
+  </div>
+</div>
+
+<script>
+  import { initTerminal } from '../scripts/terminal';
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTerminal);
+  } else {
+    initTerminal();
+  }
+</script>
