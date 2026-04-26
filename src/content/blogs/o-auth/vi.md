@@ -21,7 +21,7 @@ Chúng ta sẽ đi qua OAuth 2.0, tiêu chuẩn mới thay thế hoàn toàn ver
 
 Web (Javascript) từ ứng dụng trên máy của khách (client):
 
-![Google OAuth 2.0 communicate](/asssets/blogs/o-auth/1.pgn)
+![Google OAuth 2.0 communicate](/assets/blogs/o-auth/1.png)
 
 # Các bước:
 

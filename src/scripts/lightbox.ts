@@ -3,39 +3,7 @@
  * Shared lightbox functionality for viewing images
  */
 
-const SWIPE_THRESHOLD = 50;
-
-/**
- * Creates a swipe handler for image navigation
- */
-function createSwipeHandler(
-  onSwipeLeft: () => void,
-  onSwipeRight: () => void
-): { handleTouchStart: (e: TouchEvent) => void; handleTouchEnd: (e: TouchEvent) => void } {
-  let touchStartX = 0;
-  let touchEndX = 0;
-
-  const handleSwipe = () => {
-    const diff = touchStartX - touchEndX;
-    if (Math.abs(diff) > SWIPE_THRESHOLD) {
-      if (diff > 0) {
-        onSwipeLeft();
-      } else {
-        onSwipeRight();
-      }
-    }
-  };
-
-  return {
-    handleTouchStart: (e: TouchEvent) => {
-      touchStartX = e.touches[0].clientX;
-    },
-    handleTouchEnd: (e: TouchEvent) => {
-      touchEndX = e.changedTouches[0].clientX;
-      handleSwipe();
-    }
-  };
-}
+import { createSwipeHandler } from './utils/swipe';
 
 /**
  * Creates and manages a lightbox for viewing images

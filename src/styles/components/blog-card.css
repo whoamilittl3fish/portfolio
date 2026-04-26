@@ -80,6 +80,11 @@
   color: var(--text-muted);
 }
 
+.blog-card__reading-time {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
 .blog-card__lang {
   font-size: 1rem;
   padding: 2px 6px;

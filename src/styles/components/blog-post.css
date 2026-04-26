@@ -44,6 +44,11 @@
   gap: var(--space-xs);
 }
 
+.blog-post__reading-time {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
 /* ============================================
    Content Typography
    ============================================ */

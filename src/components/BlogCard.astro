@@ -11,9 +11,10 @@ interface Props {
   tags?: string[];
   'data-tags'?: string;
   isUpcoming?: boolean;
+  readingTime?: number;
 }
 
-const { title, description, slug, lang, langs = [lang as 'en' | 'vi'], date, tags = [], 'data-tags': dataTags, isUpcoming = false } = Astro.props;
+const { title, description, slug, lang, langs = [lang as 'en' | 'vi'], date, tags = [], 'data-tags': dataTags, isUpcoming = false, readingTime } = Astro.props;
 
 const formattedDate = new Intl.DateTimeFormat(lang === 'vi' ? 'vi-VN' : 'en-US', {
   year: 'numeric',
@@ -48,6 +49,7 @@ const formattedDate = new Intl.DateTimeFormat(lang === 'vi' ? 'vi-VN' : 'en-US',
   )}
   <div class="blog-card__meta">
     <span class="blog-card__date">{formattedDate}</span>
+    {readingTime && <span class="blog-card__reading-time">{readingTime} min read</span>}
     <span class="blog-card__lang">
       <span class:list={[{ 'is-disabled': !langs.includes('en') }]}>EN</span>
       {langs.includes('en') && langs.includes('vi') && ' / '}

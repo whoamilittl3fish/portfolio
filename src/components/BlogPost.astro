@@ -15,9 +15,10 @@ interface Props {
   slug: string;
   langs?: ('en' | 'vi')[];
   tags?: string[];
+  readingTime?: number;
 }
 
-const { title, description, date, lang, slug, langs = ['en', 'vi'], tags = [] } = Astro.props;
+const { title, description, date, lang, slug, langs = ['en', 'vi'], tags = [], readingTime } = Astro.props;
 
 const formattedDate = new Intl.DateTimeFormat(lang === 'vi' ? 'vi-VN' : 'en-US', {
   year: 'numeric',
@@ -26,12 +27,14 @@ const formattedDate = new Intl.DateTimeFormat(lang === 'vi' ? 'vi-VN' : 'en-US',
 }).format(date);
 ---
 
-<BaseLayout 
-  title={title} 
-  description={description} 
-  keywords={tags.join(', ')} 
-  currentPage="blogs" 
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={tags.join(', ')}
+  currentPage="blogs"
   hideBottomNav={true}
+  pageLang={lang}
+  ogType="article"
 >
   <article class="blog-post">
     <div class="blog-post__container">
@@ -39,6 +42,7 @@ const formattedDate = new Intl.DateTimeFormat(lang === 'vi' ? 'vi-VN' : 'en-US',
         <h1 class="blog-post__title">{title}</h1>
         <div class="blog-post__meta">
           <time datetime={date.toISOString()}>{formattedDate}</time>
+          {readingTime && <span class="blog-post__reading-time">{readingTime} min read</span>}
           {tags.length > 0 && (
             <div class="blog-post__tags">
               {tags.map(tag => (

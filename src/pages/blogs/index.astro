@@ -2,6 +2,7 @@
 import BaseLayout from '../../components/BaseLayout.astro';
 import BlogCard from '../../components/BlogCard.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { getReadingTime } from '../../scripts/utils/reading-time';
 import '../../styles/pages/blogs.css';
 
 type BlogPost = CollectionEntry<'blogs'>;
@@ -95,10 +96,10 @@ function getSlugAndLangs(id: string, postsBySlug: Map<string, { en?: BlogPost; v
         {sortedPosts.map((post) => {
           const { slug, langs } = getSlugAndLangs(post.id, postsBySlug);
           const group = postsBySlug.get(slug);
-          // Check if either EN or VI version has 'upcomming' tag
-          const isUpcoming = 
-            (group?.en?.data.tags.includes('upcoming')) || 
+          const isUpcoming =
+            (group?.en?.data.tags.includes('upcoming')) ||
             (group?.vi?.data.tags.includes('upcoming'));
+          const readingTime = getReadingTime(post.body);
           return (
             <BlogCard
               title={post.data.title}
@@ -110,11 +111,20 @@ function getSlugAndLangs(id: string, postsBySlug: Map<string, { en?: BlogPost; v
               tags={post.data.tags}
               data-tags={post.data.tags.join(',')}
               isUpcoming={isUpcoming}
+              readingTime={readingTime}
             />
           );
         })}
       </div>
-      
+
+      <div class="blogs__pagination" id="blogs-pagination" style="display: none;">
+        <div class="blogs__pagination-pill">
+          <button id="prev-page" class="blogs__pagination-btn" aria-label="Previous page" disabled>←</button>
+          <span id="page-indicator" class="blogs__pagination-indicator">1 / 1</span>
+          <button id="next-page" class="blogs__pagination-btn" aria-label="Next page">→</button>
+        </div>
+      </div>
+
       <p class="blogs__empty" id="empty-message" style="display: none;">
         No posts found with that tag.
       </p>
@@ -141,11 +151,11 @@ function getSlugAndLangs(id: string, postsBySlug: Map<string, { en?: BlogPost; v
 }, null, 2)} />
 
 <script>
-  import { initBlogFilters } from '../../scripts/blog-filter';
-  
+  import { initBlogController } from '../../scripts/blog-controller';
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initBlogFilters);
+    document.addEventListener('DOMContentLoaded', initBlogController);
   } else {
-    initBlogFilters();
+    initBlogController();
   }
 </script>

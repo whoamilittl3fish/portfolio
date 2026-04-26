@@ -34,3 +34,8 @@ README.dev.md
 
 # Jetbrains folder
 .idea
+
+#Local setup
+.claude
+CLAUDE.md
+docs
