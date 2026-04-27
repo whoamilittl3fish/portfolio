@@ -16,7 +16,7 @@ This is my source portfolio.
   - **Thank-You Flow**: Dedicated success page with automated redirection.
 - **Responsive UI**: 
   - **Dual-mode Navigation**: Custom bottom navigation bar optimized for mobile with a 2-row layout.
-  - **Terminal Overlay**: Interactive mini-terminal for a tech-focused UX.
+  - **Terminal Overlay**: Interactive mini terminal for a tech focused UX.
   - **Theme Toggle**: Dark/Light mode support.
 
 ## Project Structure

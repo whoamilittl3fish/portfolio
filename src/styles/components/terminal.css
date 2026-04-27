@@ -211,6 +211,10 @@ a.terminal-line--link:hover { color: #aad4ff; text-decoration: underline; }
   .terminal-resize-top,
   .terminal-resize-left { display: none; }
 
+  .terminal-input {
+    font-size: 16px !important; /* Prevents iOS auto-zoom on focus */
+  }
+
   .terminal-popup {
     width: calc(100% - 20px);
     height: 50dvh;
