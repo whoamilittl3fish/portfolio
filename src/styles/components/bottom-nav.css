@@ -68,24 +68,30 @@
   pointer-events: none;
 }
 
-/* Contact / Z icon */
+/* Contact / ZSK icon */
 .bottom-nav__contact {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  color: var(--text-secondary);
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--bg-primary);
+  background: var(--accent);
   font-family: var(--font-mono);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   font-weight: 700;
   text-decoration: none !important;
   border-radius: var(--border-radius);
-  transition: color var(--transition-fast);
-  letter-spacing: -0.5px;
+  border: 1px solid var(--accent);
+  transition: background var(--transition-fast), color var(--transition-fast);
+  letter-spacing: 0.05em;
+  line-height: 1;
 }
-.bottom-nav__contact:hover,
+.bottom-nav__contact:hover {
+  background: transparent;
+  color: var(--accent);
+}
 .bottom-nav__contact.is-active {
+  background: transparent;
   color: var(--accent);
 }
 

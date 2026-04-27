@@ -11,6 +11,8 @@ import '../styles/pages/contact.css';
   <section class="contact-page">
     <div class="contact__container">
 
+      <h1 class="contact__title">contact<span class="contact__title-dot">.</span></h1>
+
       <div class="contact__socials">
         <a
           href="https://github.com/whoamilittl3fish"
@@ -45,11 +47,8 @@ import '../styles/pages/contact.css';
 
       <div class="contact__form-section">
         <p class="contact__tagline">leave me a message —<br>i'll remember you.</p>
-        <form
-          id="contact-form"
-          class="contact__form"
-        >
 
+        <form id="contact-form" class="contact__form">
           <div class="contact__field">
             <label class="contact__label" for="contact-name">name</label>
             <input
@@ -88,9 +87,18 @@ import '../styles/pages/contact.css';
             ></textarea>
           </div>
 
-          <button class="contact__submit" type="submit">send</button>
-          <p id="contact-status" class="contact__status" aria-live="polite"></p>
+          <div class="contact__actions">
+            <button id="contact-submit" class="contact__submit" type="submit">send</button>
+            <p id="contact-error" class="contact__error" aria-live="polite"></p>
+          </div>
         </form>
+
+        <div id="contact-success" class="contact__success" hidden>
+          <p class="contact__success-msg">thank you — i'll get back to you.</p>
+          <p class="contact__success-redirect">
+            redirecting in <span id="contact-countdown">3</span>s…
+          </p>
+        </div>
       </div>
 
     </div>
@@ -98,19 +106,54 @@ import '../styles/pages/contact.css';
 </BaseLayout>
 
 <script>
-  const form = document.getElementById('contact-form') as HTMLFormElement | null;
-  const status = document.getElementById('contact-status') as HTMLElement | null;
+  const FORM_ID = 'YOUR_FORM_ID'; // replace with your Formspree form ID
 
-  form?.addEventListener('submit', (e) => {
+  const form     = document.getElementById('contact-form')    as HTMLFormElement | null;
+  const submitBtn= document.getElementById('contact-submit')  as HTMLButtonElement | null;
+  const errorEl  = document.getElementById('contact-error')   as HTMLElement | null;
+  const successEl= document.getElementById('contact-success') as HTMLElement | null;
+  const countdown= document.getElementById('contact-countdown') as HTMLElement | null;
+
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const name    = (form.elements.namedItem('name')    as HTMLInputElement).value.trim();
-    const email   = (form.elements.namedItem('email')   as HTMLInputElement).value.trim();
-    const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value.trim();
+    if (!submitBtn) return;
 
-    const subject = encodeURIComponent(`message from ${name}`);
-    const body    = encodeURIComponent(`from: ${name}\nemail: ${email}\n\n${message}`);
-    window.location.href = `mailto:khoa.ngovoviet@gmail.com?subject=${subject}&body=${body}`;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'sending…';
+    if (errorEl) errorEl.textContent = '';
 
-    if (status) status.textContent = 'opening your email client…';
+    try {
+      const res = await fetch(`https://formspree.io/f/${FORM_ID}`, {
+        method: 'POST',
+        body: new FormData(form!),
+        headers: { Accept: 'application/json' },
+      });
+
+      if (res.ok) {
+        form!.hidden = true;
+        if (successEl) successEl.hidden = false;
+
+        let count = 3;
+        if (countdown) countdown.textContent = String(count);
+        const timer = setInterval(() => {
+          count--;
+          if (countdown) countdown.textContent = String(count);
+          if (count <= 0) {
+            clearInterval(timer);
+            window.location.href = '/';
+          }
+        }, 1000);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        const msg = (data as any)?.errors?.[0]?.message ?? 'something went wrong — try again.';
+        if (errorEl) errorEl.textContent = msg;
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'send';
+      }
+    } catch {
+      if (errorEl) errorEl.textContent = 'network error — try again.';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'send';
+    }
   });
 </script>

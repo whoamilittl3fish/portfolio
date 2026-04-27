@@ -8,6 +8,20 @@
   padding: 0 var(--space-lg);
 }
 
+/* Title */
+.contact__title {
+  font-family: var(--font-mono);
+  font-size: clamp(2.5rem, 10vw, 5rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-primary);
+  margin-bottom: var(--space-3xl);
+  letter-spacing: -0.03em;
+}
+.contact__title-dot {
+  color: var(--accent);
+}
+
 .contact__section-label {
   font-family: var(--font-mono);
   font-size: var(--font-size-sm);
@@ -52,12 +66,41 @@
   margin-bottom: var(--space-xl);
 }
 
-.contact__status {
+.contact__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.contact__error {
   font-family: var(--font-mono);
   font-size: var(--font-size-xs);
-  color: var(--text-muted);
-  margin-top: var(--space-xs);
+  color: #f07070;
   min-height: 1.2em;
+}
+
+.contact__success {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.contact__success-msg {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-lg, 1.25rem);
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+}
+
+.contact__success-redirect {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.contact__success-redirect span {
+  color: var(--accent);
+  font-weight: 700;
 }
 
 /* Form section */
