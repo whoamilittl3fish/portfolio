@@ -106,13 +106,11 @@ import '../styles/pages/contact.css';
 </BaseLayout>
 
 <script>
-  const FORM_ID = 'YOUR_FORM_ID'; // replace with your Formspree form ID
-
-  const form     = document.getElementById('contact-form')    as HTMLFormElement | null;
-  const submitBtn= document.getElementById('contact-submit')  as HTMLButtonElement | null;
-  const errorEl  = document.getElementById('contact-error')   as HTMLElement | null;
-  const successEl= document.getElementById('contact-success') as HTMLElement | null;
-  const countdown= document.getElementById('contact-countdown') as HTMLElement | null;
+  const form      = document.getElementById('contact-form')     as HTMLFormElement | null;
+  const submitBtn = document.getElementById('contact-submit')   as HTMLButtonElement | null;
+  const errorEl   = document.getElementById('contact-error')    as HTMLElement | null;
+  const successEl = document.getElementById('contact-success')  as HTMLElement | null;
+  const countdown = document.getElementById('contact-countdown') as HTMLElement | null;
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -123,11 +121,12 @@ import '../styles/pages/contact.css';
     if (errorEl) errorEl.textContent = '';
 
     try {
-      const res = await fetch(`https://formspree.io/f/${FORM_ID}`, {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         body: new FormData(form!),
-        headers: { Accept: 'application/json' },
       });
+
+      const data = await res.json().catch(() => ({}));
 
       if (res.ok) {
         form!.hidden = true;
@@ -144,8 +143,7 @@ import '../styles/pages/contact.css';
           }
         }, 1000);
       } else {
-        const data = await res.json().catch(() => ({}));
-        const msg = (data as any)?.errors?.[0]?.message ?? 'something went wrong — try again.';
+        const msg = (data as any)?.error ?? 'something went wrong — try again.';
         if (errorEl) errorEl.textContent = msg;
         submitBtn.disabled = false;
         submitBtn.textContent = 'send';
