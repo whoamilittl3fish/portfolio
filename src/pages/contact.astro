@@ -44,14 +44,11 @@ import '../styles/pages/contact.css';
       </div>
 
       <div class="contact__form-section">
-        <p class="contact__section-label">send a message</p>
+        <p class="contact__tagline">leave me a message —<br>i'll remember you.</p>
         <form
+          id="contact-form"
           class="contact__form"
-          action="https://formspree.io/f/YOUR_FORM_ID"
-          method="POST"
         >
-          <input type="hidden" name="_subject" value="New message from portfolio" />
-          <input type="hidden" name="_replyto" value="email" />
 
           <div class="contact__field">
             <label class="contact__label" for="contact-name">name</label>
@@ -92,9 +89,28 @@ import '../styles/pages/contact.css';
           </div>
 
           <button class="contact__submit" type="submit">send</button>
+          <p id="contact-status" class="contact__status" aria-live="polite"></p>
         </form>
       </div>
 
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('contact-status') as HTMLElement | null;
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name    = (form.elements.namedItem('name')    as HTMLInputElement).value.trim();
+    const email   = (form.elements.namedItem('email')   as HTMLInputElement).value.trim();
+    const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value.trim();
+
+    const subject = encodeURIComponent(`message from ${name}`);
+    const body    = encodeURIComponent(`from: ${name}\nemail: ${email}\n\n${message}`);
+    window.location.href = `mailto:khoa.ngovoviet@gmail.com?subject=${subject}&body=${body}`;
+
+    if (status) status.textContent = 'opening your email client…';
+  });
+</script>

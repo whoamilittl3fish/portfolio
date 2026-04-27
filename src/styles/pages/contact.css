@@ -43,6 +43,23 @@
   text-decoration: none;
 }
 
+/* Tagline */
+.contact__tagline {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-lg, 1.25rem);
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: var(--space-xl);
+}
+
+.contact__status {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+  min-height: 1.2em;
+}
+
 /* Form section */
 .contact__form-section {
   max-width: 480px;
