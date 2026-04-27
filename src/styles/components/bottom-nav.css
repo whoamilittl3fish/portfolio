@@ -1,24 +1,61 @@
-/**
- * Bottom Navigation Bar
- * Shared styles for main pages and blog posts
- */
+/* Bottom Navigation */
 
-/* Container */
 .bottom-nav {
   position: fixed;
   bottom: var(--space-xl);
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
-  transition: bottom 0.2s ease;
   font-family: var(--font-mono);
+  width: 48px;
+  height: 48px;
 }
 
-/* Pill wrapper */
-.bottom-nav__pill {
+/* Z Toggle Button */
+.bottom-nav__toggle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px var(--shadow);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 1;
+  visibility: visible;
+  transition: background var(--transition-fast), color var(--transition-fast),
+              border-color var(--transition-fast), opacity 0.15s ease, visibility 0s;
+}
+
+.bottom-nav__toggle:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+}
+
+.bottom-nav.is-open .bottom-nav__toggle {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.15s ease, visibility 0s linear 0.15s;
+}
+
+/* Pill wrapper — absolutely positioned over the Z button */
+.bottom-nav__pill {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
   justify-content: center;
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-lg);
@@ -27,6 +64,20 @@
   border-radius: 999px;
   box-shadow: 0 4px 20px var(--shadow);
   backdrop-filter: blur(10px);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-50%) scale(0.85);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s linear 0.18s;
+}
+
+.bottom-nav.is-open .bottom-nav__pill {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+  pointer-events: auto;
+  visibility: visible;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s;
 }
 
 /* Navigation Links */
@@ -48,8 +99,7 @@
   background: transparent;
   border: none;
   border-radius: var(--border-radius);
-  transition: color var(--transition-fast), 
-              font-weight var(--transition-fast);
+  transition: color var(--transition-fast), font-weight var(--transition-fast);
 }
 
 .bottom-nav__link:hover {
@@ -68,7 +118,7 @@
   pointer-events: none;
 }
 
-/* Contact / ZSK icon */
+/* Contact / ZSK button */
 .bottom-nav__contact {
   display: flex;
   align-items: center;
@@ -86,10 +136,12 @@
   letter-spacing: 0.05em;
   line-height: 1;
 }
+
 .bottom-nav__contact:hover {
   background: transparent;
   color: var(--accent);
 }
+
 .bottom-nav__contact.is-active {
   background: transparent;
   color: var(--accent);
@@ -117,6 +169,11 @@
   color: #fff;
 }
 
+/* Row break — invisible on desktop, forces 2nd row on mobile */
+.bottom-nav__row-break {
+  display: none;
+}
+
 /* Divider */
 .bottom-nav__divider {
   width: 1px;
@@ -124,7 +181,7 @@
   background: var(--border);
 }
 
-/* Theme Toggle */
+/* Theme Toggle / Back-to-top */
 .bottom-nav__theme {
   display: flex;
   align-items: center;
@@ -136,7 +193,7 @@
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  transition: color var(--transition-fast);
+  transition: opacity var(--transition-fast);
 }
 
 .bottom-nav__theme:hover {
@@ -148,33 +205,33 @@
   line-height: 1;
 }
 
-/* Mobile adjustments */
+/* Mobile */
 @media (max-width: 500px) {
   .bottom-nav {
     bottom: var(--space-md);
-    width: calc(100% - 32px);
-    max-width: 400px;
   }
 
   .bottom-nav__pill {
+    width: calc(100vw - 32px);
+    max-width: 360px;
     flex-wrap: wrap;
     justify-content: center;
     gap: 6px;
-    padding: 10px;
+    padding: 10px 14px;
     border-radius: 20px;
+    white-space: normal;
+  }
+
+  .bottom-nav__row-break {
+    display: block;
+    flex-basis: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 2px 0;
   }
 
   .bottom-nav__divider {
     display: none;
-  }
-
-  .bottom-nav__divider:first-of-type {
-    display: block;
-    width: 100%;
-    height: 0;
-    margin: 2px 0;
-    background: transparent;
-    border: none;
   }
 
   .bottom-nav__link {

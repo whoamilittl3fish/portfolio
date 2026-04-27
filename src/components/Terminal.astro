@@ -16,7 +16,7 @@ const terminalData = {
   blogs: enBlogs,
   projects: projects.map(p => ({
     name: p.title,
-    url: p.links.live ?? p.links.source ?? '#'
+    url: p.links.source ?? p.links.live ?? '#'
   }))
 };
 ---

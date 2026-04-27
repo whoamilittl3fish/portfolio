@@ -188,7 +188,7 @@ export function initTerminal(): void {
     const partial = rest.join(' ');
 
     if (cmd === 'cat') {
-      const cands = currentDir === '/' ? ['skills.txt', 'clock.exe']
+      const cands = currentDir === '/' ? ['skills.txt', 'interests.txt', 'clock.exe']
         : currentDir === 'blogs' ? data.blogs.map(b => b.slug)
         : data.projects.map(p => p.name);
       const lp = partial.toLowerCase();
@@ -203,7 +203,7 @@ export function initTerminal(): void {
         else if (slugCands.length > 1) { appendLine(`${getPrompt(currentDir)} ${val}`, 'terminal-line--command'); appendLine(slugCands.join('  ')); scrollToBottom(); }
         return;
       }
-      let cands = currentDir === '/' ? ['blogs', 'projects'] : ['..'];
+      let cands = currentDir === '/' ? ['blogs', 'projects', 'github_profile/'] : ['..'];
       if (onHome && currentDir === '/') cands = [...cands, 'contact'];
       const m = cands.filter(c => c.startsWith(partial) && c !== partial);
       if (m.length === 1) inputEl!.value = `cd ${m[0]}`;
@@ -236,14 +236,24 @@ export function initTerminal(): void {
         break;
       case 'ls':
         if (currentDir === '/') {
-          appendLine('skills.txt');
-          appendLine('clock.exe');
-          appendLine('blogs/');
-          appendLine('projects/');
-          appendLine('contact/');
+          const lsTarget = arg.replace(/\/$/, '');
+          if (lsTarget === 'interests') {
+            appendLine('open-source  games  anime  gym  horror-films', 'terminal-line--dir');
+          } else if (!lsTarget) {
+            appendLine('skills.txt', 'terminal-line--txt');
+            appendLine('interests.txt', 'terminal-line--txt');
+            appendLine('clock.exe', 'terminal-line--exe');
+            appendLine('blogs/', 'terminal-line--dir');
+            appendLine('projects/', 'terminal-line--dir');
+            appendLine('contact/', 'terminal-line--dir');
+            appendLine('interests/', 'terminal-line--dir');
+            appendLink('github_profile/', `https://github.com/${GH_USER}`);
+          } else {
+            appendLine(`ls: ${lsTarget}: no such directory`, 'terminal-line--error');
+          }
         }
-        else if (currentDir === 'blogs') data.blogs.forEach(b => appendLink(b.slug, b.url));
-        else data.projects.forEach(p => appendLink(p.name, p.url));
+        else if (currentDir === 'blogs') data.blogs.forEach(b => appendLink(b.slug + '/', b.url));
+        else data.projects.forEach(p => appendLink(p.name + '/', p.url));
         break;
       case 'cd':
         if (arg === '..') {
@@ -257,7 +267,10 @@ export function initTerminal(): void {
         } else {
           const targetDir = arg.startsWith('../') ? arg.slice(3) : arg;
           
-          if (NAV_MAP[targetDir]) {
+          if (targetDir === 'github_profile' || targetDir === 'github_profile/') {
+            appendLine(`→ github.com/${GH_USER}`, 'terminal-line--muted');
+            window.open(`https://github.com/${GH_USER}`, '_blank', 'noopener,noreferrer');
+          } else if (NAV_MAP[targetDir]) {
             if (currentDir === targetDir) {
               appendLine(`already in ${targetDir}/`, 'terminal-line--muted');
             } else {
@@ -310,6 +323,7 @@ export function initTerminal(): void {
         }
         if (currentDir === '/') {
           if (arg === 'skills.txt') appendLine(SKILLS);
+          else if (arg === 'interests.txt') appendLine('open-source · games · anime · gym · horror-films');
           else if (arg === 'clock.exe') appendLine('hint: run ./clock.exe to execute', 'terminal-line--muted');
           else if (!arg) appendLine('usage: cat <file>', 'terminal-line--error');
           else appendLine(`cat: ${arg}: no such file`, 'terminal-line--error');
@@ -499,7 +513,11 @@ export function initTerminal(): void {
     }
   });
 
-  appendLine('zoskisk portfolio terminal', 'terminal-line--muted');
-  appendLine("type 'zoskisk --help' to get started", 'terminal-line--muted');
+  appendLine('$ whoami', 'terminal-line--command');
+  appendLine('khoa — software developer, hcmc', 'terminal-line--output');
+  appendLine('$ cat motto.txt', 'terminal-line--command');
+  appendLine('Good things take time.', 'terminal-line--output');
+  appendLine('$ ls interests/', 'terminal-line--command');
+  appendLine('open-source  games  anime  gym  horror-films', 'terminal-line--dir');
   appendLine('', 'terminal-line--muted');
 }

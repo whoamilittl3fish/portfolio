@@ -1,23 +1,16 @@
 ---
-/**
- * Shared bottom navigation bar component
- * Used across main pages and blog posts with different configurations
- */
 import '../styles/components/bottom-nav.css';
 
 interface Props {
-  /** Current page for highlighting active nav link */
   currentPage?: string;
-  /** Variant: 'main' for home/projects/blogs, 'blog' for blog posts */
   variant?: 'main' | 'blog';
-  /** Blog-specific props */
   lang?: 'en' | 'vi';
   slug?: string;
   langs?: ('en' | 'vi')[];
 }
 
-const { 
-  currentPage = '', 
+const {
+  currentPage = '',
   variant = 'main',
   lang = 'en',
   slug = '',
@@ -29,20 +22,19 @@ const navLinks = [
   { href: '/projects', label: 'projects' },
   { href: '/blogs', label: 'blogs' },
 ];
-
 ---
 
 <nav class="bottom-nav" aria-label="Navigation">
-  <div class="bottom-nav__pill">
+  <div class="bottom-nav__pill" id="nav-pill" aria-hidden="true">
     {variant === 'main' && navLinks.map(link => (
-      <a 
+      <a
         class:list={['bottom-nav__link', { 'is-active': currentPage === link.label }]}
         href={link.href}
       >
         {link.label}
       </a>
     ))}
-    
+
     {variant === 'blog' && (
       <>
         {lang === 'en' ? (
@@ -62,7 +54,9 @@ const navLinks = [
         <a href="/blogs" class="bottom-nav__link">blogs</a>
       </>
     )}
-    
+
+    <span class="bottom-nav__row-break"></span>
+
     <a
       href="/contact"
       class:list={['bottom-nav__contact', { 'is-active': currentPage === 'contact' }]}
@@ -91,20 +85,74 @@ const navLinks = [
       <span class="bottom-nav__theme-icon">☀️</span>
     </button>
 
-    <button 
-      id="bottom-back-to-top" 
-      class="bottom-nav__theme" 
-      type="button" 
+    <button
+      id="bottom-back-to-top"
+      class="bottom-nav__theme"
+      type="button"
       aria-label="Back to top"
     >
       ▲
     </button>
   </div>
+
+  <button
+    class="bottom-nav__toggle"
+    id="nav-toggle"
+    type="button"
+    aria-label="Toggle navigation"
+    aria-expanded="false"
+    aria-controls="nav-pill"
+  >Z</button>
 </nav>
 
 <script>
   import { forceRepaint } from '../scripts/utils/dom';
 
+  const bottomNav = document.querySelector('.bottom-nav') as HTMLElement;
+  const navToggle = document.getElementById('nav-toggle') as HTMLButtonElement | null;
+  const navPill = document.getElementById('nav-pill') as HTMLElement | null;
+
+  function openNav(): void {
+    bottomNav?.classList.add('is-open');
+    navToggle?.setAttribute('aria-expanded', 'true');
+    navPill?.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeNav(): void {
+    bottomNav?.classList.remove('is-open');
+    navToggle?.setAttribute('aria-expanded', 'false');
+    navPill?.setAttribute('aria-hidden', 'true');
+  }
+
+  function toggleNav(): void {
+    bottomNav?.classList.contains('is-open') ? closeNav() : openNav();
+  }
+
+  navToggle?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleNav();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (bottomNav && !bottomNav.contains(e.target as Node)) {
+      closeNav();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    const target = e.target as HTMLElement;
+    if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) return;
+    if (target.isContentEditable) return;
+    if (e.key === 'z' || e.key === 'Z') {
+      e.preventDefault();
+      toggleNav();
+    }
+  });
+
+  // Close nav when terminal opens
+  document.getElementById('terminal-trigger')?.addEventListener('click', closeNav);
+
+  // Theme toggle
   const themeToggle = document.getElementById('bottom-theme-toggle');
   const themeIcon = themeToggle?.querySelector('.bottom-nav__theme-icon');
 
@@ -113,100 +161,80 @@ const navLinks = [
     const isDark = document.documentElement.dataset.theme === 'dark';
     themeIcon.textContent = isDark ? '🌙' : '☀️';
   }
-  
+
   function toggleTheme(): void {
     const current = document.documentElement.dataset.theme;
     const next = current === 'dark' ? 'light' : 'dark';
-    
-    // Disable transitions temporarily
+
     const style = document.createElement('style');
     style.textContent = '* { transition: none !important; }';
     document.head.appendChild(style);
-    
-    // Update theme
+
     document.documentElement.dataset.theme = next;
     document.documentElement.style.colorScheme = next;
     localStorage.setItem('theme', next);
-    
-    // Update icon
+
     updateThemeIcon();
-    
-    // Force repaint (critical for mobile)
     forceRepaint();
-    
-    // Re-enable transitions
+
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         document.head.removeChild(style);
       });
     });
-    
-    // Dispatch event
+
     window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: next } }));
   }
-  
-  // Set initial icon
+
   updateThemeIcon();
-  
-  // Watch for theme changes
+
   const observer = new MutationObserver(updateThemeIcon);
-  observer.observe(document.documentElement, { 
-    attributes: true, 
-    attributeFilter: ['data-theme'] 
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme']
   });
-  
-  // Handle click
+
   themeToggle?.addEventListener('click', toggleTheme);
-  
-  // Back to top
-  const backToTop = document.getElementById('bottom-back-to-top');
-  backToTop?.addEventListener('click', () => {
+
+  document.getElementById('bottom-back-to-top')?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
-  
-  /**
-   * Footer collision detection
-   * Nav sticks above footer when scrolled to bottom (like sticky from bottom)
-   */
-  const bottomNav = document.querySelector('.bottom-nav') as HTMLElement;
+
+  // Footer collision detection
   const footer = document.querySelector('.footer') as HTMLElement;
   const spacing = 16;
-  
+
   function isMobile(): boolean {
     return window.innerWidth <= 500;
   }
-  
+
   function getDefaultBottom(): number {
-    return isMobile() ? 16 : 24; // var(--space-md) vs var(--space-xl)
+    return isMobile() ? 16 : 24;
   }
-  
+
   function updateNavPosition(): void {
     if (!bottomNav || !footer) return;
-    
+
     const footerTop = footer.offsetTop;
     const navHeight = bottomNav.offsetHeight;
     const scrollY = window.scrollY;
     const windowHeight = window.innerHeight;
     const defaultBottom = getDefaultBottom();
-    
-    // Position where nav bottom would touch footer top (when fixed)
+
     const navBottomWhenFixed = scrollY + windowHeight - defaultBottom;
     const collisionPoint = footerTop - spacing;
-    
+
     if (navBottomWhenFixed > collisionPoint) {
-      // Stick nav just above footer using absolute positioning
       bottomNav.style.position = 'absolute';
       bottomNav.style.bottom = 'auto';
       bottomNav.style.top = `${footerTop - navHeight - spacing}px`;
     } else {
-      // Normal fixed position at bottom
       bottomNav.style.position = '';
       bottomNav.style.bottom = '';
       bottomNav.style.top = '';
     }
   }
-  
-  // Throttled scroll handler
+
   let ticking = false;
   function onScroll(): void {
     if (!ticking) {
@@ -217,9 +245,8 @@ const navLinks = [
       ticking = true;
     }
   }
-  
+
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', updateNavPosition);
   updateNavPosition();
 </script>
-

@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/github",
+      "destination": "https://github.com/whoamilittl3fish",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/_astro/(.*)",

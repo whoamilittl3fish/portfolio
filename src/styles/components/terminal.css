@@ -147,6 +147,9 @@
 .terminal-line--output  { color: #aaa; }
 .terminal-line--muted   { color: #555; }
 .terminal-line--error   { color: #f07070; }
+.terminal-line--dir     { color: #7eb8f7; }
+.terminal-line--exe     { color: #f07070; }
+.terminal-line--txt     { color: #e0e0e0; }
 
 a.terminal-line--link { display: block; color: #7eb8f7; text-decoration: none; cursor: pointer; }
 a.terminal-line--link:hover { color: #aad4ff; text-decoration: underline; }
