@@ -169,9 +169,10 @@ export function initTerminal(): void {
     if (!val.trim()) return;
 
     if (parts.length === 1) {
-      const m = ALL_COMMANDS.filter(c => c.startsWith(parts[0]) && c !== parts[0]);
+      const lower = parts[0].toLowerCase();
+      const m = ALL_COMMANDS.filter(c => c.startsWith(lower) && c !== lower);
       if (m.length === 1) inputEl!.value = m[0] + ' ';
-      else if (m.length > 1) { appendLine(`${getPrompt(currentDir)} ${val}`, 'terminal-line--command'); appendLine(m.join('  ')); scrollToBottom(); }
+      else if (m.length > 1) { appendLine(`${getPrompt(currentDir)} ${val}`, 'terminal-line--command'); appendLine(m.map(c => `/${c}`).join('  ')); scrollToBottom(); }
       return;
     }
 
@@ -193,7 +194,7 @@ export function initTerminal(): void {
         else if (slugCands.length > 1) { appendLine(`${getPrompt(currentDir)} ${val}`, 'terminal-line--command'); appendLine(slugCands.join('  ')); scrollToBottom(); }
         return;
       }
-      let cands = currentDir === '/' ? ['blogs', 'projects', 'blogs/'] : ['..'];
+      let cands = currentDir === '/' ? ['blogs', 'projects'] : ['..'];
       if (onHome && currentDir === '/') cands = [...cands, 'about', 'github', 'contact'];
       const m = cands.filter(c => c.startsWith(partial) && c !== partial);
       if (m.length === 1) inputEl!.value = `cd ${m[0]}`;
@@ -285,6 +286,14 @@ export function initTerminal(): void {
         appendLine('  hint: sudo apt install docker.io', 'terminal-line--muted');
         break;
       case 'cat':
+        if (arg === '/etc/passwd') {
+          appendLine('root:x:0:0:root:/root:/bin/bash');
+          appendLine('daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin');
+          appendLine('syslog:x:104:110::/home/syslog:/usr/sbin/nologin');
+          appendLine('messagebus:x:105:109::/nonexistent:/usr/sbin/nologin');
+          appendLine('zoskisk:x:1337:1337:zoskisk179/hehehehehe:/home/zoskisk:/bin/zsh');
+          break;
+        }
         if (currentDir === '/') {
           if (arg === 'skills.txt') appendLine(SKILLS);
           else if (arg === 'clock.exe') appendLine('hint: run ./clock.exe to execute', 'terminal-line--muted');
@@ -349,6 +358,12 @@ export function initTerminal(): void {
           .catch(() => { appendLine('rate limited or offline', 'terminal-line--error'); scrollToBottom(); });
         break;
       }
+      case 'love':
+        appendLine('♡ noe', 'terminal-line--output');
+        break;
+      case 'private':
+        appendLine('why do you want to check my private', 'terminal-line--error');
+        break;
       default:
         appendLine(`command not found: ${cmd}. run 'zoskisk --help'`, 'terminal-line--error');
     }
