@@ -18,11 +18,12 @@ export const projects: Project[] = [
     period: 'October 2025 – Present',
     description: 'Personal homepage, blogs, projects for sharing experience. My first website built to learn web development, deployment, and more.',
     tech: [
-      { name: 'HTML', url: 'https://developer.mozilla.org/docs/Web/HTML' },
-      { name: 'CSS', url: 'https://developer.mozilla.org/docs/Web/CSS' },
-      { name: 'JavaScript', url: 'https://developer.mozilla.org/docs/Web/JavaScript' },
-      { name: 'Docker', url: 'https://www.docker.com/' },
-      { name: 'Astro', url: 'https://astro.build/' }
+      { name: 'Astro', url: 'https://astro.build/' },
+      { name: 'TypeScript', url: 'https://www.typescriptlang.org/' },
+      { name: 'Resend', url: 'https://resend.com/' },
+      { name: 'Cloudflare Turnstile', url: 'https://www.cloudflare.com/products/turnstile/' },
+      { name: 'Vercel', url: 'https://vercel.com/' },
+      { name: 'Docker', url: 'https://www.docker.com/' }
     ],
     links: {
       live: 'https://zoskisk.vercel.app/',

@@ -3,6 +3,22 @@
 This is my source portfolio.
 (Viet Khoa, also name as zoskisk).
 
+## Key Features
+
+- **SSR & API Routes**: Built with Astro + Vercel for fast server-side rendering.
+- **Advanced Security**: 
+  - **Cloudflare Turnstile**: Modern, non-intrusive CAPTCHA to prevent bot spam.
+  - **Honeypot Protection**: Secondary bot trap to silently ignore automated submissions.
+  - **CSRF Protection**: Domain-specific origin checking for API security.
+- **Smart Contact System**: 
+  - **Resend Integration**: High-deliverability email service for contact notifications.
+  - **Auto-Reply**: Automated, time-aware confirmation emails to clients (Good morning/afternoon/evening).
+  - **Thank-You Flow**: Dedicated success page with automated redirection.
+- **Responsive UI**: 
+  - **Dual-mode Navigation**: Custom bottom navigation bar optimized for mobile with a 2-row layout.
+  - **Terminal Overlay**: Interactive mini-terminal for a tech-focused UX.
+  - **Theme Toggle**: Dark/Light mode support.
+
 ## Project Structure
 
 ```
