@@ -60,3 +60,9 @@ const { Content } = await post.render();
   <Content />
 </BlogPost>
 
+<script type="application/json" id="terminal-page-context" is:inline set:html={JSON.stringify({
+  title: post.data.title,
+  description: post.data.description,
+  tags: post.data.tags
+})} />
+

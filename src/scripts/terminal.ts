@@ -19,9 +19,13 @@ const HELP_LINES = [
   '  cd <dir>         change directory (blogs, projects)',
   '  cd ..            go back to root',
   '  cat <name>       view file or open item',
+  '  cat clock.exe    current time / timezones',
   '  activity         show last github push',
   '  history          show recent github activity',
   '  clear            clear terminal',
+  '',
+  '  on home:  cd about | github | contact',
+  '  on blog:  ctrl+c  →  /blogs',
 ];
 
 const ALL_COMMANDS = ['zoskisk', 'whoami', 'ls', 'cd', 'cat', 'activity', 'history', 'clear'];
@@ -43,6 +47,14 @@ export function initTerminal(): void {
 
   const data: TerminalData = JSON.parse(dataEl.textContent || '{"blogs":[],"projects":[]}');
 
+  // ── Page context ──────────────────────────────────────────────────────────
+  const path = window.location.pathname;
+  const blogPostMatch = path.match(/^\/blogs\/(en|vi)\/([^/]+)/);
+  const onHome = path === '/' || path === '';
+  const ctxEl = document.getElementById('terminal-page-context');
+  const pageCtx: { title?: string; description?: string; tags?: string[] } =
+    ctxEl ? (() => { try { return JSON.parse(ctxEl.textContent || '{}'); } catch { return {}; } })() : {};
+
   const trigger     = document.getElementById('terminal-trigger') as HTMLButtonElement | null;
   const popup       = document.getElementById('terminal-popup') as HTMLElement | null;
   const overlay     = document.getElementById('terminal-overlay') as HTMLElement | null;
@@ -54,12 +66,18 @@ export function initTerminal(): void {
   const inputEl     = document.getElementById('terminal-input') as HTMLInputElement | null;
   const promptEl    = document.getElementById('terminal-prompt') as HTMLElement | null;
   const headerEl    = popup?.querySelector('.terminal-header') as HTMLElement | null;
+  const sendBtn     = document.getElementById('terminal-send') as HTMLButtonElement | null;
 
   if (!popup || !outputEl || !inputEl || !promptEl) return;
 
   let currentDir: Dir = '/';
   let isMaximized = false;
   let isDragged = false;
+  let hasShownBlogCtx = false;
+
+  // Auto-set dir based on current page
+  if (path.startsWith('/projects')) currentDir = 'projects';
+  else if (path.startsWith('/blogs')) currentDir = 'blogs';
 
   const cmdHistory: string[] = (() => {
     try { const r = localStorage.getItem(HISTORY_CACHE_KEY); return r ? JSON.parse(r) : []; }
@@ -104,6 +122,14 @@ export function initTerminal(): void {
     popup!.classList.add('is-open');
     overlay?.classList.add('is-open');
     trigger?.setAttribute('aria-expanded', 'true');
+    if (blogPostMatch && pageCtx.title && !hasShownBlogCtx) {
+      hasShownBlogCtx = true;
+      appendLine(`reading: ${pageCtx.title}`, 'terminal-line--output');
+      if (pageCtx.tags?.length) appendLine(`  [${pageCtx.tags.join(', ')}]`, 'terminal-line--muted');
+      appendLine('  ctrl+c  →  back to /blogs', 'terminal-line--muted');
+      appendLine('', 'terminal-line--muted');
+      scrollToBottom();
+    }
     inputEl!.focus();
   }
 
@@ -148,12 +174,15 @@ export function initTerminal(): void {
     const partial = rest.join(' ');
 
     if (cmd === 'cat') {
-      const cands = currentDir === '/' ? ['skills.txt'] : currentDir === 'blogs' ? data.blogs.map(b => b.slug) : data.projects.map(p => p.name);
+      const cands = currentDir === '/' ? ['skills.txt', 'clock.exe']
+        : currentDir === 'blogs' ? data.blogs.map(b => b.slug)
+        : data.projects.map(p => p.name);
       const m = cands.filter(c => c.startsWith(partial));
       if (m.length === 1) inputEl!.value = `cat ${m[0]}`;
       else if (m.length > 1) { appendLine(`${getPrompt(currentDir)} ${val}`, 'terminal-line--command'); appendLine(m.join('  ')); scrollToBottom(); }
     } else if (cmd === 'cd') {
-      const cands = currentDir === '/' ? ['blogs', 'projects'] : ['..'];
+      let cands = currentDir === '/' ? ['blogs', 'projects'] : ['..'];
+      if (onHome && currentDir === '/') cands = [...cands, 'about', 'github', 'contact'];
       const m = cands.filter(c => c.startsWith(partial));
       if (m.length === 1) inputEl!.value = `cd ${m[0]}`;
     } else if (cmd === 'zoskisk' && '--help'.startsWith(partial)) {
@@ -184,7 +213,13 @@ export function initTerminal(): void {
         appendLine('khoa ngo — web developer');
         break;
       case 'ls':
-        if (currentDir === '/') { appendLine('skills.txt'); appendLine('blogs/'); appendLine('projects/'); }
+        if (currentDir === '/') {
+          if (onHome) { appendLine('about/'); appendLine('github/'); appendLine('contact/'); }
+          appendLine('skills.txt');
+          appendLine('clock.exe');
+          appendLine('blogs/');
+          appendLine('projects/');
+        }
         else if (currentDir === 'blogs') data.blogs.forEach(b => appendLink(b.slug, b.url));
         else data.projects.forEach(p => appendLink(p.name, p.url));
         break;
@@ -194,12 +229,32 @@ export function initTerminal(): void {
         } else if (arg === 'blogs' || arg === 'projects') {
           if (currentDir !== '/') appendLine(`cd: run 'cd ..' first`, 'terminal-line--error');
           else { currentDir = arg as Dir; updatePrompt(); }
-        } else if (!arg) appendLine('usage: cd <blogs|projects> or cd ..', 'terminal-line--error');
-        else appendLine(`cd: no such directory: ${arg}`, 'terminal-line--error');
+        } else if (onHome && (arg === 'about' || arg === 'github' || arg === 'contact')) {
+          const idMap: Record<string, string> = { about: 'about', github: 'stats', contact: 'contact' };
+          const section = document.getElementById(idMap[arg]);
+          if (section) {
+            appendLine(`→ ${arg}`, 'terminal-line--muted');
+            closeTerminal();
+            setTimeout(() => section.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
+          }
+        } else if (!arg) {
+          appendLine('usage: cd <blogs|projects> or cd ..', 'terminal-line--error');
+        } else {
+          appendLine(`cd: no such directory: ${arg}`, 'terminal-line--error');
+        }
         break;
       case 'cat':
         if (currentDir === '/') {
           if (arg === 'skills.txt') appendLine(SKILLS);
+          else if (arg === 'clock.exe') {
+            const now = new Date();
+            const ft = (tz: string) => now.toLocaleTimeString('en-US', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+            appendLine(`clock.exe  —  ${now.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}`);
+            appendLine(`  VN  UTC+7   ${ft('Asia/Ho_Chi_Minh')}`);
+            appendLine(`  UTC         ${ft('UTC')}`);
+            const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            if (localTz !== 'Asia/Ho_Chi_Minh') appendLine(`  local       ${ft(localTz)}  (${localTz.split('/').pop()})`, 'terminal-line--muted');
+          }
           else if (!arg) appendLine('usage: cat <file>', 'terminal-line--error');
           else appendLine(`cat: ${arg}: no such file`, 'terminal-line--error');
         } else if (currentDir === 'blogs') {
@@ -270,6 +325,7 @@ export function initTerminal(): void {
   // Basic controls
   trigger?.addEventListener('click', () => popup!.classList.contains('is-open') ? closeTerminal() : openTerminal());
   closeBtn?.addEventListener('click', closeTerminal);
+  sendBtn?.addEventListener('click', () => { const v = inputEl.value; inputEl.value = ''; processCommand(v); inputEl.focus(); });
   maximizeBtn?.addEventListener('click', toggleMaximize);
   overlay?.addEventListener('click', closeTerminal);
 
@@ -284,6 +340,13 @@ export function initTerminal(): void {
   });
 
   inputEl.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'c' && e.ctrlKey && blogPostMatch) {
+      e.preventDefault();
+      appendLine('^C', 'terminal-line--muted');
+      scrollToBottom();
+      setTimeout(() => { window.location.href = '/blogs'; }, 400);
+      return;
+    }
     if (e.key === 'Enter') { const v = inputEl.value; inputEl.value = ''; processCommand(v); }
     else if (e.key === 'ArrowUp') { e.preventDefault(); if (!cmdHistory.length) return; historyIdx = historyIdx === -1 ? cmdHistory.length - 1 : Math.max(0, historyIdx - 1); inputEl.value = cmdHistory[historyIdx]; }
     else if (e.key === 'ArrowDown') { e.preventDefault(); if (historyIdx === -1) return; if (historyIdx < cmdHistory.length - 1) { historyIdx++; inputEl.value = cmdHistory[historyIdx]; } else { historyIdx = -1; inputEl.value = ''; } }
@@ -292,6 +355,16 @@ export function initTerminal(): void {
 
   closeBtn?.addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.key === 'Tab' && !e.shiftKey) { e.preventDefault(); inputEl.focus(); }
+  });
+
+  // Double-click header → collapse into bar
+  headerEl?.addEventListener('dblclick', (e) => {
+    if ((e.target as Element).closest('button')) return;
+    e.preventDefault();
+    popup!.classList.add('is-collapsing');
+    const onEnd = () => { popup!.classList.remove('is-collapsing'); closeTerminal(); };
+    popup!.addEventListener('transitionend', onEnd, { once: true });
+    setTimeout(onEnd, 250);
   });
 
   // ─── Drag (move by header) ───────────────────────────────────────────────
