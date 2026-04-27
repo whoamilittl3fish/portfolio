@@ -7,7 +7,9 @@
   transform: translateX(-50%);
   z-index: 100;
   font-family: var(--font-mono);
-  width: 48px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   height: 48px;
 }
 
@@ -181,7 +183,34 @@
   background: var(--border);
 }
 
-/* Theme Toggle / Back-to-top */
+/* Back to top button (outside pill, next to Z) */
+.bottom-nav__back-top {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px var(--shadow);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.bottom-nav__back-top:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+}
+
+/* Theme Toggle (inside pill) */
 .bottom-nav__theme {
   display: flex;
   align-items: center;
