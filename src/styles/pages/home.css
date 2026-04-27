@@ -209,24 +209,6 @@
   }
 }
 
-/* Small mobile: ASCII panel becomes faint background watermark */
-@media (max-width: 480px) {
-  .hero__ascii-panel {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.06;
-    pointer-events: none;
-    font-size: 1.8rem;
-    z-index: 0;
-  }
-
-  .hero__content {
-    position: relative;
-    z-index: 1;
-  }
-}
 
 /* Home Terminal Styles */
 .home-terminal {

@@ -202,6 +202,15 @@ const ASCII_ARTS = [
     switchArt((cur + 1) % arts.length);
   });
 
+  let swipeStartX = 0;
+  stack?.addEventListener('touchstart', (e) => { swipeStartX = e.touches[0].clientX; }, { passive: true });
+  stack?.addEventListener('touchend', (e) => {
+    const diff = swipeStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) < 40) return;
+    const cur = [...arts].findIndex(a => a.classList.contains('is-active'));
+    switchArt(diff > 0 ? (cur + 1) % arts.length : (cur - 1 + arts.length) % arts.length);
+  }, { passive: true });
+
   // ── Typewriter for hero title (looping) ──────────────────────────────────
   const heroTitle = document.getElementById('hero-title') as HTMLElement | null;
   if (heroTitle) {
