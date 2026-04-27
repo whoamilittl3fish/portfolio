@@ -5,6 +5,14 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   adapter: vercel(),
   site: 'https://zoskisk.com',
+  security: {
+    checkOrigin: true,
+    allowedDomains: [
+      { hostname: 'zoskisk.com', protocol: 'https' },
+      { hostname: 'zoskisk.vercel.app', protocol: 'https' },
+      { hostname: 'localhost', protocol: 'http', port: '3000' }
+    ]
+  },
   integrations: [sitemap({
     changefreq: 'weekly',
     priority: 0.7,

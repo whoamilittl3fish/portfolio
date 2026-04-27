@@ -35,7 +35,11 @@ README.dev.md
 # Jetbrains folder
 .idea
 
-#Local setup
+# Vercel
+.vercel
+.vercel/output
+
+# Local setup
 .claude
 CLAUDE.md
 docs

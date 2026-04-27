@@ -46,7 +46,7 @@ import '../styles/pages/contact.css';
       </div>
 
       <div class="contact__form-section">
-        <p class="contact__tagline">leave me a message —<br>i'll remember you.</p>
+        <p class="contact__tagline">leave me a message<br>i'll remember you.</p>
 
         <form id="contact-form" class="contact__form">
           <div class="contact__field">
@@ -143,13 +143,13 @@ import '../styles/pages/contact.css';
           }
         }, 1000);
       } else {
-        const msg = (data as any)?.error ?? 'something went wrong — try again.';
+        const msg = (data as any)?.error ?? 'something went wrong, try again.';
         if (errorEl) errorEl.textContent = msg;
         submitBtn.disabled = false;
         submitBtn.textContent = 'send';
       }
     } catch {
-      if (errorEl) errorEl.textContent = 'network error — try again.';
+      if (errorEl) errorEl.textContent = 'network error, try again.';
       submitBtn.disabled = false;
       submitBtn.textContent = 'send';
     }
