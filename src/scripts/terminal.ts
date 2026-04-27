@@ -81,6 +81,7 @@ export function initTerminal(): void {
   if (blogPostMatch) currentDir = 'blogs';
   else if (path.startsWith('/projects')) currentDir = 'projects';
   else if (path.startsWith('/blogs')) currentDir = 'blogs';
+  else if (path.startsWith('/contact')) currentDir = 'contact';
 
   const cmdHistory: string[] = (() => {
     try { const r = localStorage.getItem(HISTORY_CACHE_KEY); return r ? JSON.parse(r) : []; }
@@ -243,10 +244,10 @@ export function initTerminal(): void {
           if (currentDir === '/') {
             appendLine('already at root', 'terminal-line--muted');
           } else {
-            const segs = currentDir.split('/');
-            segs.pop();
-            currentDir = segs.length === 0 ? '/' : segs.join('/');
-            updatePrompt();
+            // Redirect to home when going back to root from any sub-page
+            appendLine('→ returning to /', 'terminal-line--muted');
+            closeTerminal();
+            window.location.href = '/';
           }
         } else if (arg === 'blogs' || arg === 'projects') {
           if (currentDir !== '/') appendLine(`cd: run 'cd ..' first`, 'terminal-line--error');
