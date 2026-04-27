@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import '../styles/pages/contact.css';
+---
+
+<BaseLayout
+  title="Thank You | Khoa Ngo"
+  description="Message sent successfully"
+  currentPage="contact"
+>
+  <section class="contact-page">
+    <div class="contact__container">
+      <h1 class="contact__title">thank you<span class="contact__title-dot">.</span></h1>
+      
+      <div class="contact__form-section">
+        <p class="contact__success-msg" style="font-size: 1.2rem; margin-bottom: 2rem;">
+          i've received your message and sent a confirmation to your email.
+        </p>
+        <p class="contact__success-redirect">
+          redirecting to home in <span id="thank-you-countdown">5</span>s…
+        </p>
+        <a href="/" class="contact__submit" style="display: inline-block; margin-top: 2rem; text-decoration: none; text-align: center;">
+          go home now
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const countdown = document.getElementById('thank-you-countdown');
+  if (countdown) {
+    let count = 5;
+    const timer = setInterval(() => {
+      count--;
+      countdown.textContent = String(count);
+      if (count <= 0) {
+        clearInterval(timer);
+        window.location.href = '/';
+      }
+    }, 1000);
+  }
+</script>

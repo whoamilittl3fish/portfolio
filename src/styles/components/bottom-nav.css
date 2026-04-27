@@ -152,32 +152,43 @@
 @media (max-width: 500px) {
   .bottom-nav {
     bottom: var(--space-md);
+    width: calc(100% - 32px);
+    max-width: 400px;
   }
 
   .bottom-nav__pill {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: var(--space-xs);
-    padding: var(--space-xs) var(--space-sm);
+    padding: var(--space-sm);
+    border-radius: 20px;
   }
 
   .bottom-nav__divider {
-    display: none;
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin: 4px 0;
+    background: var(--border);
+    opacity: 0.5;
   }
 
   .bottom-nav__link {
-    padding: var(--space-xs);
+    padding: 6px 10px;
     font-size: var(--font-size-xs);
-    white-space: nowrap;
+  }
+
+  .bottom-nav__contact {
+    padding: 6px 10px;
   }
 
   .bottom-nav__terminal {
     font-size: var(--font-size-xs);
-    padding: var(--space-xs);
+    padding: 6px 12px;
   }
 
   .bottom-nav__theme {
-    width: 26px;
-    height: 26px;
-    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
   }
 }

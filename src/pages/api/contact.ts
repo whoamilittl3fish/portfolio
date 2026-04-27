@@ -45,6 +45,14 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
+  // Auto-reply to client
+  await resend.emails.send({
+    from: 'Khoa Ngo <noreply@zoskisk.com>',
+    to: email,
+    subject: 'thank you for your message',
+    text: `hi ${name},\n\ni've received your message and will get back to you as soon as possible.\n\nbest regards,\nkhoa ngo / zsk`,
+  });
+
   return new Response(JSON.stringify({ ok: true }), {
     status: 200,
     headers: { 'Content-Type': 'application/json' },

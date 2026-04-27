@@ -129,19 +129,7 @@ import '../styles/pages/contact.css';
       const data = await res.json().catch(() => ({}));
 
       if (res.ok) {
-        form!.hidden = true;
-        if (successEl) successEl.hidden = false;
-
-        let count = 3;
-        if (countdown) countdown.textContent = String(count);
-        const timer = setInterval(() => {
-          count--;
-          if (countdown) countdown.textContent = String(count);
-          if (count <= 0) {
-            clearInterval(timer);
-            window.location.href = '/';
-          }
-        }, 1000);
+        window.location.href = '/thank-you';
       } else {
         const msg = (data as any)?.error ?? 'something went wrong, try again.';
         if (errorEl) errorEl.textContent = msg;
