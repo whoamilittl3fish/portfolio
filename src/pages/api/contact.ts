@@ -1,5 +1,13 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
+
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(3, '1 d'),
+  prefix: 'contact',
+});
 
 export const prerender = false;
 
@@ -50,6 +58,15 @@ export const POST: APIRoute = async ({ request }) => {
   if (!verifyData.success) {
     return new Response(JSON.stringify({ error: 'Security check failed. Please try again.' }), {
       status: 403,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? 'anonymous';
+  const { success } = await ratelimit.limit(ip);
+  if (!success) {
+    return new Response(JSON.stringify({ error: 'Too many messages today. Try again tomorrow.' }), {
+      status: 429,
       headers: { 'Content-Type': 'application/json' },
     });
   }
