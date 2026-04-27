@@ -23,12 +23,13 @@ import "../styles/components/github-stats.css";
 <script>
   async function fetchGitHubActivity() {
     const username = "whoamilittl3fish";
+    const sectionEl = document.getElementById("github-activity-section");
     const containerEl = document.getElementById("gh-activity");
     const repoLinkEl = document.getElementById("gh-repo-link") as HTMLAnchorElement;
     const msgEl = document.getElementById("gh-commit-msg");
     const timeEl = document.getElementById("gh-commit-time");
     
-    if (!containerEl || !repoLinkEl || !msgEl || !timeEl) return;
+    if (!sectionEl || !containerEl || !repoLinkEl || !msgEl || !timeEl) return;
 
     const CACHE_KEY = 'gh_activity_cache';
     const CACHE_EXPIRY = 10 * 60 * 1000; // 10 minutes
@@ -39,6 +40,7 @@ import "../styles/components/github-stats.css";
         const cached = JSON.parse(cachedStr);
         if (Date.now() - cached.timestamp < CACHE_EXPIRY) {
           renderActivity(cached.data);
+          sectionEl.style.display = "block";
           containerEl.style.display = "block";
           return;
         }
@@ -64,6 +66,7 @@ import "../styles/components/github-stats.css";
         }));
 
         renderActivity(data);
+        sectionEl.style.display = "block";
         containerEl.style.display = "block";
       }
     } catch (error) {
@@ -71,6 +74,7 @@ import "../styles/components/github-stats.css";
       if (cachedStr) {
         const cached = JSON.parse(cachedStr);
         renderActivity(cached.data);
+        sectionEl.style.display = "block";
         containerEl.style.display = "block";
       }
     }

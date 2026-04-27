@@ -65,20 +65,9 @@ function parseMarkdown(text: string): string {
     </div>
   </section>
 
-  <section id="stats" class="section">
+  <section id="github-activity-section" class="section" style="display: none;">
     <div class="section__container">
       <h2 class="section__title">github</h2>
-      <div class="github-year-picker">
-        <button class="github-year-btn" data-year="2024">2024</button>
-        <button class="github-year-btn" data-year="2025">2025</button>
-        <button class="github-year-btn is-active" data-year="2026">2026</button>
-      </div>
-      <div class="github-stats">
-        <a id="github-chart-link" href="https://github.com/whoamilittl3fish" target="_blank" rel="noopener" style="width: 100%;">
-          <img id="github-chart-light" class="github-stats__img github-stats__img--light" src="https://ghchart.rshah.org/2026/whoamilittl3fish" alt="Khoa Ngo's GitHub Activity Graph" style="width: 100%;" />
-          <img id="github-chart-dark" class="github-stats__img github-stats__img--dark" src="https://ghchart.rshah.org/2026/whoamilittl3fish" alt="Khoa Ngo's GitHub Activity Graph" style="width: 100%;" />
-        </a>
-      </div>
       <GithubStats />
     </div>
   </section>
@@ -129,31 +118,6 @@ function parseMarkdown(text: string): string {
 />
 
 <script>
-  /**
-   * GitHub year picker
-   */
-  const yearBtns = document.querySelectorAll<HTMLButtonElement>('.github-year-btn');
-  yearBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const year = btn.dataset.year;
-      const lightImg = document.getElementById('github-chart-light') as HTMLImageElement | null;
-      const darkImg = document.getElementById('github-chart-dark') as HTMLImageElement | null;
-      if (!lightImg || !darkImg || !year) return;
-      const src = `https://ghchart.rshah.org/${year}/whoamilittl3fish?_=${Date.now()}`;
-      lightImg.style.opacity = '0.4';
-      darkImg.style.opacity = '0.4';
-      const onLoad = () => {
-        lightImg.style.opacity = '';
-        darkImg.style.opacity = '';
-      };
-      lightImg.addEventListener('load', onLoad, { once: true });
-      lightImg.src = src;
-      darkImg.src = src;
-      yearBtns.forEach(b => b.classList.remove('is-active'));
-      btn.classList.add('is-active');
-    });
-  });
-
   /**
    * Scroll to about section handler
    */
