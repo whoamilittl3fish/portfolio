@@ -126,26 +126,31 @@
   .bottom-nav {
     bottom: var(--space-md);
   }
-  
+
   .bottom-nav__pill {
+    flex-wrap: nowrap;
     gap: var(--space-xs);
     padding: var(--space-xs) var(--space-sm);
   }
-  
+
+  .bottom-nav__divider {
+    display: none;
+  }
+
   .bottom-nav__link {
     padding: var(--space-xs);
     font-size: var(--font-size-xs);
     white-space: nowrap;
   }
-  
-  .bottom-nav__theme {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
+
+  .bottom-nav__terminal {
+    font-size: var(--font-size-xs);
+    padding: var(--space-xs);
   }
-  
-  .bottom-nav__divider {
-    height: 16px;
+
+  .bottom-nav__theme {
+    width: 26px;
+    height: 26px;
     flex-shrink: 0;
   }
 }
