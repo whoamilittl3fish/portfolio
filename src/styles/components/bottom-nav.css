@@ -13,7 +13,7 @@
   height: 48px;
 }
 
-/* Wrapper for Z toggle + pill — pill is absolute relative to this */
+/* Wrapper for Z toggle */
 .bottom-nav__z-group {
   position: relative;
   width: 48px;
@@ -58,7 +58,7 @@
   transition: opacity 0.15s ease, visibility 0s linear 0.15s;
 }
 
-/* Pill wrapper — absolutely positioned over the Z button */
+/* Pill — absolute child of .bottom-nav, centered via left:50% + translateX(-50%) */
 .bottom-nav__pill {
   position: absolute;
   bottom: 0;
@@ -269,27 +269,14 @@
   }
 
   .bottom-nav__pill {
-    position: fixed;
-    left: 16px;
-    right: 16px;
-    bottom: var(--space-md);
     width: calc(100vw - 32px);
     max-width: none;
-    display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 6px;
     padding: 10px 14px;
     border-radius: 20px;
     white-space: normal;
-    transform: scale(0.85);
-    transform-origin: center bottom;
-  }
-
-  .bottom-nav.is-open .bottom-nav__pill {
-    transform: scale(1);
   }
 
   .bottom-nav__row-break {

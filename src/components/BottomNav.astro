@@ -33,6 +33,16 @@ const navLinks = [
   >↑</button>
 
   <div class="bottom-nav__z-group">
+    <button
+      class="bottom-nav__toggle"
+      id="nav-toggle"
+      type="button"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+      aria-controls="nav-pill"
+    >Z</button>
+  </div>
+
   <div class="bottom-nav__pill" id="nav-pill" aria-hidden="true">
     {variant === 'main' && navLinks.map(link => (
       <a
@@ -92,16 +102,6 @@ const navLinks = [
     >
       <span class="bottom-nav__theme-icon">☀️</span>
     </button>
-  </div>
-
-  <button
-    class="bottom-nav__toggle"
-    id="nav-toggle"
-    type="button"
-    aria-label="Toggle navigation"
-    aria-expanded="false"
-    aria-controls="nav-pill"
-  >Z</button>
   </div>
 </nav>
 
