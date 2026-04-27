@@ -13,6 +13,14 @@
   height: 48px;
 }
 
+/* Wrapper for Z toggle + pill — pill is absolute relative to this */
+.bottom-nav__z-group {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
 /* Z Toggle Button */
 .bottom-nav__toggle {
   width: 48px;
