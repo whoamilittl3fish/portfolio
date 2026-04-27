@@ -13,5 +13,5 @@ timeline:
   - year: "Jun 2025"
     text: "Started building a [Pawnshop management](https://github.com/whoamilittl3fish/QuanLyHopDong) app using C# and .NET with SQLite. A real-world project for my uncle's business."
   - year: "Oct 2024"
-    text: "Graduated from the University of Information Technology - Vietnam National University, Ho Chi Minh City."
+    text: "Graduated from the University of Information Technology, Vietnam National University, Ho Chi Minh City."
 ---

@@ -232,7 +232,7 @@ export function initTerminal(): void {
         arg === '--help' ? HELP_LINES.forEach(l => appendLine(l)) : appendLine('usage: zoskisk --help', 'terminal-line--error');
         break;
       case 'whoami':
-        appendLine('khoa ngo — web developer');
+        appendLine('khoa ngo, web developer');
         break;
       case 'ls':
         if (currentDir === '/') {
@@ -299,7 +299,7 @@ export function initTerminal(): void {
       case './clock.exe': {
         const now = new Date();
         const ft = (tz: string) => now.toLocaleTimeString('en-US', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-        appendLine(`clock.exe  —  ${now.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}`);
+        appendLine(`clock.exe  ${now.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}`);
         appendLine(`  VN  UTC+7   ${ft('Asia/Ho_Chi_Minh')}`);
         appendLine(`  UTC         ${ft('UTC')}`);
         const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -516,7 +516,7 @@ export function initTerminal(): void {
   });
 
   appendLine('$ whoami', 'terminal-line--command');
-  appendLine('khoa — software developer, hcmc', 'terminal-line--output');
+  appendLine('khoa, software developer, hcmc', 'terminal-line--output');
   appendLine('$ cat motto.txt', 'terminal-line--command');
   appendLine('Good things take time.', 'terminal-line--output');
   appendLine('$ cat interests.txt', 'terminal-line--command');

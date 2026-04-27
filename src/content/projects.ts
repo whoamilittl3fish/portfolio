@@ -15,7 +15,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     title: 'Little World Portfolio',
-    period: 'October 2025 – Present',
+    period: 'October 2025 to Present',
     description: 'Personal homepage, blogs, projects for sharing experience. My first website built to learn web development, deployment, and more.',
     tech: [
       { name: 'Astro', url: 'https://astro.build/' },
@@ -33,7 +33,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Pawnshop Management App',
-    period: 'June 2025 – September 2025',
+    period: 'June 2025 to September 2025',
     description: 'A simple, modern, and user-friendly pawnshop management software in Vietnamese language. Built for my uncle\'s business with real clients using it. Features include contract management with SQLite database.',
     tech: [
       { name: 'C#', url: 'https://learn.microsoft.com/dotnet/csharp/' },
