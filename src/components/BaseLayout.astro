@@ -126,6 +126,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   )}
 </head>
 <body>
+  <canvas id="grid-canvas" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
   <Header currentPage={currentPage} />
   
   <main>
@@ -136,6 +137,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   
   {!hideBottomNav && <BottomNav currentPage={currentPage} variant="main" />}
   <Terminal />
+  <script>
+    import { initGridCanvas } from '../scripts/grid-canvas';
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initGridCanvas);
+    } else {
+      initGridCanvas();
+    }
+  </script>
 </body>
 </html>
 

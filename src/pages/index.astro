@@ -169,31 +169,39 @@ const ASCII_ARTS = [
   // ── ASCII art switcher ─────────────────────────────────────────────────────
   const arts = document.querySelectorAll<HTMLElement>('.hero__ascii-art');
   const dots = document.querySelectorAll<HTMLButtonElement>('.hero__ascii-dot');
+  const stack = document.querySelector<HTMLElement>('.hero__ascii-stack');
 
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      arts.forEach(a => a.classList.remove('is-active'));
-      dots.forEach(d => d.classList.remove('is-active'));
-      arts[i]?.classList.add('is-active');
-      dots[i]?.classList.add('is-active');
-    });
+  function switchArt(next: number): void {
+    arts.forEach(a => a.classList.remove('is-active'));
+    dots.forEach(d => d.classList.remove('is-active'));
+    arts[next]?.classList.add('is-active');
+    dots[next]?.classList.add('is-active');
+  }
+
+  dots.forEach((dot, i) => dot.addEventListener('click', (e) => { e.stopPropagation(); switchArt(i); }));
+
+  stack?.addEventListener('click', () => {
+    const cur = [...arts].findIndex(a => a.classList.contains('is-active'));
+    switchArt((cur + 1) % arts.length);
   });
 
   // ── Typewriter for hero title ──────────────────────────────────────────────
   const heroTitle = document.getElementById('hero-title') as HTMLElement | null;
   if (heroTitle) {
-    const text = "Hi there, I'm Khoa.";
+    const prefix = "Hi there, I'm ";
+    const suffix = "Khoa.";
+    heroTitle.textContent = prefix;
     let i = 0;
     function typeHero() {
-      if (i <= text.length) {
-        heroTitle!.textContent = text.slice(0, i);
+      if (i <= suffix.length) {
+        heroTitle!.textContent = prefix + suffix.slice(0, i);
         i++;
-        setTimeout(typeHero, i < 5 ? 0 : 65);
+        setTimeout(typeHero, 70);
       } else {
         heroTitle!.classList.remove('is-typing');
       }
     }
-    setTimeout(typeHero, 400);
+    setTimeout(typeHero, 500);
   }
 
   // ── Scroll to about ────────────────────────────────────────────────────────

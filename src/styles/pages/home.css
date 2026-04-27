@@ -73,8 +73,9 @@
 
 .hero__ascii-stack {
   position: relative;
-  height: 8rem;
-  width: 12ch;
+  width: 13rem;
+  height: 8.5rem;
+  cursor: pointer;
 }
 
 .hero__ascii-art {
@@ -110,11 +111,14 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  transition: background var(--transition-fast);
+  opacity: 0.5;
+  transition: background var(--transition-fast), opacity var(--transition-fast);
 }
 
+.hero__ascii-dot:hover,
 .hero__ascii-dot.is-active {
   background: var(--accent);
+  opacity: 1;
 }
 
 /* Hero comment label */
