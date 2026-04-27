@@ -175,23 +175,41 @@ const ASCII_ARTS = [
     switchArt((cur + 1) % arts.length);
   });
 
-  // ── Typewriter for hero title ──────────────────────────────────────────────
+  // ── Typewriter for hero title (looping) ──────────────────────────────────
   const heroTitle = document.getElementById('hero-title') as HTMLElement | null;
   if (heroTitle) {
     const prefix = "Hi there,\nI'm ";
-    const suffix = "Khoa.";
-    heroTitle.textContent = prefix;
-    let i = 0;
-    function typeHero() {
-      if (i <= suffix.length) {
-        heroTitle!.textContent = prefix + suffix.slice(0, i);
-        i++;
-        setTimeout(typeHero, 70);
+    const names = ["Khoa.", "zoskisk.", "ZSK."];
+    let nameIdx = 0;
+    let charIdx = 0;
+    let deleting = false;
+
+    function typeLoop() {
+      const name = names[nameIdx];
+      if (!deleting) {
+        charIdx++;
+        heroTitle!.textContent = prefix + name.slice(0, charIdx);
+        if (charIdx === name.length) {
+          deleting = true;
+          setTimeout(typeLoop, 1800);
+        } else {
+          setTimeout(typeLoop, 110);
+        }
       } else {
-        heroTitle!.classList.remove('is-typing');
+        charIdx--;
+        heroTitle!.textContent = prefix + name.slice(0, charIdx);
+        if (charIdx === 0) {
+          deleting = false;
+          nameIdx = (nameIdx + 1) % names.length;
+          setTimeout(typeLoop, 400);
+        } else {
+          setTimeout(typeLoop, 60);
+        }
       }
     }
-    setTimeout(typeHero, 500);
+
+    heroTitle.textContent = prefix;
+    setTimeout(typeLoop, 600);
   }
 
   // ── Scroll to about ────────────────────────────────────────────────────────
