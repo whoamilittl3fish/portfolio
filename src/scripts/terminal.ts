@@ -11,6 +11,12 @@ const HISTORY_CACHE_KEY = 'terminal_history_v1';
 const MAX_HISTORY = 100;
 const SKILLS = 'JS/TS  Node.js  C#/.NET  Docker  Git  Astro';
 
+const NAV_MAP: Record<string, string> = {
+  'projects': '/projects',
+  'blogs': '/blogs',
+  'contact': '/contact',
+};
+
 const HELP_LINES = [
   'available commands:',
   '  zoskisk --help        show this help',
@@ -244,25 +250,25 @@ export function initTerminal(): void {
           if (currentDir === '/') {
             appendLine('already at root', 'terminal-line--muted');
           } else {
-            // Redirect to home when going back to root from any sub-page
             appendLine('→ returning to /', 'terminal-line--muted');
             closeTerminal();
             window.location.href = '/';
           }
-        } else if (arg === 'blogs' || arg === 'projects') {
-          if (currentDir !== '/') appendLine(`cd: run 'cd ..' first`, 'terminal-line--error');
-          else { currentDir = arg; updatePrompt(); }
+        } else if (NAV_MAP[arg]) {
+          if (currentDir === arg) {
+            appendLine(`already in ${arg}/`, 'terminal-line--muted');
+          } else {
+            appendLine(`→ redirecting to ${NAV_MAP[arg]}`, 'terminal-line--muted');
+            closeTerminal();
+            window.location.href = NAV_MAP[arg];
+          }
         } else if (arg.startsWith('blogs/') && currentDir === '/') {
           const slug = arg.slice(6);
           const b = data.blogs.find(b => b.slug === slug);
           if (b) { appendLine(`→ ${b.url}`, 'terminal-line--muted'); closeTerminal(); window.location.href = b.url; return; }
           appendLine(`cd: blogs/${slug}: not found`, 'terminal-line--error');
-        } else if (onHome && arg === 'contact') {
-          appendLine(`→ redirecting to /contact`, 'terminal-line--muted');
-          closeTerminal();
-          window.location.href = '/contact';
         } else if (!arg) {
-          appendLine('usage: cd <blogs|projects> or cd ..', 'terminal-line--error');
+          appendLine('usage: cd <dir> or cd ..', 'terminal-line--error');
         } else {
           appendLine(`cd: no such directory: ${arg}`, 'terminal-line--error');
         }
