@@ -17,13 +17,33 @@ function parseMarkdown(text: string): string {
   return marked.parseInline(text) as string;
 }
 
-const ASCII_ART = `   _________
-  |  [] [] .|
-  | [] .    |
-  | . [] [] |
-  |_________|
-  |_________|
-   < code />`;
+const ASCII_ARTS = [
+  {
+    id: 'terminal',
+    label: 'terminal',
+    art: `  .---------.\n  | [] [] . |\n  | .  [] . |\n  | []  .   |\n  |_________|\n  |_________|\n   < code />`
+  },
+  {
+    id: 'khoa',
+    label: 'khoa',
+    art: `    .-----.\n   ( ^   ^ )\n   (  ---  )\n    '-----'\n     |   |\n   __|___|__\n     khoa`
+  },
+  {
+    id: 'zsk',
+    label: 'zsk',
+    art: `    ______\n   /      \\\n  /  ZSK   \\\n /  z.s.k   \\\n(  zoskisk   )\n \\          /\n  \\________/`
+  },
+  {
+    id: 'code',
+    label: 'code',
+    art: `  .---------.\n  | > fn()  |\n  |   {     |\n  |     ... |\n  |   }     |\n  '---------'\n     < />   `
+  },
+  {
+    id: 'portfolio',
+    label: 'portfolio',
+    art: `  .---------.\n  | khoa.ng |\n  |---------|\n  | . blog  |\n  | . projs |\n  | . about |\n  '---------'`
+  },
+];
 ---
 
 <BaseLayout
@@ -37,29 +57,44 @@ const ASCII_ART = `   _________
     <div class="hero__corner hero__corner--left">
       <span>zoskisk.com</span>
       <span>/ home / VN</span>
-      <span>open to work _</span>
+      <span>remote @ PhuQuocDevs</span>
+      <span>available for outsource</span>
     </div>
 
     <!-- Corner: right -->
     <div class="hero__corner hero__corner--right">
       <span>v1.0.0</span>
-      <span>stack: ts/astro</span>
       <span>mood: caffeinated</span>
     </div>
 
     <div class="hero__container">
       <!-- Left: ASCII panel -->
       <div class="hero__ascii-panel">
-        <pre class="hero__ascii-art" set:text={ASCII_ART}></pre>
+        <div class="hero__ascii-stack">
+          {ASCII_ARTS.map((item, i) => (
+            <pre
+              class:list={['hero__ascii-art', { 'is-active': i === 0 }]}
+              data-index={i}
+              set:text={item.art}
+            ></pre>
+          ))}
+        </div>
         <div class="hero__ascii-dots">
-          <span class="is-active"></span><span></span><span></span><span></span><span></span>
+          {ASCII_ARTS.map((item, i) => (
+            <button
+              class:list={['hero__ascii-dot', { 'is-active': i === 0 }]}
+              data-index={i}
+              type="button"
+              aria-label={`Switch to ${item.label}`}
+            ></button>
+          ))}
         </div>
       </div>
 
       <!-- Right: content -->
       <div class="hero__content">
         <p class="hero__comment">// hello world</p>
-        <h1>Hi there, I'm Khoa.</h1>
+        <h1 id="hero-title" class="is-typing"></h1>
         <p class="hero__tagline">Good things take time.</p>
         <p class="hero__terminal-hint">press <kbd>`</kbd> or <span>&gt;_</span> to explore · press <kbd>z</kbd> to open nav</p>
         <button id="scroll-to-about" class="btn"> ↓ my story </button>
@@ -118,68 +153,77 @@ const ASCII_ART = `   _________
       url: "https://zoskisk.vercel.app",
       image: "https://zoskisk.vercel.app/assets/icon/main.png",
       jobTitle: "Web Developer",
-      description:
-        "Web Developer specializing in JavaScript, TypeScript, Node.js, Docker, and C#/.NET",
-      knowsAbout: [
-        "Web Development",
-        "JavaScript",
-        "TypeScript",
-        "Node.js",
-        "Docker",
-        "C#",
-        ".NET",
-        "Git",
-        "Astro",
-        "Backend Development",
-      ],
+      description: "Web Developer specializing in JavaScript, TypeScript, Node.js, Docker, and C#/.NET",
+      knowsAbout: ["Web Development","JavaScript","TypeScript","Node.js","Docker","C#",".NET","Git","Astro","Backend Development"],
       knowsLanguage: ["English", "Vietnamese"],
       sameAs: [
         "https://github.com/whoamilittl3fish",
         "https://www.codingame.com/profile/83603140793bc15d729e1516e11dda281538186",
       ],
     },
-    null,
-    2,
+    null, 2,
   )}
 />
 
 <script>
+  // ── ASCII art switcher ─────────────────────────────────────────────────────
+  const arts = document.querySelectorAll<HTMLElement>('.hero__ascii-art');
+  const dots = document.querySelectorAll<HTMLButtonElement>('.hero__ascii-dot');
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      arts.forEach(a => a.classList.remove('is-active'));
+      dots.forEach(d => d.classList.remove('is-active'));
+      arts[i]?.classList.add('is-active');
+      dots[i]?.classList.add('is-active');
+    });
+  });
+
+  // ── Typewriter for hero title ──────────────────────────────────────────────
+  const heroTitle = document.getElementById('hero-title') as HTMLElement | null;
+  if (heroTitle) {
+    const text = "Hi there, I'm Khoa.";
+    let i = 0;
+    function typeHero() {
+      if (i <= text.length) {
+        heroTitle!.textContent = text.slice(0, i);
+        i++;
+        setTimeout(typeHero, i < 5 ? 0 : 65);
+      } else {
+        heroTitle!.classList.remove('is-typing');
+      }
+    }
+    setTimeout(typeHero, 400);
+  }
+
+  // ── Scroll to about ────────────────────────────────────────────────────────
   const scrollButton = document.getElementById("scroll-to-about");
   const aboutSection = document.getElementById("about");
-
   if (scrollButton && aboutSection) {
     scrollButton.addEventListener("click", () => {
-      const headerHeight = 60;
-      const offset =
-        aboutSection.getBoundingClientRect().top +
-        window.pageYOffset -
-        headerHeight;
+      const offset = aboutSection.getBoundingClientRect().top + window.pageYOffset - 60;
       window.scrollTo({ top: offset, behavior: "smooth" });
     });
   }
 
-  const TYPING_SPEED = 50;
+  // ── End text typing ────────────────────────────────────────────────────────
   const FULL_TEXT = "endl... that's all for now.";
   const endText = document.getElementById("end-text");
   let hasTyped = false;
-  let isTyping = false;
 
-  function typeText() {
-    if (hasTyped || !endText || isTyping) return;
+  function typeEndText() {
+    if (hasTyped || !endText) return;
     hasTyped = true;
-    isTyping = true;
     let index = 0;
     endText.textContent = "";
     endText.classList.add("typing");
-
     function type() {
       if (!endText) return;
       if (index < FULL_TEXT.length) {
         endText.textContent = FULL_TEXT.substring(0, index + 1);
         index++;
-        setTimeout(type, TYPING_SPEED);
+        setTimeout(type, 50);
       } else {
-        isTyping = false;
         endText.classList.remove("typing");
       }
     }
@@ -190,10 +234,7 @@ const ASCII_ART = `   _________
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasTyped) {
-            typeText();
-            observer.disconnect();
-          }
+          if (entry.isIntersecting && !hasTyped) { typeEndText(); observer.disconnect(); }
         });
       },
       { rootMargin: "-100px 0px" },
@@ -203,13 +244,20 @@ const ASCII_ART = `   _________
 </script>
 
 <style>
+  #hero-title.is-typing::after {
+    content: "|";
+    animation: blink 0.75s step-end infinite;
+    color: var(--accent);
+    font-weight: 300;
+  }
+
   #end-text.typing::after {
     content: "|";
     animation: blink 1s infinite;
   }
 
   @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
   }
 </style>

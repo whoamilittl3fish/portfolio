@@ -188,7 +188,7 @@ export function initTerminal(): void {
     const partial = rest.join(' ');
 
     if (cmd === 'cat') {
-      const cands = currentDir === '/' ? ['skills.txt', 'interests.txt', 'clock.exe']
+      const cands = currentDir === '/' ? ['skills.txt', 'interests.txt', 'motto.txt', 'clock.exe']
         : currentDir === 'blogs' ? data.blogs.map(b => b.slug)
         : data.projects.map(p => p.name);
       const lp = partial.toLowerCase();
@@ -242,6 +242,7 @@ export function initTerminal(): void {
           } else if (!lsTarget) {
             appendLine('skills.txt', 'terminal-line--txt');
             appendLine('interests.txt', 'terminal-line--txt');
+            appendLine('motto.txt', 'terminal-line--txt');
             appendLine('clock.exe', 'terminal-line--exe');
             appendLine('blogs/', 'terminal-line--dir');
             appendLine('projects/', 'terminal-line--dir');
@@ -324,6 +325,7 @@ export function initTerminal(): void {
         if (currentDir === '/') {
           if (arg === 'skills.txt') appendLine(SKILLS);
           else if (arg === 'interests.txt') appendLine('open-source · games · anime · gym · horror-films');
+          else if (arg === 'motto.txt') appendLine('Good things take time.');
           else if (arg === 'clock.exe') appendLine('hint: run ./clock.exe to execute', 'terminal-line--muted');
           else if (!arg) appendLine('usage: cat <file>', 'terminal-line--error');
           else appendLine(`cat: ${arg}: no such file`, 'terminal-line--error');
@@ -517,7 +519,7 @@ export function initTerminal(): void {
   appendLine('khoa — software developer, hcmc', 'terminal-line--output');
   appendLine('$ cat motto.txt', 'terminal-line--command');
   appendLine('Good things take time.', 'terminal-line--output');
-  appendLine('$ ls interests/', 'terminal-line--command');
-  appendLine('open-source  games  anime  gym  horror-films', 'terminal-line--dir');
+  appendLine('$ cat interests.txt', 'terminal-line--command');
+  appendLine('open-source · games · anime · gym · horror-films', 'terminal-line--output');
   appendLine('', 'terminal-line--muted');
 }

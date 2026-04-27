@@ -71,15 +71,29 @@
   gap: var(--space-md);
 }
 
+.hero__ascii-stack {
+  position: relative;
+  height: 8rem;
+  width: 12ch;
+}
+
 .hero__ascii-art {
+  position: absolute;
+  top: 0;
+  left: 0;
   font-family: var(--font-mono);
   font-size: 0.78rem;
   line-height: 1.45;
   color: var(--accent);
-  opacity: 0.65;
+  opacity: 0;
   margin: 0;
   white-space: pre;
   user-select: none;
+  transition: opacity 0.3s ease;
+}
+
+.hero__ascii-art.is-active {
+  opacity: 0.65;
 }
 
 .hero__ascii-dots {
@@ -88,15 +102,18 @@
   align-items: center;
 }
 
-.hero__ascii-dots span {
+.hero__ascii-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: var(--border);
+  border: none;
+  padding: 0;
+  cursor: pointer;
   transition: background var(--transition-fast);
 }
 
-.hero__ascii-dots span.is-active {
+.hero__ascii-dot.is-active {
   background: var(--accent);
 }
 
