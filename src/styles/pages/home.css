@@ -170,21 +170,48 @@
   font-family: ui-monospace, monospace;
 }
 
-/* Mobile hero */
+/* Hide corners on tablet and below */
+@media (max-width: 768px) {
+  .hero__corner {
+    display: none;
+  }
+}
+
+/* Mobile hero layout */
 @media (max-width: 640px) {
   .hero__container {
     flex-direction: column;
     gap: var(--space-xl);
-    text-align: center;
   }
 
   .hero__content {
     align-items: center;
     text-align: center;
+    width: 100%;
   }
 
-  .hero__corner {
-    display: none;
+  .hero h1 {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Small mobile: ASCII panel becomes faint background watermark */
+@media (max-width: 480px) {
+  .hero__ascii-panel {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.06;
+    pointer-events: none;
+    font-size: 1.8rem;
+    z-index: 0;
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
   }
 }
 
