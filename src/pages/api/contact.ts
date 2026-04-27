@@ -46,11 +46,17 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   // Auto-reply to client
+  const hour = (new Date().getUTCHours() + 7) % 24;
+  let greeting = 'Hi';
+  if (hour >= 5 && hour < 12) greeting = 'Good morning';
+  else if (hour >= 12 && hour < 18) greeting = 'Good afternoon';
+  else greeting = 'Good evening';
+
   await resend.emails.send({
     from: 'Khoa Ngo <noreply@zoskisk.com>',
     to: email,
-    subject: 'thank you for your message',
-    text: `hi ${name},\n\ni've received your message and will get back to you as soon as possible.\n\nbest regards,\nkhoa ngo / zsk`,
+    subject: 'Thank You for Your Message',
+    text: `${greeting} ${name},\n\nI've received your message and will get back to you as soon as possible.\n\nBest regards,\nKhoa Ngo / ZSK`,
   });
 
   return new Response(JSON.stringify({ ok: true }), {
