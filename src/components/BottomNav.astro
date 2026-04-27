@@ -196,8 +196,9 @@ const navLinks = [
 
   themeToggle?.addEventListener('click', toggleTheme);
 
-  document.getElementById('bottom-back-to-top')?.addEventListener('click', () => {
+  document.getElementById('bottom-back-to-top')?.addEventListener('click', (e) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    (e.currentTarget as HTMLButtonElement).blur();
   });
 
   // Footer collision detection
