@@ -255,7 +255,6 @@ export function initTerminal(): void {
             window.location.href = '/';
           }
         } else {
-          // Handle relative paths like ../projects
           const targetDir = arg.startsWith('../') ? arg.slice(3) : arg;
           
           if (NAV_MAP[targetDir]) {
@@ -267,14 +266,20 @@ export function initTerminal(): void {
               window.location.href = NAV_MAP[targetDir];
             }
           } else if (arg.startsWith('blogs/') && currentDir === '/') {
-          const slug = arg.slice(6);
-          const b = data.blogs.find(b => b.slug === slug);
-          if (b) { appendLine(`→ ${b.url}`, 'terminal-line--muted'); closeTerminal(); window.location.href = b.url; return; }
-          appendLine(`cd: blogs/${slug}: not found`, 'terminal-line--error');
-        } else if (!arg) {
-          appendLine('usage: cd <dir> or cd ..', 'terminal-line--error');
-        } else {
-          appendLine(`cd: no such directory: ${arg}`, 'terminal-line--error');
+            const slug = arg.slice(6);
+            const b = data.blogs.find(b => b.slug === slug);
+            if (b) { 
+              appendLine(`→ ${b.url}`, 'terminal-line--muted'); 
+              closeTerminal(); 
+              window.location.href = b.url; 
+              return; 
+            }
+            appendLine(`cd: blogs/${slug}: not found`, 'terminal-line--error');
+          } else if (!arg) {
+            appendLine('usage: cd <dir> or cd ..', 'terminal-line--error');
+          } else {
+            appendLine(`cd: no such directory: ${arg}`, 'terminal-line--error');
+          }
         }
         break;
       case './clock.exe': {
