@@ -6,8 +6,6 @@ import GithubStats from "../components/GithubStats.astro";
 import "../styles/pages/home.css";
 
 // Load content from markdown files
-// Astro automatically processes content collections during build
-// All content is rendered as static HTML
 const aboutEntry = await getEntry("home", "about");
 const interestsEntry = await getEntry("home", "interests");
 
@@ -16,8 +14,6 @@ const { Content: InterestsContent } = interestsEntry
   ? await interestsEntry.render()
   : { Content: null };
 
-// Parse markdown in timeline text
-// HTML is rendered at build time, not runtime
 function parseMarkdown(text: string): string {
   return marked.parseInline(text) as string;
 }
@@ -79,7 +75,6 @@ function parseMarkdown(text: string): string {
   </section>
 </BaseLayout>
 
-<!-- Structured Data for SEO -->
 <script
   type="application/ld+json"
   is:inline
@@ -137,7 +132,6 @@ function parseMarkdown(text: string): string {
 
   /**
    * Typing effect for "endl... that's all for now."
-   * Uses Intersection Observer for better performance
    */
   const TYPING_SPEED = 50;
   const FULL_TEXT = "endl... that's all for now.";
@@ -170,7 +164,6 @@ function parseMarkdown(text: string): string {
     type();
   }
 
-  // Use Intersection Observer for better performance
   if (endText && "IntersectionObserver" in window) {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -185,27 +178,6 @@ function parseMarkdown(text: string): string {
     );
 
     observer.observe(endText);
-  } else if (endText) {
-    // Fallback for browsers without Intersection Observer
-    function checkScroll() {
-      if (hasTyped || !endText) return;
-
-      const rect = endText.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      if (rect.top < windowHeight - 100) {
-        typeText();
-        window.removeEventListener("scroll", checkScroll);
-      }
-    }
-
-    window.addEventListener("scroll", checkScroll, { passive: true });
-
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", checkScroll);
-    } else {
-      checkScroll();
-    }
   }
 </script>
 

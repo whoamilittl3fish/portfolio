@@ -18,6 +18,7 @@ const HELP_LINES = [
   '  ls                    list directory contents',
   '  cd <dir>              change directory (blogs, projects)',
   '  cd blogs/<slug>       open blog post directly',
+  '  cd contact            go to contact page',
   '  cd ..                 go back',
   '  cat <name>            view file or open item',
   '  ./clock.exe           current time / timezones',
@@ -25,7 +26,7 @@ const HELP_LINES = [
   '  history               show recent github activity',
   '  clear                 clear terminal',
   '',
-  '  on home:  cd about | github | contact',
+  '  on home:  cd projects | blogs | contact',
   '  on blog:  ctrl+c  →  /blogs',
 ];
 
@@ -196,7 +197,7 @@ export function initTerminal(): void {
         return;
       }
       let cands = currentDir === '/' ? ['blogs', 'projects'] : ['..'];
-      if (onHome && currentDir === '/') cands = [...cands, 'about', 'github', 'contact'];
+      if (onHome && currentDir === '/') cands = [...cands, 'contact'];
       const m = cands.filter(c => c.startsWith(partial) && c !== partial);
       if (m.length === 1) inputEl!.value = `cd ${m[0]}`;
     } else if (cmd === 'zoskisk' && '--help'.startsWith(partial)) {
@@ -228,11 +229,11 @@ export function initTerminal(): void {
         break;
       case 'ls':
         if (currentDir === '/') {
-          if (onHome) { appendLine('about/'); appendLine('github/'); appendLine('contact/'); }
           appendLine('skills.txt');
           appendLine('clock.exe');
           appendLine('blogs/');
           appendLine('projects/');
+          appendLine('contact/');
         }
         else if (currentDir === 'blogs') data.blogs.forEach(b => appendLink(b.slug, b.url));
         else data.projects.forEach(p => appendLink(p.name, p.url));
@@ -255,14 +256,10 @@ export function initTerminal(): void {
           const b = data.blogs.find(b => b.slug === slug);
           if (b) { appendLine(`→ ${b.url}`, 'terminal-line--muted'); closeTerminal(); window.location.href = b.url; return; }
           appendLine(`cd: blogs/${slug}: not found`, 'terminal-line--error');
-        } else if (onHome && (arg === 'about' || arg === 'github' || arg === 'contact')) {
-          const idMap: Record<string, string> = { about: 'about', github: 'stats', contact: 'contact' };
-          const section = document.getElementById(idMap[arg]);
-          if (section) {
-            appendLine(`→ ${arg}`, 'terminal-line--muted');
-            closeTerminal();
-            setTimeout(() => section.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
-          }
+        } else if (onHome && arg === 'contact') {
+          appendLine(`→ redirecting to /contact`, 'terminal-line--muted');
+          closeTerminal();
+          window.location.href = '/contact';
         } else if (!arg) {
           appendLine('usage: cd <blogs|projects> or cd ..', 'terminal-line--error');
         } else {

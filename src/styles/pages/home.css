@@ -77,6 +77,39 @@
   font-family: ui-monospace, monospace;
 }
 
+/* Home Terminal Styles */
+.home-terminal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+  text-align: left;
+  font-family: var(--font-mono);
+  max-width: 500px;
+  width: 100%;
+}
+
+.home-terminal__file {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.home-terminal__filename {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  opacity: 0.8;
+}
+
+.home-terminal__content {
+  color: var(--text-primary);
+  font-size: var(--font-size-md);
+  margin: 0;
+  padding-left: var(--space-md);
+  border-left: 2px solid var(--border);
+}
+
 /* Section */
 .section {
   padding: var(--space-2xl) 0;
