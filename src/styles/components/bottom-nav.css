@@ -209,13 +209,24 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  opacity: 1;
+  visibility: visible;
+  transition: background var(--transition-fast), color var(--transition-fast),
+              border-color var(--transition-fast), opacity 0.15s ease, visibility 0s;
 }
 
 .bottom-nav__back-top:hover {
   background: var(--accent);
   color: var(--bg-primary);
   border-color: var(--accent);
+}
+
+.bottom-nav.is-open .bottom-nav__back-top {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: background var(--transition-fast), color var(--transition-fast),
+              border-color var(--transition-fast), opacity 0.15s ease, visibility 0s linear 0.15s;
 }
 
 /* Theme Toggle (inside pill) */
@@ -249,14 +260,24 @@
   }
 
   .bottom-nav__pill {
-    width: calc(100vw - 32px);
-    max-width: 360px;
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: var(--space-md);
+    width: auto;
+    max-width: none;
     flex-wrap: wrap;
     justify-content: center;
     gap: 6px;
     padding: 10px 14px;
     border-radius: 20px;
     white-space: normal;
+    transform: scale(0.85);
+    transform-origin: center bottom;
+  }
+
+  .bottom-nav.is-open .bottom-nav__pill {
+    transform: scale(1);
   }
 
   .bottom-nav__row-break {

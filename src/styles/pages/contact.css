@@ -65,6 +65,7 @@
   color: var(--text-primary);
   line-height: 1.5;
   margin-bottom: var(--space-xl);
+  text-align: center;
 }
 
 .contact__actions {
@@ -168,15 +169,16 @@
   color: var(--text-primary);
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: var(--border-radius);
-  padding: var(--space-sm) var(--space-lg);
+  border-radius: 999px;
+  padding: var(--space-sm) var(--space-xl);
   cursor: pointer;
-  transition: border-color var(--transition-fast), color var(--transition-fast);
+  transition: border-color var(--transition-fast), color var(--transition-fast), background var(--transition-fast);
 }
 
 .contact__submit:hover {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--bg-primary);
+  background: var(--accent);
 }
 
 @media (max-width: 500px) {
