@@ -44,16 +44,19 @@ const ASCII_ARTS = [
   {
     id: 'cat',
     label: 'cat',
+    caption: 'cat',
     art: CAT_ART
   },
   {
     id: 'plane',
     label: 'plane',
+    caption: 'shipping code',
     art: PLANE_ART
   },
   {
     id: 'portfolio',
     label: 'portfolio',
+    caption: 'this page',
     art: `  .---------.\n  | khoango |\n  |---------|\n  |projects |\n  |blogs    |\n  |contact  |\n  '---------'`
   },
 ];
@@ -100,7 +103,7 @@ const ASCII_ARTS = [
               data-index={i}
               type="button"
               aria-label={`Switch to ${item.label}`}
-            ></button>
+            >{item.caption}</button>
           ))}
         </div>
       </div>

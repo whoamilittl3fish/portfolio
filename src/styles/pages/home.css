@@ -76,6 +76,7 @@
   cursor: pointer;
   width: 14rem;
   height: 9rem;
+  overflow: hidden;
 }
 
 .hero__ascii-art {
@@ -95,7 +96,7 @@
 
 .hero__ascii-art[data-id="cat"]       { font-size: 0.43rem; }
 .hero__ascii-art[data-id="plane"]     { font-size: 0.5rem; }
-.hero__ascii-art[data-id="portfolio"] { font-size: 0.72rem; }
+.hero__ascii-art[data-id="portfolio"] { font-size: 0.9rem; }
 
 .hero__ascii-art.is-active {
   opacity: 0.65;
@@ -103,25 +104,30 @@
 
 .hero__ascii-dots {
   display: flex;
-  gap: 7px;
+  gap: 6px;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 14rem;
 }
 
 .hero__ascii-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--border);
-  border: none;
-  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  padding: 2px 7px;
+  border-radius: var(--border-radius);
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
   cursor: pointer;
-  opacity: 0.5;
-  transition: background var(--transition-fast), opacity var(--transition-fast);
+  opacity: 0.6;
+  transition: border-color var(--transition-fast), color var(--transition-fast), opacity var(--transition-fast);
 }
 
 .hero__ascii-dot:hover,
 .hero__ascii-dot.is-active {
-  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent);
   opacity: 1;
 }
 
