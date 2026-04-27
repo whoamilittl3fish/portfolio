@@ -17,6 +17,7 @@
   color: var(--text-primary);
   margin-bottom: var(--space-3xl);
   letter-spacing: -0.03em;
+  text-align: center;
 }
 .contact__title-dot {
   color: var(--accent);
