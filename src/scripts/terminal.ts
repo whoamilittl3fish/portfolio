@@ -183,7 +183,8 @@ export function initTerminal(): void {
       const cands = currentDir === '/' ? ['skills.txt', 'clock.exe']
         : currentDir === 'blogs' ? data.blogs.map(b => b.slug)
         : data.projects.map(p => p.name);
-      const m = cands.filter(c => c.startsWith(partial));
+      const lp = partial.toLowerCase();
+      const m = cands.filter(c => c.toLowerCase().startsWith(lp));
       if (m.length === 1) inputEl!.value = `cat ${m[0]}`;
       else if (m.length > 1) { appendLine(`${getPrompt(currentDir)} ${val}`, 'terminal-line--command'); appendLine(m.join('  ')); scrollToBottom(); }
     } else if (cmd === 'cd') {
@@ -302,14 +303,14 @@ export function initTerminal(): void {
         } else if (currentDir === 'blogs') {
           if (!arg) appendLine('usage: cat <slug>', 'terminal-line--error');
           else {
-            const b = data.blogs.find(b => b.slug === arg);
+            const b = data.blogs.find(b => b.slug.toLowerCase() === arg.toLowerCase());
             if (b) { closeTerminal(); window.location.href = b.url; return; }
             appendLine(`cat: ${arg}: not found`, 'terminal-line--error');
           }
         } else {
           if (!arg) appendLine('usage: cat <name>', 'terminal-line--error');
           else {
-            const p = data.projects.find(p => p.name === arg);
+            const p = data.projects.find(p => p.name.toLowerCase() === arg.toLowerCase());
             if (p) { window.open(p.url, '_blank', 'noopener,noreferrer'); return; }
             appendLine(`cat: ${arg}: not found`, 'terminal-line--error');
           }
