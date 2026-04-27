@@ -3,7 +3,7 @@ interface TerminalData {
   projects: { name: string; url: string }[];
 }
 
-type Dir = '/' | 'blogs' | 'projects';
+type Dir = string;
 
 const GH_USER = 'whoamilittl3fish';
 const GH_CACHE_KEY = 'gh_stats_cache_v1';
@@ -13,16 +13,17 @@ const SKILLS = 'JS/TS  Node.js  C#/.NET  Docker  Git  Astro';
 
 const HELP_LINES = [
   'available commands:',
-  '  zoskisk --help   show this help',
-  '  whoami           who is this person',
-  '  ls               list directory contents',
-  '  cd <dir>         change directory (blogs, projects)',
-  '  cd ..            go back to root',
-  '  cat <name>       view file or open item',
-  '  cat clock.exe    current time / timezones',
-  '  activity         show last github push',
-  '  history          show recent github activity',
-  '  clear            clear terminal',
+  '  zoskisk --help        show this help',
+  '  whoami                who is this person',
+  '  ls                    list directory contents',
+  '  cd <dir>              change directory (blogs, projects)',
+  '  cd blogs/<slug>       open blog post directly',
+  '  cd ..                 go back',
+  '  cat <name>            view file or open item',
+  '  ./clock.exe           current time / timezones',
+  '  activity              show last github push',
+  '  history               show recent github activity',
+  '  clear                 clear terminal',
   '',
   '  on home:  cd about | github | contact',
   '  on blog:  ctrl+c  →  /blogs',
@@ -76,7 +77,8 @@ export function initTerminal(): void {
   let hasShownBlogCtx = false;
 
   // Auto-set dir based on current page
-  if (path.startsWith('/projects')) currentDir = 'projects';
+  if (blogPostMatch) currentDir = 'blogs';
+  else if (path.startsWith('/projects')) currentDir = 'projects';
   else if (path.startsWith('/blogs')) currentDir = 'blogs';
 
   const cmdHistory: string[] = (() => {
@@ -95,6 +97,7 @@ export function initTerminal(): void {
   });
 
   const updatePrompt = () => { promptEl!.textContent = getPrompt(currentDir); };
+  updatePrompt();
   const scrollToBottom = () => { outputEl!.scrollTop = outputEl!.scrollHeight; };
 
   function appendLine(text: string, cls = 'terminal-line--output'): void {
@@ -124,7 +127,9 @@ export function initTerminal(): void {
     trigger?.setAttribute('aria-expanded', 'true');
     if (blogPostMatch && pageCtx.title && !hasShownBlogCtx) {
       hasShownBlogCtx = true;
-      appendLine(`reading: ${pageCtx.title}`, 'terminal-line--output');
+      const slug = blogPostMatch[2];
+      appendLine(`${getPrompt(currentDir)} cat ${slug}`, 'terminal-line--command');
+      appendLine(pageCtx.title);
       if (pageCtx.tags?.length) appendLine(`  [${pageCtx.tags.join(', ')}]`, 'terminal-line--muted');
       appendLine('  ctrl+c  →  back to /blogs', 'terminal-line--muted');
       appendLine('', 'terminal-line--muted');
@@ -181,9 +186,16 @@ export function initTerminal(): void {
       if (m.length === 1) inputEl!.value = `cat ${m[0]}`;
       else if (m.length > 1) { appendLine(`${getPrompt(currentDir)} ${val}`, 'terminal-line--command'); appendLine(m.join('  ')); scrollToBottom(); }
     } else if (cmd === 'cd') {
-      let cands = currentDir === '/' ? ['blogs', 'projects'] : ['..'];
+      if (partial.startsWith('blogs/') && currentDir === '/') {
+        const slugPart = partial.slice(6);
+        const slugCands = data.blogs.map(b => `blogs/${b.slug}`).filter(c => c.slice(6).startsWith(slugPart));
+        if (slugCands.length === 1) inputEl!.value = `cd ${slugCands[0]}`;
+        else if (slugCands.length > 1) { appendLine(`${getPrompt(currentDir)} ${val}`, 'terminal-line--command'); appendLine(slugCands.join('  ')); scrollToBottom(); }
+        return;
+      }
+      let cands = currentDir === '/' ? ['blogs', 'projects', 'blogs/'] : ['..'];
       if (onHome && currentDir === '/') cands = [...cands, 'about', 'github', 'contact'];
-      const m = cands.filter(c => c.startsWith(partial));
+      const m = cands.filter(c => c.startsWith(partial) && c !== partial);
       if (m.length === 1) inputEl!.value = `cd ${m[0]}`;
     } else if (cmd === 'zoskisk' && '--help'.startsWith(partial)) {
       inputEl!.value = 'zoskisk --help';
@@ -225,10 +237,22 @@ export function initTerminal(): void {
         break;
       case 'cd':
         if (arg === '..') {
-          if (currentDir !== '/') { currentDir = '/'; updatePrompt(); } else appendLine('already at root', 'terminal-line--muted');
+          if (currentDir === '/') {
+            appendLine('already at root', 'terminal-line--muted');
+          } else {
+            const segs = currentDir.split('/');
+            segs.pop();
+            currentDir = segs.length === 0 ? '/' : segs.join('/');
+            updatePrompt();
+          }
         } else if (arg === 'blogs' || arg === 'projects') {
           if (currentDir !== '/') appendLine(`cd: run 'cd ..' first`, 'terminal-line--error');
-          else { currentDir = arg as Dir; updatePrompt(); }
+          else { currentDir = arg; updatePrompt(); }
+        } else if (arg.startsWith('blogs/') && currentDir === '/') {
+          const slug = arg.slice(6);
+          const b = data.blogs.find(b => b.slug === slug);
+          if (b) { appendLine(`→ ${b.url}`, 'terminal-line--muted'); closeTerminal(); window.location.href = b.url; return; }
+          appendLine(`cd: blogs/${slug}: not found`, 'terminal-line--error');
         } else if (onHome && (arg === 'about' || arg === 'github' || arg === 'contact')) {
           const idMap: Record<string, string> = { about: 'about', github: 'stats', contact: 'contact' };
           const section = document.getElementById(idMap[arg]);
@@ -243,18 +267,27 @@ export function initTerminal(): void {
           appendLine(`cd: no such directory: ${arg}`, 'terminal-line--error');
         }
         break;
+      case './clock.exe': {
+        const now = new Date();
+        const ft = (tz: string) => now.toLocaleTimeString('en-US', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+        appendLine(`clock.exe  —  ${now.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}`);
+        appendLine(`  VN  UTC+7   ${ft('Asia/Ho_Chi_Minh')}`);
+        appendLine(`  UTC         ${ft('UTC')}`);
+        const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (localTz !== 'Asia/Ho_Chi_Minh') appendLine(`  local       ${ft(localTz)}  (${localTz.split('/').pop()})`, 'terminal-line--muted');
+        break;
+      }
+      case 'sudo':
+        appendLine('sudo: permission denied', 'terminal-line--error');
+        break;
+      case 'docker':
+        appendLine('docker: command not found');
+        appendLine('  hint: sudo apt install docker.io', 'terminal-line--muted');
+        break;
       case 'cat':
         if (currentDir === '/') {
           if (arg === 'skills.txt') appendLine(SKILLS);
-          else if (arg === 'clock.exe') {
-            const now = new Date();
-            const ft = (tz: string) => now.toLocaleTimeString('en-US', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-            appendLine(`clock.exe  —  ${now.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}`);
-            appendLine(`  VN  UTC+7   ${ft('Asia/Ho_Chi_Minh')}`);
-            appendLine(`  UTC         ${ft('UTC')}`);
-            const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            if (localTz !== 'Asia/Ho_Chi_Minh') appendLine(`  local       ${ft(localTz)}  (${localTz.split('/').pop()})`, 'terminal-line--muted');
-          }
+          else if (arg === 'clock.exe') appendLine('hint: run ./clock.exe to execute', 'terminal-line--muted');
           else if (!arg) appendLine('usage: cat <file>', 'terminal-line--error');
           else appendLine(`cat: ${arg}: no such file`, 'terminal-line--error');
         } else if (currentDir === 'blogs') {
