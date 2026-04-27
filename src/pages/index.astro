@@ -139,8 +139,7 @@ function parseMarkdown(text: string): string {
       const lightImg = document.getElementById('github-chart-light') as HTMLImageElement | null;
       const darkImg = document.getElementById('github-chart-dark') as HTMLImageElement | null;
       if (!lightImg || !darkImg || !year) return;
-      // Cache-bust to force fresh fetch for each year
-      const src = `https://ghchart.rshah.org/${year}/whoamilittl3fish?_=${year}`;
+      const src = `https://ghchart.rshah.org/${year}/whoamilittl3fish?_=${Date.now()}`;
       lightImg.style.opacity = '0.4';
       darkImg.style.opacity = '0.4';
       const onLoad = () => {
