@@ -22,7 +22,16 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const { name, email, message } = body;
+  const { name, email, message, website } = body;
+
+  // Honeypot check: if website field is filled, it's likely a bot
+  if (website) {
+    return new Response(JSON.stringify({ ok: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
   if (!name || !email || !message) {
     return new Response(JSON.stringify({ error: 'missing fields' }), {
       status: 422,
