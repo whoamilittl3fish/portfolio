@@ -254,15 +254,19 @@ export function initTerminal(): void {
             closeTerminal();
             window.location.href = '/';
           }
-        } else if (NAV_MAP[arg]) {
-          if (currentDir === arg) {
-            appendLine(`already in ${arg}/`, 'terminal-line--muted');
-          } else {
-            appendLine(`→ redirecting to ${NAV_MAP[arg]}`, 'terminal-line--muted');
-            closeTerminal();
-            window.location.href = NAV_MAP[arg];
-          }
-        } else if (arg.startsWith('blogs/') && currentDir === '/') {
+        } else {
+          // Handle relative paths like ../projects
+          const targetDir = arg.startsWith('../') ? arg.slice(3) : arg;
+          
+          if (NAV_MAP[targetDir]) {
+            if (currentDir === targetDir) {
+              appendLine(`already in ${targetDir}/`, 'terminal-line--muted');
+            } else {
+              appendLine(`→ redirecting to ${NAV_MAP[targetDir]}`, 'terminal-line--muted');
+              closeTerminal();
+              window.location.href = NAV_MAP[targetDir];
+            }
+          } else if (arg.startsWith('blogs/') && currentDir === '/') {
           const slug = arg.slice(6);
           const b = data.blogs.find(b => b.slug === slug);
           if (b) { appendLine(`→ ${b.url}`, 'terminal-line--muted'); closeTerminal(); window.location.href = b.url; return; }
