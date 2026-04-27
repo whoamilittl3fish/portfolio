@@ -24,24 +24,14 @@ const ASCII_ARTS = [
     art: `  .---------.\n  | [] [] . |\n  | .  [] . |\n  | []  .   |\n  |_________|\n  |_________|\n   < code />`
   },
   {
-    id: 'khoa',
-    label: 'khoa',
-    art: `    .-----.\n   ( ^   ^ )\n   (  ---  )\n    '-----'\n     |   |\n   __|___|__\n     khoa`
-  },
-  {
     id: 'zsk',
     label: 'zsk',
     art: `    ______\n   /      \\\n  /  ZSK   \\\n /  z.s.k   \\\n(  zoskisk   )\n \\          /\n  \\________/`
   },
   {
-    id: 'code',
-    label: 'code',
-    art: `  .---------.\n  | > fn()  |\n  |   {     |\n  |     ... |\n  |   }     |\n  '---------'\n     < />   `
-  },
-  {
     id: 'portfolio',
     label: 'portfolio',
-    art: `  .---------.\n  | khoa.ng |\n  |---------|\n  | . blog  |\n  | . projs |\n  | . about |\n  '---------'`
+    art: `  .---------.\n  | khoango |\n  |---------|\n  |projects |\n  | blogs   |\n  | contact |\n  '---------'`
   },
 ];
 ---
@@ -188,7 +178,7 @@ const ASCII_ARTS = [
   // ── Typewriter for hero title ──────────────────────────────────────────────
   const heroTitle = document.getElementById('hero-title') as HTMLElement | null;
   if (heroTitle) {
-    const prefix = "Hi there, I'm ";
+    const prefix = "Hi there,\nI'm ";
     const suffix = "Khoa.";
     heroTitle.textContent = prefix;
     let i = 0;
