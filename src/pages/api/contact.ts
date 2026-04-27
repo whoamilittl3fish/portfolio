@@ -22,12 +22,34 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const { name, email, message, website } = body;
+  const { name, email, message, website, 'cf-turnstile-response': turnstileToken } = body;
 
-  // Honeypot check: if website field is filled, it's likely a bot
+  // Honeypot check
   if (website) {
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  // Cloudflare Turnstile Verification
+  if (!turnstileToken) {
+    return new Response(JSON.stringify({ error: 'Please complete the security check.' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  const verifyResponse = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `secret=${import.meta.env.TURNSTILE_SECRET_KEY}&response=${turnstileToken}`,
+  });
+
+  const verifyData = await verifyResponse.json();
+  if (!verifyData.success) {
+    return new Response(JSON.stringify({ error: 'Security check failed. Please try again.' }), {
+      status: 403,
       headers: { 'Content-Type': 'application/json' },
     });
   }

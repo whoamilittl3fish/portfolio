@@ -8,6 +8,7 @@ import '../styles/pages/contact.css';
   description="Get in touch"
   currentPage="contact"
 >
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <section class="contact-page">
     <div class="contact__container">
 
@@ -90,6 +91,10 @@ import '../styles/pages/contact.css';
           <div class="contact__field" style="display:none !important;">
             <label for="contact-website">website</label>
             <input id="contact-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="contact__field">
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAA-YOUR-SITE-KEY" data-theme="dark"></div>
           </div>
 
           <div class="contact__actions">
