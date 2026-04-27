@@ -304,6 +304,11 @@
   flex: 1;
 }
 
+.timeline__text a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 /* Interests */
 .interests {
   max-width: 100%;

@@ -93,7 +93,7 @@
 
 .terminal-header__title {
   font-size: 11px;
-  color: #555;
+  color: #888;
   user-select: none;
   pointer-events: none;
 }
@@ -101,18 +101,23 @@
 .terminal-header__actions {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
 }
 
 .terminal-header__btn,
 .terminal-header__close {
   background: none;
   border: none;
-  color: #555;
+  color: #888;
   cursor: pointer;
   font-size: 13px;
   line-height: 1;
-  padding: 2px 5px;
+  padding: 4px 8px;
+  min-width: 28px;
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 3px;
   font-family: inherit;
   transition: color 0.15s, background 0.15s;
@@ -188,11 +193,16 @@ a.terminal-line--link:hover { color: #aad4ff; text-decoration: underline; }
 .terminal-send {
   background: none;
   border: none;
-  color: #555;
+  color: #888;
   cursor: pointer;
   font-size: 18px;
   line-height: 1;
-  padding: 2px 4px;
+  padding: 4px 8px;
+  min-width: 28px;
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 3px;
   font-family: inherit;
   transition: color 0.15s;

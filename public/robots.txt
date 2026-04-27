@@ -3,4 +3,4 @@ Allow: /
 Disallow: /_astro/
 Disallow: /admin/
 
-Sitemap: https://zoskisk.vercel.app/sitemap-index.xml
+Sitemap: https://zoskisk.com/sitemap-index.xml

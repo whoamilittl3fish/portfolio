@@ -22,16 +22,15 @@
 
 .footer__copy {
   font-size: var(--font-size-sm);
-  color: var(--text-muted);
+  color: var(--text-secondary);
   margin: 0;
   white-space: nowrap;
 }
 
 .footer__location {
   font-size: var(--font-size-sm);
-  color: var(--text-muted);
+  color: var(--text-secondary);
   margin: 0;
-  opacity: 0.7;
   white-space: nowrap;
 }
 
