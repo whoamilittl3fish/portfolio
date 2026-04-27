@@ -17,16 +17,39 @@ function parseMarkdown(text: string): string {
   return marked.parseInline(text) as string;
 }
 
+const CAT_ART = `               ⢀⡞⠳⣄⣀⣀⣀⣠⠞⢷⡀
+               ⣸⠟⠋⠁      ⠈⠙⠻⣇    ⣀
+             ⡾⠁⢰⣿⡆  ⣀  ⢰⣽⡆⠈⢧⢰⠛⡇
+           ⣸⢷⠶⠒⠉  ⠒⠭⠒  ⠉⠒⢶⠾⣏⡼⠃
+           ⣿⠶⣤⣀⣀          ⣀⣀⣤⠶⡟⠁
+           ⢸    ⠈⠉⠉⠙⠛⠛⠉⠉⠁    ⣏⣉⡙⣆
+           ⠘⡆                      ⢸⠃  ⢹⢸
+             ⣇                      ⢸⢀⡴⢣⠇
+             ⢸                      ⣸⠭⠔⠁
+             ⠸⣆⣀              ⣀⣰⠇
+                 ⠉⠙⠓⠒⠒⠒⠚⠋⠉`;
+
+const PLANE_ART = `⠀⠀⠀⣖⠲⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠉⡇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠸⡆⠹⡀⣠⢤⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡏⠀⡧⢤⡄⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⡧⢄⣹⣅⣜⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠁⠀⢹⠚⠃⠀⠀⠀⠀⠀
+⠀⣀⠴⢒⣉⡹⣶⣤⣀⡉⠉⠒⠒⠒⠤⠤⣀⣀⣀⠇⠀⠀⢸⠠⣄⠀⠀⠀⠀⠀
+⠀⠈⠉⠁⠀⠀⠀⠉⠒⠯⣟⣲⠦⣤⣀⡀⠀⠀⠈⠉⠉⠉⠛⠒⠻⢥⣀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⣲⡬⠭⠿⢷⣦⣤⢄⣀⠀⠀⠚⠛⠛⠓⢦⡀
+⠀⠀⠀⠀⠀⠀⠀⢀⣀⠤⠴⠚⠉⠁⠀⠀⠀⠀⣀⣉⡽⣕⣯⡉⠉⠉⠑⢒⣒⡾
+⠀⠀⣀⡠⠴⠒⠉⠉⠀⢀⣀⣀⠤⡤⢶⣶⣋⠉⠉⠀⠀⠀⠈⠉⠉⠉⠉⠉⠁⠀
+⣖⣉⣁⣠⠤⠶⡶⡶⢍⡉⠀⠀⠀⠙⠒⠯⠜⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠁⠀⠀⠀⠀⠑⢦⣯⠇`;
+
 const ASCII_ARTS = [
   {
     id: 'cat',
     label: 'cat',
-    art: `   /\\   /\\\n  ( ^   ^ )\n  (  ~~~  )\n   \\     /\n    \\ | /\n  cat cute\n    :3 ?`
+    art: CAT_ART
   },
   {
-    id: 'rocket',
-    label: 'rocket',
-    art: `     /\\\n    /  \\\n   / >> \\\n  /______\\\n  | ship |\n  | it ! |\n  |______|`
+    id: 'plane',
+    label: 'plane',
+    art: PLANE_ART
   },
   {
     id: 'portfolio',
@@ -65,6 +88,7 @@ const ASCII_ARTS = [
             <pre
               class:list={['hero__ascii-art', { 'is-active': i === 0 }]}
               data-index={i}
+              data-id={item.id}
               set:text={item.art}
             ></pre>
           ))}

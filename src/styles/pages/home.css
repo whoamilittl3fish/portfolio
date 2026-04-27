@@ -74,13 +74,16 @@
 .hero__ascii-stack {
   display: grid;
   cursor: pointer;
+  width: 14rem;
+  height: 9rem;
 }
 
 .hero__ascii-art {
   grid-area: 1 / 1;
+  align-self: center;
   justify-self: center;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.5rem;
   line-height: 1.45;
   color: var(--accent);
   opacity: 0;
@@ -89,6 +92,10 @@
   user-select: none;
   transition: opacity 0.3s ease;
 }
+
+.hero__ascii-art[data-id="cat"]       { font-size: 0.43rem; }
+.hero__ascii-art[data-id="plane"]     { font-size: 0.5rem; }
+.hero__ascii-art[data-id="portfolio"] { font-size: 0.72rem; }
 
 .hero__ascii-art.is-active {
   opacity: 0.65;
